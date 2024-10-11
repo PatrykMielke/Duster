@@ -1,10 +1,15 @@
 <?php
 
-use App\Models\Category;
+use App\Models\Size;
 use App\Models\User;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Brand;
+use App\Models\Color;
+use App\Models\Status;
+use App\Models\Category;
+use App\Models\Condition;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -17,15 +22,15 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->string('price');
+            $table->decimal('price');
 
-            $table->foreignIdFor(User::class, 'user_id');
-            $table->foreignIdFor(Category::class, 'category_id');
-
-
-
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(Category::class);
+            $table->foreignIdFor(Size::class);
+            $table->foreignIdFor(Brand::class);
+            $table->foreignIdFor(Color::class);
+            $table->foreignIdFor(Condition::class);
+            $table->foreignIdFor(Status::class);
 
             $table->timestamps();
         });

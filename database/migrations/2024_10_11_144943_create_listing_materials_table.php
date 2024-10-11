@@ -1,8 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Listing;
+use App\Models\Material;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -13,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('listing_materials', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Listing::class);
+            $table->foreignIdFor(Material::class);
             $table->timestamps();
         });
     }
