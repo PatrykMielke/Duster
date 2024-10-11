@@ -1,11 +1,12 @@
 <?php
 
-use App\Models\DeliveryMethods;
+use App\Models\User;
 use App\Models\Listing;
 use App\Models\PaymentMethods;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\DeliveryMethods;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
