@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Color;
 use App\Models\Listing;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
