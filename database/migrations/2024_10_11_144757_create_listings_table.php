@@ -24,13 +24,13 @@ return new class extends Migration
             $table->text('description');
             $table->decimal('price');
 
-            $table->foreignIdFor(User::class);
-            $table->foreignIdFor(Category::class);
-            $table->foreignIdFor(Size::class);
-            $table->foreignIdFor(Brand::class);
-            $table->foreignIdFor(Color::class);
-            $table->foreignIdFor(Condition::class);
-            $table->foreignIdFor(Status::class);
+            $table->foreignIdFor(User::class)->constrained();
+            $table->foreignIdFor(Category::class)->constrained();
+            $table->foreignIdFor(Size::class)->constrained();
+            $table->foreignIdFor(Brand::class)->constrained();
+            $table->foreignIdFor(Color::class)->constrained();
+            $table->foreignIdFor(Condition::class)->constrained();
+            $table->foreignIdFor(Status::class)->constrained();
 
             $table->timestamps();
         });
