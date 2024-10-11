@@ -2,6 +2,8 @@
 
 use App\Models\User;
 use App\Models\Listing;
+use App\Models\PaymentMethods;
+use App\Models\DeliveryMethods;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -13,13 +15,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('chats', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(User::class, 'buyer_id')->constrained('users');
             $table->foreignIdFor(Listing::class, 'listing_id')->constrained();
-            $table->foreignIdFor(User::class,'sender')->constrained();
-            $table->foreignIdFor(User::class,'reciever')->constrained();
-            $table->text('message');
-
+            $table->foreignIdFor(PaymentMethods::class,'payment_method_id')->constrained();
+            $table->ForeignIdFor(DeliveryMethods::class, 'delivery_method_id')->constrained();
+            $table->string('address');
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('chats');
+        Schema::dropIfExists('orders');
     }
 };
