@@ -17,10 +17,10 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'buyer_id');
-            $table->foreignIdFor(Listing::class, 'listing_id');
-            $table->foreignIdFor(PaymentMethods::class,'payment_method_id');
-            $table->ForeignIdFor(DeliveryMethods::class, 'delivery_method_id');
+            $table->foreignIdFor(User::class, 'buyer_id')->constrained();
+            $table->foreignIdFor(Listing::class, 'listing_id')->constrained();
+            $table->foreignIdFor(PaymentMethods::class,'payment_method_id')->constrained();
+            $table->ForeignIdFor(DeliveryMethods::class, 'delivery_method_id')->constrained();
             $table->string('address');
             $table->timestamps();
         });

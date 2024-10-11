@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('listing_materials', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Listing::class);
-            $table->foreignIdFor(Material::class);
+            $table->foreignIdFor(Listing::class)->constrained();
+            $table->foreignIdFor(Material::class)->constrained();
             $table->timestamps();
         });
     }

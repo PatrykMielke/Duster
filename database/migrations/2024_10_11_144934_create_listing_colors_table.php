@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('listing_colors', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Listing::class);
-            $table->foreignIdFor(Color::class);
+            $table->foreignIdFor(Listing::class)->constrained();
+            $table->foreignIdFor(Color::class)->constrained();
             $table->timestamps();
         });
     }

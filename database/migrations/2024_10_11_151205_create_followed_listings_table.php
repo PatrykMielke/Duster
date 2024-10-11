@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('followed_listings', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'user_id');
-            $table->foreignIdFor(Listing::class, 'listing_id');
+            $table->foreignIdFor(User::class, 'user_id')->constrained();
+            $table->foreignIdFor(Listing::class, 'listing_id')->constrained();
             $table->timestamps();
         });
     }

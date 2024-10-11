@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'user_id');
+            $table->foreignIdFor(User::class, 'user_id')->constrained();
             $table->integer('score');
             $table->string('comment');
             $table->timestamps();
