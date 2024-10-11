@@ -18,7 +18,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class, 'buyer_id')->constrained('users');
-            $table->foreignIdFor(Listing::class, 'listing_id')->constrained();
+            $table->foreignIdFor(Listing::class, 'listing_id')->constrained()->unique();
             $table->foreignIdFor(PaymentMethods::class,'payment_method_id')->constrained();
             $table->ForeignIdFor(DeliveryMethods::class, 'delivery_method_id')->constrained();
             $table->string('address');
