@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('followed_users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->foreignId('followed_user_id');
+            $table->foreignIdFor(User::class, 'user_id');
+            $table->foreignIdFor(User::class, 'followed_user_id');
             $table->timestamps();
         });
     }

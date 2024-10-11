@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\DeliveryMethods;
+use App\Models\Listing;
+use App\Models\PaymentMethods;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,6 +16,11 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(User::class, 'buyer_id');
+            $table->foreignIdFor(Listing::class, 'listing_id');
+            $table->foreignIdFor(PaymentMethods::class,'payment_method_id');
+            $table->ForeignIdFor(DeliveryMethods::class, 'delivery_method_id');
+            $table->string('address');
             $table->timestamps();
         });
     }

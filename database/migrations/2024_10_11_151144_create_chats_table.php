@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Listing;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,10 +14,10 @@ return new class extends Migration
     {
         Schema::create('chats', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('listing_id');
-            $table->foreignId(column: 'sender');
-            $table->foreignId(column: 'reciever');
-            $table->string(column: 'message');
+            $table->foreignIdFor(Listing::class, 'listing_id');
+            $table->foreignIdFor(User::class,'sender');
+            $table->foreignIdFor(User::class,'reciever');
+            $table->text('message');
 
             $table->timestamps();
         });
