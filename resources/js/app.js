@@ -9,6 +9,9 @@ import PrimeVue from "primevue/config";
 
 import Menubar from "primevue/menubar";
 import MegaMenu from "primevue/megamenu";
+import InputText from "primevue/inputtext";
+import Avatar from "primevue/avatar";
+
 import Aura from "@primevue/themes/aura";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
@@ -35,8 +38,6 @@ createInertiaApp({
                     },
                 },
             })
-            .component("MegaMenu", MegaMenu)
-            .component("Menubar", Menubar)
             .mount(el);
     },
     progress: {
