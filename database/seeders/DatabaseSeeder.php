@@ -12,6 +12,7 @@ use App\Models\Material;
 use App\Models\Condition;
 use App\Models\PaymentMethods;
 use App\Models\DeliveryMethods;
+use App\Models\Size;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -30,11 +31,13 @@ class DatabaseSeeder extends Seeder
         Category::truncate();
         Status::truncate();
         User::truncate();
+        Size::truncate();
 
         $this->call(class: BrandSeeder::class);
         $this->call(class: ConditionSeeder::class);
         $this->call(class: DeliveryMethodSeeder::class);
         $this->call(class: MaterialSeeder::class);
+        $this->call(class: SizeSeeder::class);
 
         User::factory(20)->create();
         $this->call(ColorSeeder::class);

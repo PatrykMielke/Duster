@@ -25,10 +25,6 @@ return new class extends Migration
             $table->decimal('price');
 
             $table->foreignIdFor(User::class)->constrained();
-            $table->foreignIdFor(Category::class)->constrained();
-            $table->foreignIdFor(Size::class)->constrained();
-            $table->foreignIdFor(Brand::class)->constrained();
-            $table->foreignIdFor(Condition::class)->constrained();
             $table->foreignIdFor(Status::class)->constrained();
 
             $table->timestamps();
