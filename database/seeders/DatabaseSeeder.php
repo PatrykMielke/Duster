@@ -17,32 +17,32 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
-    public function run(): void
-    {
-        Brand::truncate();
-        Condition::truncate();
-        DeliveryMethods::truncate();
-        Material::truncate();
-        Color::truncate();
-        PaymentMethods::truncate();
-        Category::truncate();
-        Status::truncate();
-        User::truncate();
-        Size::truncate();
+        /**
+         * Seed the application's database.
+         */
+        public function run(): void
+        {
+                Brand::truncate();
+                Condition::truncate();
+                DeliveryMethods::truncate();
+                Material::truncate();
+                Color::truncate();
+                PaymentMethods::truncate();
+                Category::truncate();
+                Status::truncate();
+                User::truncate();
+                Size::truncate();
 
-        $this->call(class: BrandSeeder::class);
-        $this->call(class: ConditionSeeder::class);
-        $this->call(class: DeliveryMethodSeeder::class);
-        $this->call(class: MaterialSeeder::class);
-        $this->call(class: SizeSeeder::class);
+                $this->call(class: BrandSeeder::class);
+                $this->call(class: ConditionSeeder::class);
+                $this->call(class: DeliveryMethodSeeder::class);
+                $this->call(class: MaterialSeeder::class);
+                $this->call(class: SizeSeeder::class);
 
-        User::factory(20)->create();
-        $this->call(ColorSeeder::class);
-        $this->call(PaymentMethodsSeeder::class);
-        $this->call(CategorySeeder::class);
-        $this->call(StatusSeeder::class);
-    }
+                User::factory(20)->create();
+                $this->call(ColorSeeder::class);
+                $this->call(PaymentMethodsSeeder::class);
+                $this->call(CategorySeeder::class);
+                $this->call(StatusSeeder::class);
+        }
 }
