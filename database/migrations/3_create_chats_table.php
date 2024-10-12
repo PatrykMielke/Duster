@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Listing::class, 'listing_id')->constrained();
             $table->foreignIdFor(User::class,'sender')->constrained('users');
-            $table->foreignIdFor(User::class,'reciever')->constrained('users');
+            $table->foreignIdFor(User::class,'receiver')->constrained('users');
             $table->text('message');
 
             $table->timestamps();
