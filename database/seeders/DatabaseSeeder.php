@@ -31,10 +31,10 @@ class DatabaseSeeder extends Seeder
         Status::truncate();
         User::truncate();
 
-        $this->call(class: BrandSeeder::class);
-        $this->call(class: ConditionSeeder::class);
-        $this->call(class: DeliveryMethodSeeder::class);
-        $this->call(class: MaterialSeeder::class);
+        $this->call(BrandSeeder::class);
+        $this->call(ConditionSeeder::class);
+        $this->call(DeliveryMethodSeeder::class);
+        $this->call(MaterialSeeder::class);
 
         User::factory(20)->create();
         $this->call(ColorSeeder::class);
