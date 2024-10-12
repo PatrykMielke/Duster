@@ -7,8 +7,6 @@ use App\Models\Color;
 use App\Models\Status;
 use App\Models\Category;
 use App\Models\Condition;
-use App\Models\ListingColor;
-use App\Models\ListingMaterial;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -30,8 +28,6 @@ return new class extends Migration
             $table->foreignIdFor(Category::class)->constrained();
             $table->foreignIdFor(Size::class)->constrained();
             $table->foreignIdFor(Brand::class)->constrained();
-            $table->foreignIdFor(ListingColor::class)->constrained();
-            $table->foreignIdFor(ListingMaterial::class)->constrained();
             $table->foreignIdFor(Condition::class)->constrained();
             $table->foreignIdFor(Status::class)->constrained();
 
