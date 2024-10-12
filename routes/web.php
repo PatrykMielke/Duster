@@ -16,6 +16,13 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
 
+/*
+ kazdego
+
+
+*/
+
+
     $mega = array (
         0 =>
         array (
@@ -33,7 +40,7 @@ Route::get('/dashboard', function () {
                   0 =>
                   array (
                     'label' => 'Accessories'
-                    , 'url' => route('dashboard')
+                    , 'url' => 'url'
                   ),
                   1 =>
                   array (
