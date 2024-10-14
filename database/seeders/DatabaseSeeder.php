@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Sex;
+use App\Models\Size;
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
 use App\Models\Brand;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Color;
 use App\Models\Status;
 use App\Models\Category;
@@ -12,7 +14,7 @@ use App\Models\Material;
 use App\Models\Condition;
 use App\Models\PaymentMethods;
 use App\Models\DeliveryMethods;
-use App\Models\Size;
+use Database\Seeders\SexSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -32,12 +34,14 @@ class DatabaseSeeder extends Seeder
                 Status::truncate();
                 User::truncate();
                 Size::truncate();
+                Sex::truncate();
 
                 $this->call(class: BrandSeeder::class);
                 $this->call(class: ConditionSeeder::class);
                 $this->call(class: DeliveryMethodSeeder::class);
                 $this->call(class: MaterialSeeder::class);
                 $this->call(class: SizeSeeder::class);
+                $this->call(class: SexSeeder::class);
 
                 User::factory(20)->create();
                 $this->call(ColorSeeder::class);
