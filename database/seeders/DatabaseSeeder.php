@@ -24,24 +24,13 @@ class DatabaseSeeder extends Seeder
          */
         public function run(): void
         {
-                Brand::truncate();
-                Condition::truncate();
-                DeliveryMethods::truncate();
-                Material::truncate();
-                Color::truncate();
-                PaymentMethods::truncate();
-                Category::truncate();
-                Status::truncate();
-                User::truncate();
-                Size::truncate();
-                Sex::truncate();
 
-                $this->call(class: BrandSeeder::class);
-                $this->call(class: ConditionSeeder::class);
-                $this->call(class: DeliveryMethodSeeder::class);
-                $this->call(class: MaterialSeeder::class);
-                $this->call(class: SizeSeeder::class);
-                $this->call(class: SexSeeder::class);
+                $this->call(BrandSeeder::class);
+                $this->call(ConditionSeeder::class);
+                $this->call(DeliveryMethodSeeder::class);
+                $this->call(MaterialSeeder::class);
+                $this->call(SizeSeeder::class);
+                $this->call(SexSeeder::class);
 
                 User::factory(20)->create();
                 $this->call(ColorSeeder::class);

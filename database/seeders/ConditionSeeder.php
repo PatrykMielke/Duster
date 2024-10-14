@@ -17,11 +17,11 @@ class conditionSeeder extends Seeder
             'Nowy z metką',
             'Nowy bez metki',
             'Bardzo dobry',
-             'Dobry',
-             'Zniszczony'];
+            'Dobry',
+            'Zniszczony'];
 
-foreach ($condition as $condition) {
-    Condition::create(['name' => $condition]);
-    }
+        foreach ($condition as $condition) {
+            Condition::create(['name' => $condition]);
+        }
     }
 }

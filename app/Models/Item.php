@@ -2,10 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Sex;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Item extends Model
-{
+{
+
     use HasFactory;
+
+    public function categories()
+    {
+        return $this->belongsTo(Category::class);
+    }
+    public function sexes()
+    {
+        return $this->belongsTo(Sex::class);
+    }
 }
