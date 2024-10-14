@@ -14,11 +14,10 @@ class StatusSeeder extends Seeder
     public function run(): void
     {
         $statuses = [
-            'Nowy z metką',
-            'Nowy bez metki',
-            'Bardzo dobry',
-            'Dobry',
-            'Zadowalający'
+            'Aktywne',
+            'Ukryte',
+            'Nieaktywne',
+            'Zakończone',
         ];
 
         foreach ($statuses as $status) {
