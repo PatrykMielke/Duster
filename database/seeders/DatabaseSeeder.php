@@ -24,17 +24,6 @@ class DatabaseSeeder extends Seeder
          */
         public function run(): void
         {
-                Brand::truncate();
-                Condition::truncate();
-                DeliveryMethods::truncate();
-                Material::truncate();
-                Color::truncate();
-                PaymentMethods::truncate();
-                Category::truncate();
-                Status::truncate();
-                User::truncate();
-                Size::truncate();
-                Sex::truncate();
 
                 $this->call(class: BrandSeeder::class);
                 $this->call(class: ConditionSeeder::class);
