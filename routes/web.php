@@ -5,7 +5,14 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+
+
+
+
 Route::get('/', function () {
+
+
+
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -15,6 +22,16 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
+
+/*
+
+ dla kazdej plci -> tworzy się oddzielna zakładka
+ każda zakładka ma swoje kategorie przedmiotów Ubrania, Obuwie, Akcesoria
+ dla zakładka wypisuje wszystkie rodzaje przedmiotów odpowiadające kateorii i płci
+
+
+*/
+
 
     $mega = array (
         0 =>
@@ -33,7 +50,7 @@ Route::get('/dashboard', function () {
                   0 =>
                   array (
                     'label' => 'Accessories'
-                    , 'url' => route('dashboard')
+                    , 'url' => 'url'
                   ),
                   1 =>
                   array (
