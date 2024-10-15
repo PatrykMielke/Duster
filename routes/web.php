@@ -22,10 +22,9 @@ Route::get('/dupso', function () {
 
 Route::get('/a', function () {
 
-    $navCategoryItems = Sex::with(['categories.items'])->get();
-    $navCategoryItems = Sex::where('name','Kobiety')
-        ->with(['categories.items'])
-        ->first();
+    $navCategoryItems = Sex::with(['categories.items'])
+
+    ->get();
 
     dd($navCategoryItems);
 
