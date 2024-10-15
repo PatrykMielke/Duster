@@ -23,10 +23,19 @@ Route::get('/a', function () {
     return Inertia::render('sraka');
 });
 
-Route::get('/b', function () {
+Route::get('/aa', function () {
     return Inertia::render('HomePage');
 });
 
+Route::get('/z', function () {
+    return Inertia::render('Header');
+});
+Route::get('/zz', function () {
+    return Inertia::render('L');
+});
+Route::get('/xx', function () {
+    return Inertia::render('HomePage');
+});
 
 
 
