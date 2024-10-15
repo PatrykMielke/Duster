@@ -11,6 +11,11 @@ class Category extends Model
 {
     use HasFactory;
 
+    public function sexes()
+    {
+        return $this->belongsTo(Sex::class);
+    }
+
     public function items()
     {
         return $this->hasMany(Item::class);

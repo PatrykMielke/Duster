@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
+use App\Models\Sex;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -20,6 +21,14 @@ Route::get('/dupso', function () {
 });
 
 Route::get('/a', function () {
+
+    $navCategoryItems = Sex::with(['categories.items'])->get();
+    $navCategoryItems = Sex::where('name','Kobiety')
+        ->with(['categories.items'])
+        ->first();
+
+    dd($navCategoryItems);
+
     return Inertia::render('sraka');
 });
 

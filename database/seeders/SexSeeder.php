@@ -17,7 +17,7 @@ class SexSeeder extends Seeder
             'Kobieta',
             'Mezczyzna',
             'Dziecko',
-            'Unisex',
+            //'Unisex',
         ];
 
         foreach ($sexes as $sex) {

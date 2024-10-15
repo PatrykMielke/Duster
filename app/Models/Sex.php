@@ -11,8 +11,8 @@ class Sex extends Model
 
     use HasFactory;
 
-    public function items()
+    public function categories()
     {
-        return $this->hasMany(Item::class);
+        return $this->hasMany(Category::class);
     }
 }
