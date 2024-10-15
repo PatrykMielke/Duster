@@ -1,19 +1,11 @@
 <?php
 
-use App\Models\Sex;
-use Inertia\Inertia;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Application;
 use App\Http\Controllers\ProfileController;
-
-
-
-
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 Route::get('/', function () {
-
-
-
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -23,22 +15,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-
-/*
-
- dla kazdej plci -> tworzy się oddzielna zakładka
- każda zakładka ma swoje kategorie przedmiotów Ubrania, Obuwie, Akcesoria
- dla zakładka wypisuje wszystkie rodzaje przedmiotów odpowiadające kateorii i płci
-
-
-*/
-
-    $mega = Sex::find(1)->items;
-
-
-    return Inertia::render('Dashboard', [
-        'mega' => $mega
-    ]);
+    return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
