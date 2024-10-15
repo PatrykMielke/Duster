@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Item;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -64,7 +65,12 @@ class ItemSeeder extends Seeder
         ];
 
         foreach ($rodzajeUbran as $rodzaj) {
-            Category::create(['name' => $rodzaj]);
+            for($i=1 ; $i < 9 ; $i++)
+            Item::create(
+                [
+                    'name' => $rodzaj,
+                    'category_id' => $i,
+                ]);
         }
     }
 }
