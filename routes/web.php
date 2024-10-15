@@ -23,16 +23,16 @@ Route::get('/dupso', function () {
 Route::get('/a', function () {
 
     $navCategoryItems = Sex::with(['categories.items'])
-
     ->get();
 
-    dd($navCategoryItems);
-
-    return Inertia::render('sraka');
+    return Inertia::render('sraka',['items' => $navCategoryItems]);
 });
 
 Route::get('/b', function () {
     return Inertia::render('HomePage');
+});
+Route::get('/test', function () {
+    return Inertia::render('Layout');
 });
 
 
