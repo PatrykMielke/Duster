@@ -28,13 +28,22 @@ Route::get('/a', function () {
     return Inertia::render('sraka',['items' => $navCategoryItems]);
 });
 
-Route::get('/b', function () {
+Route::get('/aa', function () {
     return Inertia::render('HomePage');
 });
 Route::get('/test', function () {
     return Inertia::render('Layout');
 });
 
+Route::get('/z', function () {
+    return Inertia::render('Header');
+});
+Route::get('/zz', function () {
+    return Inertia::render('L');
+});
+Route::get('/xx', function () {
+    return Inertia::render('HomePage');
+});
 
 
 
