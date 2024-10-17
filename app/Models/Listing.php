@@ -7,5 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Listing extends Model
 {
+    public function visits()
+    {
+        return $this->hasMany(Visit::class);
+    }
     use HasFactory;
 }

@@ -1,5 +1,5 @@
 import Navbar from "../Components/Navbar";
-
+import Example from "./ProductDetails";
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
@@ -8,18 +8,15 @@ export default function Layout({ children }) {
     return (
         <>
             <div className="min-h-full">
-                <Navbar />
+            <header className="relative z-10 bg-white">
+            <Navbar />
 
-                <header className="bg-white shadow">
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-                            Dashboard
-                        </h1>
-                    </div>
-                </header>
+            </header>
+
+              
                 <main>
                     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        {{ children }}
+                        { children }
                     </div>
                 </main>
             </div>

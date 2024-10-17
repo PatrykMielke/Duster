@@ -14,8 +14,11 @@ use App\Models\Material;
 use App\Models\Condition;
 use App\Models\PaymentMethods;
 use App\Models\DeliveryMethods;
+use App\Models\Visit;
 use Database\Seeders\SexSeeder;
 use Illuminate\Database\Seeder;
+use Database\Seeders\RoleSeeder;
+use Database\Seeders\ListingSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -31,6 +34,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(MaterialSeeder::class);
                 $this->call(SizeSeeder::class);
                 $this->call(SexSeeder::class);
+                $this->call(RoleSeeder::class);
 
                 User::factory(20)->create();
                 $this->call(ColorSeeder::class);
@@ -38,5 +42,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(CategorySeeder::class);
                 $this->call(StatusSeeder::class);
                 $this->call(ItemSeeder::class);
+                $this->call(ListingSeeder::class);
+                $this->call(VisitSeeder::class);
         }
 }

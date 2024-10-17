@@ -39,6 +39,19 @@ class ListingController extends Controller
         //
     }
 
+    public function showVisits($id)
+    {
+        $listing = Listing::findOrFail($id);
+
+        // Zliczanie unikalnych użytkowników, którzy odwiedzili ogłoszenie
+        $uniqueUserCount = $listing->visits()->distinct('user_id')->count('user_id');
+
+        return view('listings.show', [
+            'listing' => $listing,
+            'uniqueUserCount' => $uniqueUserCount
+        ]);
+    }
+
     /**
      * Show the form for editing the specified resource.
      */

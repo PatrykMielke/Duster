@@ -4,6 +4,7 @@ use App\Models\Sex;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\VisitController;
 use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
@@ -20,29 +21,32 @@ Route::get('/dupso', function () {
     return Inertia::render('Layout');
 });
 
+Route::get('/visits/unique-users', [VisitController::class, 'getUniqueUserCount']);
+
+
 Route::get('/a', function () {
 
     $navCategoryItems = Sex::with(['categories.items'])
-    ->get();
+        ->get();
 
-    return Inertia::render('sraka',['items' => $navCategoryItems]);
+    return Inertia::render('sraka', ['items' => $navCategoryItems]);
 });
 
 Route::get('/aa', function () {
     return Inertia::render('HomePage');
 });
 Route::get('/test', function () {
-    return Inertia::render('Layout');
+    return Inertia::render('LayoutTestowy');
 });
 
 Route::get('/z', function () {
-    return Inertia::render('Header');
+    return Inertia::render('GalleryCar');
 });
-Route::get('/zz', function () {
-    return Inertia::render('L');
+Route::get('/qq', function () {
+    return Inertia::render('qq');
 });
 Route::get('/xx', function () {
-    return Inertia::render('HomePage');
+    return Inertia::render('twardegowno');
 });
 
 
