@@ -2,18 +2,11 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Layout from './LayoutTestowy';
 
-function App() {
-    const [uniqueUserCount, setUniqueUserCount] = useState(0);
+function App({ uniqueUserCount }) {
 
-    useEffect(() => {
-        axios.get('/visits/unique-users')
-            .then(response => {
-                setUniqueUserCount(response.data); 
-            })
-            .catch(error => {
-                console.error('Błąd podczas pobierania danych: ', error);
-            });
-    }, []);
+
+
+
 
     return (
         <Layout>

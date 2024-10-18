@@ -1,11 +1,10 @@
 import Layout from './LayoutTestowy';
-import Carousel from '@/Components/Carousel';
+import Listings from './ListingsList'; // ListingsList powinno być dostępne z odpowiednią ścieżką
 
 function App() {
     return (
         <div>
             <Layout>
-                <Carousel />
             </Layout>
         </div>
     );

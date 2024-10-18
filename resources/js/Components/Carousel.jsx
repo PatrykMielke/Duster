@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const images = [
-  "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg",
+  "https://cdn.discordapp.com/attachments/1294031265996996670/1296827410746183792/80b639af80cae5c3b727317c773c9a14.jpg?ex=6713b424&is=671262a4&hm=c905aad1e1a388bcf25787e762dc2a4f13e15c0906993be08e5a6f97da21488b&",
   "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg",
   "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg",
   "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg",

@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\ListingController;
+
 use App\Models\Sex;
 use Inertia\Inertia;
+use App\Models\Listing;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\VisitController;
-use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -24,10 +26,8 @@ Route::get('/layout', function () {
 
 
 Route::get('/a', function () {
-
     $navCategoryItems = Sex::with(['categories.items'])
         ->get();
-
     return Inertia::render('sraka', ['items' => $navCategoryItems]);
 })->name('sraka');
 
@@ -39,32 +39,71 @@ Route::get('/ProductDetails', function () {
     return Inertia::render('ProductDetails');
 })->name('products');
 
+Route::get('/unique', [VisitController::class, 'index'])->name('unique');;
 
-Route::get('/unique', function () {
-    return Inertia::render('UniqueVisits');
-})->name('unique');
 
 
 
 //// robocze
-Route::get('/test', function () {
-    return Inertia::render('test');
-})->name('test');
 
-Route::get('/tes', function () {
-    return Inertia::render('tes');
-})->name('tes');
+Route::prefix('test')->group(function () {
 
-Route::get('/twarde', function () {
-    return Inertia::render('twarde');
-})->name('twarde');
+
+    Route::get('/test', function () {
+        return Inertia::render('FilterBar');
+    })->name('test');
+
+    Route::get('/tes', function () {
+        return Inertia::render('tes');
+    })->name('tes');
+
+    Route::get('/twarde', function () {
+        return Inertia::render('twarde');
+    })->name('twarde');
+});
+
 
 
 
 //// API
-Route::get('/visits/unique-users', [VisitController::class, 'getUniqueUserCount']);
+
+use App\Http\Controllers\ProfileController;
+
+//Route::get('/listings', [ListingController::class, 'index'])->name('listings.index');
 
 
+Route::get('/listings', function () {
+    return Inertia::render('ListingsList', ['products' => Listing::all()]);
+})->name('listings');
+
+
+
+
+
+
+
+////////////
+Route::get('/listing/{id}', [ListingController::class, 'show'])->name('listing');
+
+
+
+///////////
+
+
+
+
+
+
+
+
+
+
+
+Route::get('/a', function () {
+    $navCategoryItems = Sex::with(['categories.items'])
+        ->get();
+    return Inertia::render('sraka', ['items' => $navCategoryItems]);
+})->name('sraka');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
