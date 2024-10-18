@@ -1,5 +1,5 @@
-import Layout from './LayoutTestowy';
-import Listings from './ListingsList'; // ListingsList powinno być dostępne z odpowiednią ścieżką
+import Layout from "@/Layouts/Layout";
+import Carousel from "@/Components/Carousel";
 
 function App() {
     return (

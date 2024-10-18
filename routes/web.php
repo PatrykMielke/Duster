@@ -10,19 +10,13 @@ use Illuminate\Foundation\Application;
 use App\Http\Controllers\VisitController;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('HomePage', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
-
-
-Route::get('/layout', function () {
-    return Inertia::render('LayoutTestowy');
-})->name('layout');
-
+})->name('index');
 
 
 Route::get('/a', function () {

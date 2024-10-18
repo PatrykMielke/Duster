@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "./LayoutTestowy"; // Adjust the import path as necessary
+import Layout from "@/Layouts/Layout"; // Adjust the import path as necessary
 
 import { useEffect } from "react";
 
