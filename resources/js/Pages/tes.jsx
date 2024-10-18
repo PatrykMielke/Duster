@@ -1,5 +1,5 @@
-import Layout from './LayoutTestowy';
-import Carousel from '@/Components/Carousel';
+import Layout from "@/Layouts/Layout";
+import Carousel from "@/Components/Carousel";
 
 function App() {
     return (
