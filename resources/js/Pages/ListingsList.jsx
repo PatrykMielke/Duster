@@ -13,7 +13,7 @@
   ```
 */
 
-import Layout from "./LayoutTestowy";
+import Layout from "@/Layouts/Layout";
 
 
 export default function Example({ products }) {
