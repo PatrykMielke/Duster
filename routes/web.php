@@ -17,11 +17,10 @@ Route::get('/', function () {
 });
 
 
-Route::get('/dupso', function () {
-    return Inertia::render('Layout');
-});
+Route::get('/layout', function () {
+    return Inertia::render('LayoutTestowy');
+})->name('layout');
 
-Route::get('/visits/unique-users', [VisitController::class, 'getUniqueUserCount']);
 
 
 Route::get('/a', function () {
@@ -30,25 +29,40 @@ Route::get('/a', function () {
         ->get();
 
     return Inertia::render('sraka', ['items' => $navCategoryItems]);
-});
+})->name('sraka');
 
-Route::get('/aa', function () {
+Route::get('/HomePage', function () {
     return Inertia::render('HomePage');
-});
+})->name('HomePage');
+
+Route::get('/ProductDetails', function () {
+    return Inertia::render('ProductDetails');
+})->name('products');
+
+
+Route::get('/unique', function () {
+    return Inertia::render('UniqueVisits');
+})->name('unique');
+
+
+
+//// robocze
 Route::get('/test', function () {
-    return Inertia::render('LayoutTestowy');
-});
+    return Inertia::render('test');
+})->name('test');
 
-Route::get('/z', function () {
-    return Inertia::render('GalleryCar');
-});
-Route::get('/qq', function () {
-    return Inertia::render('qq');
-});
-Route::get('/xx', function () {
-    return Inertia::render('twardegowno');
-});
+Route::get('/tes', function () {
+    return Inertia::render('tes');
+})->name('tes');
 
+Route::get('/twarde', function () {
+    return Inertia::render('twarde');
+})->name('twarde');
+
+
+
+//// API
+Route::get('/visits/unique-users', [VisitController::class, 'getUniqueUserCount']);
 
 
 

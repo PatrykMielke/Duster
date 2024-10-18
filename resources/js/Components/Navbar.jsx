@@ -1,4 +1,5 @@
 "use client";
+import Example from "../Components/DropDownButton";
 
 import { Fragment, useState } from "react";
 import {
@@ -96,7 +97,7 @@ const navigation = {
 
                     ],
                 },
-                
+
             ],
         },
         {
@@ -414,8 +415,8 @@ export default function Navbar() {
                                                                             key={
                                                                                 item.name
                                                                             }
-                                                                           >
- 
+                                                                        >
+
 
                                                                         </div>
                                                                     )
@@ -529,6 +530,7 @@ export default function Navbar() {
                                         </span>
                                     </a>
                                 </div>
+                                <Example />
 
                                 {/* Search */}
                                 <div className="flex lg:ml-6">
