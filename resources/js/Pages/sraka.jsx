@@ -15,13 +15,13 @@ function Dashboard({ items }) {
 
     useEffect(() => {
         //console.log(items); // Wyświetla tablicę 'users' w konsoli
-        for (i = 0; i < items.count; i++) console.log(items[0].name);
+        for (let i = 0; i < items.count; i++) console.log(items[0].name);
         console.log(items[0].categories[0].name);
         console.log(items[0].categories[0].items[0].name);
     }, [items]);
 
     return (
-        <BaseLayout title={dashboardData.title}>
+        <Layout title={dashboardData.title}>
             <div>
                 <h2 className="text-xl font-semibold">Statistics</h2>
                 <ul className="mt-4">
@@ -30,7 +30,7 @@ function Dashboard({ items }) {
                     <li>New Users: {dashboardData.stats.newUsers}</li>
                 </ul>
             </div>
-        </BaseLayout>
+        </Layout>
     );
 }
 

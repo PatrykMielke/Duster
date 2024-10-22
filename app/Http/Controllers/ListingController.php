@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Models\Listing;
 use Illuminate\Http\Request;
 
@@ -12,9 +13,12 @@ class ListingController extends Controller
      */
     public function index()
     {
-        //
-    }
+        // Pobieramy wszystkie ogłoszenia z bazy danych
+        $listings = Listing::all();
 
+        // Zwracamy widok Inertia z listingami
+        return Inertia::render('ListingsList', ['products' => $listings]);
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -34,9 +38,11 @@ class ListingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Listing $listing)
+    public function show($id)
     {
-        //
+        $listing = Listing::findOrFail($id);
+
+        return Inertia::render('ProductDetails', ['listing' => $listing]);
     }
 
     public function showVisits($id)

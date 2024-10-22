@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Models\visit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +18,7 @@ class VisitController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('UniqueVisits', ['uniqueUserCount' => $this->getUniqueUserCount()]);
     }
 
     /**
@@ -29,7 +30,7 @@ class VisitController extends Controller
     }
 
 
-    public function getUniqueUserCount()
+    private function getUniqueUserCount()
     {
         $uniqueUserCount = DB::table('visits')
             ->where('listing_id', 1)
@@ -37,7 +38,7 @@ class VisitController extends Controller
             ->count('user_id');
 
 
-        return response()->json($uniqueUserCount);
+        return ($uniqueUserCount);
     }
 
     /**
