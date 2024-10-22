@@ -566,8 +566,6 @@ export default function Navbar(props) {
                                             />
                                         </a>
                                     </div>
-
-
                                 </div>
                             </div>
                         </div>
