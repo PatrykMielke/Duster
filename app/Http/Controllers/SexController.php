@@ -13,4 +13,4 @@ class SexController extends Controller
         ->get();
         return Inertia::render('sraka', ['items' => $navCategoryItems]);
     }
-}
+} 
