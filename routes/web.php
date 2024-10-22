@@ -40,23 +40,19 @@ Route::get('/unique', [VisitController::class, 'index'])->name('unique');;
 
 //// robocze
 
-Route::prefix('test')->group(function () {
 
 
-    Route::get('/test', function () {
-        return Inertia::render('FilterBar');
-    })->name('test');
-
-    Route::get('/tes', function () {
-        return Inertia::render('tes');
-    })->name('tes');
-
-    Route::get('/twarde', function () {
-        return Inertia::render('twarde');
-    })->name('twarde');
-});
 
 
+Route::get('/twarde', function () {
+    return Inertia::render('twarde');
+})->name('twarde');
+
+
+
+Route::get('/tes', function () {
+    return Inertia::render('tes');
+})->name('tes');
 
 
 //// API

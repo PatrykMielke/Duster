@@ -35,8 +35,8 @@ class DatabaseSeeder extends Seeder
                 $this->call(SizeSeeder::class);
                 $this->call(SexSeeder::class);
                 $this->call(RoleSeeder::class);
-
                 User::factory(20)->create();
+
                 $this->call(ColorSeeder::class);
                 $this->call(PaymentMethodsSeeder::class);
                 $this->call(CategorySeeder::class);

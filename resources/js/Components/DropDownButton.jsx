@@ -71,7 +71,14 @@ export default function Example() {
                     </MenuItem>
                     <a className="block px-4 py-2 text-sm text-red-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 "
                     >ROBOCZE</a>
-
+                    <MenuItem>
+                        <Link
+                            href={route('twarde')} // Laravel route helper, przekierowanie do trasy /qq
+                            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
+                        >
+                            twarde
+                        </Link>
+                    </MenuItem>
                 </div>
             </MenuItems>
         </Menu>
