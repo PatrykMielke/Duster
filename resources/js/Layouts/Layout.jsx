@@ -1,4 +1,4 @@
-import Navbar from "../Components/Navbar";
+import Navbar from "../Pages/Misc/Navbar/Navbar";
 // import Navbar from "../Pages/Misc/Navbar/Navbar";
 
 function classNames(...classes) {
