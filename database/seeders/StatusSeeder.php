@@ -18,6 +18,7 @@ class StatusSeeder extends Seeder
             'Ukryte',
             'Nieaktywne',
             'Zakończone',
+            'Usunięte'
         ];
 
         foreach ($statuses as $status) {

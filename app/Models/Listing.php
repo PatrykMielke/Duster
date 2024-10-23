@@ -11,5 +11,11 @@ class Listing extends Model
     {
         return $this->hasMany(Visit::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     use HasFactory;
 }
