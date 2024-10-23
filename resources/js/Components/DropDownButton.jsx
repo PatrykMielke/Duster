@@ -33,7 +33,7 @@ export default function Example() {
                             href={route("sraka")} // Laravel route helper, przekierowanie do trasy /qq
                             className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
                         >
-                            sraka / lista kategori
+                            sr / lista kategori
                         </Link>
                     </MenuItem>
                     <MenuItem>
@@ -41,8 +41,7 @@ export default function Example() {
                             href={route("index")} // Laravel route helper, przekierowanie do trasy /qq
                             className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
                         >
-                            LayoutTestowy / layout
-                        </Link>
+                            index                        </Link>
                     </MenuItem>
 
                     <MenuItem>

@@ -11,12 +11,10 @@ class ListingController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($sortField = 'created_at', $sortOrder = 'desc')
     {
-        // Pobieramy wszystkie ogłoszenia z bazy danych
-        $listings = Listing::all();
+        $listings = Listing::orderBy($sortField, $sortOrder)->get();
 
-        // Zwracamy widok Inertia z listingami
         return Inertia::render('ListingsList', ['products' => $listings]);
     }
     /**
@@ -36,13 +34,20 @@ class ListingController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display specified 
      */
     public function show($id)
     {
-        $listing = Listing::findOrFail($id);
+        // Znajdź listing wraz z powiązanym użytkownikiem
+        $listing = Listing::with('user')->findOrFail($id);
 
-        return Inertia::render('ProductDetails', ['listing' => $listing]);
+        // Pobierz powiązany model User
+        $user = $listing->user;
+
+        return Inertia::render('Listing/ListingDetails', [
+            'listing' => $listing,
+            'user' => $user
+        ]);
     }
 
     public function showVisits($id)

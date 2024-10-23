@@ -48,11 +48,14 @@ Route::get('/twarde', function () {
     return Inertia::render('twarde');
 })->name('twarde');
 
-
-
 Route::get('/tes', function () {
     return Inertia::render('tes');
 })->name('tes');
+
+Route::get('g', function () {
+    return Inertia::render('Misc/Navbar/Logo');
+})->name('g');
+
 
 
 //// API
@@ -63,10 +66,13 @@ use App\Http\Controllers\ProfileController;
 
 
 Route::get('/listings', function () {
-    return Inertia::render('ListingsList', ['products' => Listing::all()]);
+    return Inertia::render('Listing/Listings', ['products' => Listing::all()]);
 })->name('listings');
 
 
+
+
+//Route::get('/listings', ListingController::class,)->name('listings');
 
 
 
