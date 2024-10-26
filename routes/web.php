@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ListingController;
+use App\Http\Controllers\ProfileController;
 
 use App\Models\Sex;
 use Inertia\Inertia;
@@ -19,12 +20,6 @@ Route::get('/', function () {
 })->name('index');
 
 
-Route::get('/a', function () {
-    $navCategoryItems = Sex::with(['categories.items'])
-        ->get();
-    return Inertia::render('sraka', ['items' => $navCategoryItems]);
-})->name('sraka');
-
 Route::get('/HomePage', function () {
     return Inertia::render('HomePage');
 })->name('HomePage');
@@ -33,7 +28,6 @@ Route::get('/ProductDetails', function () {
     return Inertia::render('ProductDetails');
 })->name('products');
 
-Route::get('/unique', [VisitController::class, 'index'])->name('unique');;
 
 
 
@@ -48,39 +42,37 @@ Route::get('/twarde', function () {
     return Inertia::render('twarde');
 })->name('twarde');
 
-Route::get('/tes', function () {
+Route::get('/tesa', function () {
     return Inertia::render('tes');
 })->name('tes');
 
-Route::get('g', function () {
-    return Inertia::render('Misc/Navbar/Logo');
-})->name('g');
 
-
-
-//// API
-
-use App\Http\Controllers\ProfileController;
-
-//Route::get('/listings', [ListingController::class, 'index'])->name('listings.index');
-
-
-Route::get('/listings', function () {
-    return Inertia::render('Listing/Listings', ['products' => Listing::all()]);
-})->name('listings');
+////
 
 
 
 
+// Route::get('/listings', function () {
+//     return Inertia::render('Listing/Listings', ['products' => Listing::all()]);
+// })->name('listings');
 //Route::get('/listings', ListingController::class,)->name('listings');
+
+
+
+Route::get('/listings', [ListingController::class, 'index'])->name('listings');
+Route::get('/listing/{id}', [ListingController::class, 'show'])->name('listing');
 
 
 
 
 
 ////////////
-Route::get('/listing/{id}', [ListingController::class, 'show'])->name('listing');
 
+Route::get('/a', function () {
+    $navCategoryItems = Sex::with(['categories.items'])
+        ->get();
+    return Inertia::render('sraka', ['items' => $navCategoryItems]);
+})->name('sraka');
 
 
 ///////////
@@ -95,11 +87,6 @@ Route::get('/listing/{id}', [ListingController::class, 'show'])->name('listing')
 
 
 
-Route::get('/a', function () {
-    $navCategoryItems = Sex::with(['categories.items'])
-        ->get();
-    return Inertia::render('sraka', ['items' => $navCategoryItems]);
-})->name('sraka');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -109,6 +96,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/wallet', function () {
+        return Inertia::render('Profile/Wallet');
+    })->name('wallet');
+    Route::get('/settings', function () {
+        return Inertia::render('Profile/Settings');
+    })->name('settings');
 });
 
 require __DIR__ . '/auth.php';

@@ -11,13 +11,18 @@ class ListingController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index($sortField = 'created_at', $sortOrder = 'desc')
+    public function index()
     {
-        $listings = Listing::orderBy($sortField, $sortOrder)->get();
+        // WSZYSTKIE OGLOSZENIA
+        //
+        // Pobierz ogłoszenia uporządkowane według daty utworzenia z powiązanymi użytkownikami i galeriami
+        $listings = Listing::with(['user', 'galleries'])->orderBy('created_at', 'desc')->get();
 
-        return Inertia::render('ListingsList', ['products' => $listings]);
+        return Inertia::render('Listing/Listings', [
+            'products' => $listings,
+        ]);
     }
-    /**
+    /** 
      * Show the form for creating a new resource.
      */
     public function create()
@@ -38,30 +43,17 @@ class ListingController extends Controller
      */
     public function show($id)
     {
-        // Znajdź listing wraz z powiązanym użytkownikiem
-        $listing = Listing::with('user')->findOrFail($id);
+        $listing = Listing::with(['user', 'galleries', 'details.size', 'details.brand', 'details.condition', 'details.detailColor.color', 'details.detailMaterial.material',])->findOrFail($id);
+        $uniqueUserCount = $listing->visits()->distinct('user_id')->count('user_id');
 
-        // Pobierz powiązany model User
-        $user = $listing->user;
 
         return Inertia::render('Listing/ListingDetails', [
             'listing' => $listing,
-            'user' => $user
+            'uniqueUserCount' => $uniqueUserCount,
+
         ]);
     }
 
-    public function showVisits($id)
-    {
-        $listing = Listing::findOrFail($id);
-
-        // Zliczanie unikalnych użytkowników, którzy odwiedzili ogłoszenie
-        $uniqueUserCount = $listing->visits()->distinct('user_id')->count('user_id');
-
-        return view('listings.show', [
-            'listing' => $listing,
-            'uniqueUserCount' => $uniqueUserCount
-        ]);
-    }
 
     /**
      * Show the form for editing the specified resource.

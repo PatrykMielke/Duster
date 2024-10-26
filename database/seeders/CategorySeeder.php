@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Sex;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -19,14 +20,16 @@ class CategorySeeder extends Seeder
             'Akcesoria',
 
         ];
+        $sexes = Sex::all();
+        foreach ($sexes as $sex) {
 
-        foreach ($categories as $category) {
-            for ($i = 0; $i < 3; $i++){
+            foreach ($categories as $category) {
+
                 Category::create([
                     'name' => $category,
-                    'sex_id' => $i+1,
+                    'sex_id' => $sex->id,
                 ]);
-        }
+            }
         }
     }
 }

@@ -64,13 +64,16 @@ class ItemSeeder extends Seeder
             'Zegarek na rękę'
         ];
 
+        $categories = Category::all();
+        $randomCat = $categories->random(1)->pluck('id')->first();
+
         foreach ($rodzajeUbran as $rodzaj) {
-            for($i=1 ; $i < 9 ; $i++)
             Item::create(
                 [
                     'name' => $rodzaj,
-                    'category_id' => $i,
-                ]);
+                    'category_id' => $randomCat,
+                ]
+            );
         }
     }
 }

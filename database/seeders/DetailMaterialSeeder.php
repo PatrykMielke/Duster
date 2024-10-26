@@ -2,8 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Detail;
+use App\Models\Material;
+use App\Models\DetailMaterial;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DetailMaterialSeeder extends Seeder
 {
@@ -12,6 +15,18 @@ class DetailMaterialSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $details = Detail::all();
+        $materials = Material::all();
+
+        foreach ($details as $detail) {
+            $materialIds = $materials->random(2)->pluck('id');
+
+            foreach ($materialIds as $materialId) {
+                DetailMaterial::create([
+                    'detail_id' => $detail->id,
+                    'material_id' => $materialId
+                ]);
+            }
+        }
     }
 }

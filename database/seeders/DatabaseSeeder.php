@@ -8,16 +8,17 @@ use App\Models\Size;
 use App\Models\User;
 use App\Models\Brand;
 use App\Models\Color;
+use App\Models\Visit;
 use App\Models\Status;
 use App\Models\Category;
 use App\Models\Material;
 use App\Models\Condition;
 use App\Models\PaymentMethods;
 use App\Models\DeliveryMethods;
-use App\Models\Visit;
 use Database\Seeders\SexSeeder;
 use Illuminate\Database\Seeder;
 use Database\Seeders\RoleSeeder;
+use Database\Seeders\DetailSeeder;
 use Database\Seeders\ListingSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -44,5 +45,10 @@ class DatabaseSeeder extends Seeder
                 $this->call(ItemSeeder::class);
                 $this->call(ListingSeeder::class);
                 $this->call(VisitSeeder::class);
+                $this->call(DetailSeeder::class);
+                $this->call(DetailMaterialSeeder::class);
+                $this->call(DetailColorSeeder::class);
+
+                $this->call(GallerySeeder::class);
         }
 }

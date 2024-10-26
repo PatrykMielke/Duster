@@ -9,71 +9,91 @@ import { CssTransition } from '@mui/base/Transitions';
 import { PopupContext } from '@mui/base/Unstable_Popup';
 import ProfileIcon from '@/Pages/Misc/Navbar/ProfileIcon';
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { Link, usePage } from '@inertiajs/react';
 
 
 export default function ProfileDropdown() {
-    const createHandleMenuClick = (menuItem) => {
-        return () => {
-            console.log(`Clicked on ${menuItem}`);
-        };
-    };
 
+  const user = usePage().props.auth.user;
+
+  if (!user) {
     return (
-        <Dropdown>
-            <MenuButton>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <ProfileIcon style={{ marginRight: '8px' }} />
-                    <ChevronDownIcon
-                        aria-hidden="true"
-                        className="-mr-1 h-5 w-5 text-gray-400"
-                    />
-                </div>
-
-            </MenuButton>
-            <Menu slots={{ listbox: AnimatedListbox }}>
-                <MenuItem onClick={createHandleMenuClick('Portfel')}>Portfel</MenuItem>
-                <MenuItem onClick={createHandleMenuClick('Portfel')}>Twoj profil</MenuItem>
-                <MenuItem onClick={createHandleMenuClick('Portfel')}>Ustawienia</MenuItem>
-                <MenuItem onClick={createHandleMenuClick('Log out')}>Wyloguj</MenuItem>
-            </Menu>
-        </Dropdown>
+      <>  </>
     );
+  }
+
+  return (
+    <Dropdown>
+      <MenuButton>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <span style={{ marginRight: '11px' }}>{user.name}</span>
+          <ProfileIcon />
+          <ChevronDownIcon
+            aria-hidden="true"
+            className="-mr-1 h-5 w-5 text-gray-400"
+          />
+        </div>
+      </MenuButton>
+
+      <Menu slots={{ listbox: AnimatedListbox }}>
+        <Link href={route('profile.edit')}><MenuItem>Twój profil</MenuItem> </Link>
+        <Link href={route('wallet')}><MenuItem>Portfel</MenuItem></Link>
+        <Link href={route('settings')}><MenuItem>Ustawienia</MenuItem></Link>
+
+        <Divider variant="middle" component="li" />
+
+        <Link href={route('logout')} ><MenuItem>Wyloguj</MenuItem></Link>
+      </Menu>
+    </Dropdown>
+  );
 }
 
+const Divider = styled('li')(
+  ({ theme }) => `
+  height: 1px; 
+  width: 80%;
+  background-color: ${theme.palette.mode === 'dark' ? grey[600] : grey[300]};
+  margin: 4px auto; // Center it horizontally
+  display: flex; // Ensure it uses flex properties
+  justify-content: center; // Center contents within the divider
+  align-items: center; // Align contents vertically
+`
+);
+
 const blue = {
-    50: '#F0F7FF',
-    100: '#C2E0FF',
-    200: '#99CCF3',
-    300: '#66B2FF',
-    400: '#3399FF',
-    500: '#007FFF',
-    600: '#0072E6',
-    700: '#0059B3',
-    800: '#004C99',
-    900: '#003A75',
+  50: '#F0F7FF',
+  100: '#C2E0FF',
+  200: '#99CCF3',
+  300: '#66B2FF',
+  400: '#3399FF',
+  500: '#007FFF',
+  600: '#0072E6',
+  700: '#0059B3',
+  800: '#004C99',
+  900: '#003A75',
 };
 
 const grey = {
-    50: '#F3F6F9',
-    100: '#E5EAF2',
-    200: '#DAE2ED',
-    300: '#C7D0DD',
-    400: '#B0B8C4',
-    500: '#9DA8B7',
-    600: '#6B7A90',
-    700: '#434D5B',
-    800: '#303740',
-    900: '#1C2025',
+  50: '#F3F6F9',
+  100: '#E5EAF2',
+  200: '#DAE2ED',
+  300: '#C7D0DD',
+  400: '#B0B8C4',
+  500: '#9DA8B7',
+  600: '#6B7A90',
+  700: '#434D5B',
+  800: '#303740',
+  900: '#1C2025',
 };
 
 const Listbox = styled('ul')(
-    ({ theme }) => `
+  ({ theme }) => `
   font-family: 'IBM Plex Sans', sans-serif;
   font-size: 0.875rem;
   box-sizing: border-box;
   padding: 6px;
   margin: 12px 0;
-  min-width: 200px;
+  min-width: 120px;
   border-radius: 12px;
   overflow: auto;
   outline: 0;
@@ -106,40 +126,42 @@ const Listbox = styled('ul')(
 );
 
 const AnimatedListbox = React.forwardRef(function AnimatedListbox(props, ref) {
-    const { ownerState, ...other } = props;
-    const popupContext = React.useContext(PopupContext);
+  const { ownerState, ...other } = props;
+  const popupContext = React.useContext(PopupContext);
 
-    if (popupContext == null) {
-        throw new Error(
-            'The `AnimatedListbox` component cannot be rendered outside a `Popup` component',
-        );
-    }
-
-    const verticalPlacement = popupContext.placement.split('-')[0];
-
-    return (
-        <CssTransition
-            className={`placement-${verticalPlacement}`}
-            enterClassName="open"
-            exitClassName="closed"
-        >
-            <Listbox {...other} ref={ref} />
-        </CssTransition>
+  if (popupContext == null) {
+    throw new Error(
+      'The `AnimatedListbox` component cannot be rendered outside a `Popup` component',
     );
+  }
+
+  const verticalPlacement = popupContext.placement.split('-')[0];
+
+  return (
+    <CssTransition
+      className={`placement-${verticalPlacement}`}
+      enterClassName="open"
+      exitClassName="closed"
+    >
+      <Listbox {...other} ref={ref} />
+    </CssTransition>
+  );
 });
 
 AnimatedListbox.propTypes = {
-    ownerState: PropTypes.object.isRequired,
+  ownerState: PropTypes.object.isRequired,
 };
 
 const MenuItem = styled(BaseMenuItem)(
-    ({ theme }) => `
+  ({ theme }) => `
   list-style: none;
   padding: 8px;
   border-radius: 8px;
   cursor: default;
   user-select: none;
-
+  display: flex;
+  justify-content: center;
+  
   &:last-of-type {
     border-bottom: none;
   }
@@ -161,13 +183,14 @@ const MenuItem = styled(BaseMenuItem)(
   `,
 );
 
+
 const MenuButton = styled(BaseMenuButton)(
-    ({ theme }) => `
+  ({ theme }) => `
   font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 600;
   font-size: 0.875rem;
   line-height: 1.5;
-  padding: 8px 16px;
+  padding: 8px 8px;
   border-radius: 8px;
   color: white;
   transition: all 150ms ease;

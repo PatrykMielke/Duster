@@ -25,47 +25,25 @@ export default function Example() {
                             href={route("HomePage")} // Laravel route helper, przekierowanie do trasy /qq
                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                         >
-                            Home Page / search bar
+                            HomePage
                         </Link>
                     </MenuItem>
-                    <MenuItem>
-                        <Link
-                            href={route("sraka")} // Laravel route helper, przekierowanie do trasy /qq
-                            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
-                        >
-                            sr / lista kategori
-                        </Link>
-                    </MenuItem>
+
                     <MenuItem>
                         <Link
                             href={route("index")} // Laravel route helper, przekierowanie do trasy /qq
                             className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
                         >
-                            index                        </Link>
+                            /                        </Link>
                     </MenuItem>
 
-                    <MenuItem>
-                        <Link
-                            href={route("products")} // Laravel route helper, przekierowanie do trasy /qq
-                            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
-                        >
-                            ProductDetails / ogloszenie
-                        </Link>
-                    </MenuItem>
-                    <MenuItem>
-                        <Link
-                            href={route("unique")} // Laravel route helper, przekierowanie do trasy /qq
-                            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
-                        >
-                            unique visits
-                        </Link>
-                    </MenuItem>
+
                     <MenuItem>
                         <Link
                             href={route('listings')} // Laravel route helper, przekierowanie do trasy /qq
                             className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
                         >
-                            listings
+                            Listings
                         </Link>
                     </MenuItem>
                     <a className="block px-4 py-2 text-sm text-red-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 "
@@ -76,6 +54,14 @@ export default function Example() {
                             className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
                         >
                             twarde
+                        </Link>
+                    </MenuItem>
+                    <MenuItem>
+                        <Link
+                            href={route('tes')} // Laravel route helper, przekierowanie do trasy /qq
+                            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
+                        >
+                            tes
                         </Link>
                     </MenuItem>
                 </div>

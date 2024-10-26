@@ -7,5 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Color extends Model
 {
+    public function detailColors()
+    {
+        return $this->hasMany(DetailColor::class);
+    }
     use HasFactory;
 }

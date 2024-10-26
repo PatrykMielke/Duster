@@ -12,10 +12,12 @@ import Searchbar from "./Searchbar";
 import ProfileDropdown from "./ProfileDropdown";
 import CurrencyDropdown from "./CurrencyDropdown";
 import Logo from "./Logo";
+import { Link, usePage } from '@inertiajs/react';
 
 
 export default function Navbar(props) {
     const [open, setOpen] = useState(false);
+    const user = usePage().props.auth.user;
 
     return (
         <>
@@ -47,7 +49,22 @@ export default function Navbar(props) {
                                 <CategoryItems navigation={navigation} />
 
                                 <div className="ml-auto flex items-center">
-                                    <Login />
+
+                                    {user ? ( // Logged In view
+                                        <>
+
+                                        </>
+                                    ) : (// Guest view
+                                        <>
+                                            < Login />
+                                        </>
+                                    )}
+
+
+
+
+
+
                                     <Searchbar />
                                     <CurrencyDropdown />
                                     <Example />

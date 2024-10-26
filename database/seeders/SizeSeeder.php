@@ -13,7 +13,7 @@ class SizeSeeder extends Seeder
      */
     public function run(): void
     {
-        $sizes = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', 'Inny'];
+        $sizes = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
 
         foreach ($sizes as $size) {
             Size::create(['name' => $size]);
