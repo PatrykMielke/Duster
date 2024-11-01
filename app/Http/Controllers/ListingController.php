@@ -27,11 +27,9 @@ class ListingController extends Controller
         // WSZYSTKIE OGLOSZENIA
         $listings = Listing::with(['user', 'galleries', 'status'])->orderBy('created_at', 'desc')->get();
 
-        return Inertia::render('Admin/Dashboard', [
-            'products' => $listings,
-        ]);
+        return Inertia::render('Admin/Dashboard');
     }
-    /** 
+    /**
      * Show the form for creating a new resource.
      */
     public function create()
@@ -48,7 +46,7 @@ class ListingController extends Controller
     }
 
     /**
-     * Display specified 
+     * Display specified
      */
     public function show($id)
     {

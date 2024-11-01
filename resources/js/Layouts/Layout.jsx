@@ -1,8 +1,4 @@
 import Navbar from "../Pages/Misc/Navbar/Navbar";
-<<<<<<< HEAD
-=======
-
->>>>>>> 194a3470a5e7f595acf49045117626c6ec3af21c
 // import Navbar from "../Pages/Misc/Navbar/Navbar";
 
 function classNames(...classes) {
