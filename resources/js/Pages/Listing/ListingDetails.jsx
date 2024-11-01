@@ -1,50 +1,96 @@
 'use client'
-
+import ToggleFavoriteButton from './FollowButton'
 import { useState } from 'react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import { Radio, RadioGroup } from '@headlessui/react'
 import Layout from "@/Layouts/Layout";
 import Carousel from '@/Components/Carousel'
-
+import ToggleButton from './ReportButton'
+import OutlinedFlagSharpIcon from '@mui/icons-material/OutlinedFlagSharp';
+import { Link } from '@inertiajs/react'
 export default function Example({ listing, uniqueUserCount }) {
+
+
+
+    const formatTimeDifference = (diffInHours) => {
+        if (diffInHours < 1) return 'mniej niż godzina temu';
+        if (diffInHours < 24) return `${diffInHours} godziny temu`;
+        if (diffInHours < 48) return 'wczoraj';
+        return `${Math.floor(diffInHours / 24)} dni temu`;
+    };
+
+    const now = new Date();
+    const createdAt = new Date(listing.created_at);
+    const diffInMilliseconds = now - createdAt;
+    const diffInHours = Math.floor(diffInMilliseconds / (1000 * 60 * 60));
+
+
     return (
         <Layout>
-            <div className="bg-white">
-                <div className="pt-6">
-                    <nav aria-label="Breadcrumb">
-                        <ol role="list" className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-                            {product.breadcrumbs.map((breadcrumb) => (
-                                <li key={breadcrumb.id}>
-                                    <div className="flex items-center">
-                                        <a href={breadcrumb.href} className="mr-2 text-sm font-medium text-gray-900">
-                                            {breadcrumb.name}
-                                        </a>
-                                        <svg
-                                            fill="currentColor"
-                                            width={16}
-                                            height={20}
-                                            viewBox="0 0 16 20"
-                                            aria-hidden="true"
-                                            className="h-5 w-4 text-gray-300"
-                                        >
-                                            <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-                                        </svg>
-                                    </div>
-                                </li>
-                            ))}
-                            <li className="text-sm">
-                                <a href={product.href} aria-current="page" className="font-medium text-gray-500 hover:text-gray-600">
-                                    {listing.title}
-                                </a>
-                            </li>
-                        </ol>
-                    </nav>
+            <div className="bg-white rounded-[2rem] p-4">
+                <div className="pt-0">
 
+                    {/* nowa klasa */}
+                    <div className="">
+
+                        <div className="flex justify-between items-end w-full lg:col-span-2  lg:border-gray-200 lg:pl-8 pb-1">
+                            {/* Breadcrumbs po lewej stronie */}
+                            <nav aria-label="Breadcrumb" className="flex items-center space-x-2 pb-2">
+                                <ol role="list" className="flex items-end space-x-2">
+                                    {product.breadcrumbs.map((breadcrumb) => (
+                                        <li key={breadcrumb.id}>
+                                            <div className="flex items-center">
+                                                <a href={breadcrumb.href} className="mr-2 text-sm font-medium text-gray-900">
+                                                    {breadcrumb.name}
+                                                </a>
+                                                <svg
+                                                    fill="currentColor"
+                                                    width={16}
+                                                    height={20}
+                                                    viewBox="0 0 16 20"
+                                                    aria-hidden="true"
+                                                    className="h-5 w-4 text-gray-300"
+                                                >
+                                                    <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
+                                                </svg>
+                                            </div>
+                                        </li>
+                                    ))}
+                                    <li className="text-sm">
+                                        <a href={product.href} aria-current="page" className="font-medium text-gray-500 hover:text-gray-600">
+                                            {listing.title}
+                                        </a>
+                                    </li>
+                                </ol>
+                            </nav>
+
+
+                        </div>
+
+
+
+                    </div>
                     {/* Image gallery */}
                     <Carousel gallery={listing.galleries} />
 
+                    {/* Follow button */}
+
+                    <div className="flex justify-between items-end  w-full lg:col-span-2 lg:border-gray-200  pt-2">
+                        <ToggleButton
+                            label={{ active: 'Zgłoś', inactive: 'Zgłoś' }}
+                            icon={<OutlinedFlagSharpIcon />}
+                            color={{ active: 'error', inactive: 'rgb(107 114 128)' }} // Ustawienia kolorów
+                        />
+
+
+                        <ToggleFavoriteButton />
+
+                    </div>
+
+
+
                     {/* Product info */}
-                    <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
+                    <div className="mx-auto max-w-2xl px-4 pb-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 ">
                         <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
                             <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{listing.title}</h1>
                         </div>
@@ -98,6 +144,7 @@ export default function Example({ listing, uniqueUserCount }) {
                                     <a href={reviews.href} className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
                                         {reviews.totalCount} reviews
                                     </a>
+
                                 </div>
                             </div>
 
@@ -105,18 +152,31 @@ export default function Example({ listing, uniqueUserCount }) {
                             <p className="text-3xl tracking-tight text-gray-900 mt-12">{listing.price}</p>
 
 
-                            {/* Unique Visits */}
-                            <div className="mt-6">
-                                <h3 className="text-l font-medium text-gray-500">Wyświetlenia: {uniqueUserCount}</h3>
-                            </div>
+
 
 
                             <form className="mt-2">
-                                {/* Colors */}
+                                {/* content */}
                                 <div>
-                                    <h3 className="text-sm font-medium text-gray-900">Color</h3>
 
-                                    <div className="mt-4 flex items-center space-x-3">
+                                    {/* Unique Visits and Date */}
+                                    <div className="mt-3">
+                                        <h3 className="text-sm font-medium text-gray-500">Wyświetlenia: {uniqueUserCount}</h3>
+                                        <h3 className="text-sm font-medium text-gray-500">
+                                            Data dodania:  {formatTimeDifference(diffInHours)}
+                                        </h3>
+                                    </div>
+
+                                    {/* Size */}
+                                    <div className="mt-1">
+                                        <h3 className="text-l font-medium text-gray-500">Rozmiar: {listing.details.size.name}</h3>
+                                    </div>
+
+                                    {/* Colors */}
+
+                                    <div className="mt-1 flex items-center space-x-3">
+                                        <h3 className="text-l font-medium text-gray-500">Kolor</h3>
+
                                         {listing.details?.detail_color?.length > 0 ? (
                                             listing.details.detail_color.map((detailColor) => (
                                                 <div
@@ -136,28 +196,30 @@ export default function Example({ listing, uniqueUserCount }) {
                                     </div>
                                 </div>
 
+                                <Link href={route('listing.showCheckout', listing.id)}>
+                                    <button
+                                        type="button"
+                                        className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                    >
+                                        Kup teraz
+                                    </button>
+                                </Link>
 
-                                {/* Size */}
-                                <div className="mt-6">
-                                    <h3 className="text-l font-medium text-gray-500">Rozmiar: {listing.details.size.name}</h3>
-                                </div>
 
 
-                                <button
-                                    type="submit"
-                                    className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                >
-                                    Kup teraz                                </button>
+
+
                             </form>
                         </div>
 
                         <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
                             {/* Description and details */}
                             <div>
-                                <h3 className="sr-only">Description</h3>
+                                <h3 className="sr-only">Description
+                                </h3>
 
                                 <div className="space-y-6">
-                                    <p className="text-base text-gray-900">{product.description}</p>
+                                    <p className="text-base text-gray-900">{listing.description}  {listing.id}</p>
                                 </div>
                             </div>
 

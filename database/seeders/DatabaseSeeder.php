@@ -2,9 +2,12 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Support\Str;
+
 use App\Models\Sex;
-use App\Models\Size;
+use App\Models\Role;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Size;
 use App\Models\User;
 use App\Models\Brand;
 use App\Models\Color;
@@ -29,6 +32,19 @@ class DatabaseSeeder extends Seeder
         public function run(): void
         {
 
+                Brand::truncate();
+                Color::truncate();
+                Status::truncate();
+                Category::truncate();
+                Material::truncate();
+                Condition::truncate();
+                PaymentMethods::truncate();
+                DeliveryMethods::truncate();
+                Size::truncate();
+                Sex::truncate();
+                Role::truncate();
+
+
                 $this->call(BrandSeeder::class);
                 $this->call(ConditionSeeder::class);
                 $this->call(DeliveryMethodSeeder::class);
@@ -36,6 +52,8 @@ class DatabaseSeeder extends Seeder
                 $this->call(SizeSeeder::class);
                 $this->call(SexSeeder::class);
                 $this->call(RoleSeeder::class);
+
+
                 User::factory(20)->create();
 
                 $this->call(ColorSeeder::class);
@@ -50,5 +68,14 @@ class DatabaseSeeder extends Seeder
                 $this->call(DetailColorSeeder::class);
 
                 $this->call(GallerySeeder::class);
+                $this->call(OrderSeeder::class);
+                User::create([
+                        'name' => 'admin',
+                        'email' => 'admin@a.com',
+                        'email_verified_at' => now(),
+                        'password' => '111111111', // password
+                        'role_id' => 2,
+                        'remember_token' => Str::random(10),
+                ]);
         }
 }

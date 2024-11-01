@@ -48,6 +48,10 @@ class Listing extends Model
     {
         return $this->belongsTo(Condition::class);
     }
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
 
 
     use HasFactory;

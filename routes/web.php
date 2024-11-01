@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ListingController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 
 use App\Models\Sex;
@@ -29,6 +30,37 @@ Route::get('/ProductDetails', function () {
 })->name('products');
 
 
+// Profil uistawienia
+Route::get('/menu', function () {
+    return Inertia::render('Profile/Profile');
+})->name('menu');
+
+
+//
+Route::get('/admin', [ListingController::class, 'adminDashboard'])->name('admin');
+
+
+
+
+
+
+
+
+
+
+
+////
+
+
+
+
+
+
+Route::get('/listings', [ListingController::class, 'index'])->name('listings');
+Route::get('/listing/{id}', [ListingController::class, 'show'])->name('listing');
+
+//Route::get('/checkout/{id}', [ListingController::class, 'checkout'])->name('listing.showCheckout');
+Route::get('/checkout/{id}', [ListingController::class, 'checkout'])->name('listing.showCheckout');
 
 
 
@@ -46,36 +78,20 @@ Route::get('/tesa', function () {
     return Inertia::render('tes');
 })->name('tes');
 
+Route::get('/t', function () {
+    return Inertia::render('t');
+})->name('t');
 
 ////
 
 
 
 
-// Route::get('/listings', function () {
-//     return Inertia::render('Listing/Listings', ['products' => Listing::all()]);
-// })->name('listings');
-//Route::get('/listings', ListingController::class,)->name('listings');
+
+Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 
 
-
-Route::get('/listings', [ListingController::class, 'index'])->name('listings');
-Route::get('/listing/{id}', [ListingController::class, 'show'])->name('listing');
-
-
-
-
-
-////////////
-
-Route::get('/a', function () {
-    $navCategoryItems = Sex::with(['categories.items'])
-        ->get();
-    return Inertia::render('sraka', ['items' => $navCategoryItems]);
-})->name('sraka');
-
-
-///////////
 
 
 
@@ -88,6 +104,7 @@ Route::get('/a', function () {
 
 
 
+///////////
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

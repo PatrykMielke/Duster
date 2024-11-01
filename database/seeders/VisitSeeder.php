@@ -15,11 +15,21 @@ class VisitSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 0; $i < 10; $i++) {
-            Visit::create([
-                'user_id' => User::inRandomOrder()->first()->id,
-                'listing_id' => 1
-            ]);
+        // Pobierz wszystkie listingi
+        $listings = Listing::all();
+
+        // Przypisz losową liczbę wizyt do każdego ogłoszenia
+        foreach ($listings as $listing) {
+            // Losowa liczba wizyt dla danego ogłoszenia (np. od 1 do 10 wizyt)
+            $numberOfVisits = rand(1, 20);
+
+            // Przypisz wizyty do tego ogłoszenia
+            for ($i = 0; $i < $numberOfVisits; $i++) {
+                Visit::create([
+                    'user_id' => User::inRandomOrder()->first()->id,
+                    'listing_id' => $listing->id,
+                ]);
+            }
         }
     }
 }

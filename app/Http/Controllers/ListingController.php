@@ -14,11 +14,20 @@ class ListingController extends Controller
     public function index()
     {
         // WSZYSTKIE OGLOSZENIA
-        //
-        // Pobierz ogłoszenia uporządkowane według daty utworzenia z powiązanymi użytkownikami i galeriami
-        $listings = Listing::with(['user', 'galleries'])->orderBy('created_at', 'desc')->get();
+        $listings = Listing::with(['user', 'galleries'])->orderBy('created_at', 'desc')->where('status_id', 1)->get();
 
         return Inertia::render('Listing/Listings', [
+            'products' => $listings,
+        ]);
+    }
+
+
+    public function adminDashboard()
+    {
+        // WSZYSTKIE OGLOSZENIA
+        $listings = Listing::with(['user', 'galleries', 'status'])->orderBy('created_at', 'desc')->get();
+
+        return Inertia::render('Admin/Dashboard', [
             'products' => $listings,
         ]);
     }
@@ -54,7 +63,15 @@ class ListingController extends Controller
         ]);
     }
 
+    public function checkout($id)
+    {
+        $listing = Listing::with(['user', 'galleries', 'details.size', 'details.brand', 'details.condition', 'details.detailColor.color', 'details.detailMaterial.material',])->findOrFail($id);
 
+
+        return Inertia::render('Listing/Checkout/Checkout', [
+            'listing' => $listing
+        ]);
+    }
     /**
      * Show the form for editing the specified resource.
      */

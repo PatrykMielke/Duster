@@ -19,7 +19,7 @@ import Listing from "./Listing";
 export default function Example({ products }) {
     return (
         <Layout>
-            <div className="bg-white">
+            <div className="bg-white rounded-[2rem] p-4">
                 <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6  lg:max-w-7xl lg:px-8">
                     <h2 className="text-2xl font-bold tracking-tight text-gray-900">
                     </h2>
@@ -33,6 +33,9 @@ export default function Example({ products }) {
                     </div>
                 </div>
             </div>
+
         </Layout>
     );
 }
+
+

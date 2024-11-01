@@ -7,7 +7,7 @@ import { MenuItem as BaseMenuItem, menuItemClasses } from '@mui/base/MenuItem';
 import { styled } from '@mui/system';
 import { CssTransition } from '@mui/base/Transitions';
 import { PopupContext } from '@mui/base/Unstable_Popup';
-import ProfileIcon from '@/Pages/Misc/Navbar/ProfileIcon';
+import ProfileIcon from '@/Pages/Misc/Navbar/Partials/ProfileIcon';
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Link, usePage } from '@inertiajs/react';
 
@@ -42,7 +42,7 @@ export default function ProfileDropdown() {
 
         <Divider variant="middle" component="li" />
 
-        <Link href={route('logout')} ><MenuItem>Wyloguj</MenuItem></Link>
+        <Link href={route('logout')} method='post' ><MenuItem>Wyloguj</MenuItem></Link>
       </Menu>
     </Dropdown>
   );

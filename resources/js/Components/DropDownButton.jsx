@@ -64,6 +64,14 @@ export default function Example() {
                             tes
                         </Link>
                     </MenuItem>
+                    <MenuItem>
+                        <Link
+                            href={route('t')} // Laravel route helper, przekierowanie do trasy /qq
+                            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
+                        >
+                            t
+                        </Link>
+                    </MenuItem>
                 </div>
             </MenuItems>
         </Menu>

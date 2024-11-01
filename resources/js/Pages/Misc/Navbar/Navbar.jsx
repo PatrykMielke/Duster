@@ -1,17 +1,17 @@
 "use client";
 import Example from "../../../Components/DropDownButton";
-import CategoryItems from "./CategoryItems";
-import Login from "./Login";
+import CategoryItems from "./Partials/CategoryItems";
+import Login from "./Partials/Login";
 import { Fragment, useState } from "react";
 import {
     Bars3Icon,
 } from "@heroicons/react/24/outline";
-import MobileCategoryList from "./MobileCategoryList";
+import MobileCategoryList from "./Partials/MobileCategoryList";
 
-import Searchbar from "./Searchbar";
-import ProfileDropdown from "./ProfileDropdown";
-import CurrencyDropdown from "./CurrencyDropdown";
-import Logo from "./Logo";
+import Searchbar from "./Partials/Searchbar";
+import ProfileDropdown from "./Partials/ProfileDropdown";
+import CurrencyDropdown from "./Partials/CurrencyDropdown";
+import Logo from "./Partials/Logo";
 import { Link, usePage } from '@inertiajs/react';
 
 
