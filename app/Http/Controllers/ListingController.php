@@ -39,13 +39,11 @@ class ListingController extends Controller
     {
         // WSZYSTKIE OGLOSZENIA
         $listings = Listing::with(['user', 'galleries', 'status'])->orderBy('created_at', 'desc')->get();
-        $statuses = Status::all();
-        return Inertia::render('Admin/Partials/Table', [
+
+        return Inertia::render('Admin/Dashboard', [
             'products' => $listings,
-            'statuses' => $statuses,
         ]);
     }
-
     /** 
      * Show the form for creating a new resource.
      */
@@ -147,7 +145,7 @@ class ListingController extends Controller
 
 
     /**
-     * Display specified 
+     * Display specified
      */
     public function show($id)
     {
