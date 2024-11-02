@@ -8,6 +8,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Listing extends Model
 {
+
+
+    protected $fillable = [
+        'title',
+        'description',
+        'price',
+        'user_id',
+        'status_id',
+    ];
+
     public function visits()
     {
         return $this->hasMany(Visit::class);

@@ -40,27 +40,29 @@ Route::get('/menu', function () {
 Route::get('/admin', [ListingController::class, 'adminDashboard'])->name('admin');
 
 
+Route::patch('/api/listings/{id}', [ListingController::class, 'updateAdmin']);
 
 
 
+Route::middleware('auth')->group(function () {
+
+    // dodawanie i zapis nowego ogloszenia
+    Route::get('/listings/create', [ListingController::class, 'create'])->name('listings.create');
+    Route::post('/listings', [ListingController::class, 'store'])->name('listings.store');
+    //
+
+    //// edycja i zapis ogloszenia
+    Route::get('/listings/{id}/edit', [ListingController::class, 'edit'])->name('listings.edit');
+    Route::put('/listings/{id}', [ListingController::class, 'update'])->name('listings.update');
 
 
-
-
-
-
-////
-
-
-
-
-
-
+    Route::get('/checkout/{id}', [ListingController::class, 'checkout'])->name('listing.showCheckout');
+});
+///
 Route::get('/listings', [ListingController::class, 'index'])->name('listings');
 Route::get('/listing/{id}', [ListingController::class, 'show'])->name('listing');
 
 //Route::get('/checkout/{id}', [ListingController::class, 'checkout'])->name('listing.showCheckout');
-Route::get('/checkout/{id}', [ListingController::class, 'checkout'])->name('listing.showCheckout');
 
 
 
@@ -90,8 +92,6 @@ Route::get('/t', function () {
 
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
-
-
 
 
 

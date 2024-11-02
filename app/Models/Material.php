@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\DetailMaterial;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Material extends Model
 {
     public function material()
     {
 
-        return $this->hasMany(Material::class);
+        return $this->hasMany(DetailMaterial::class);
     }
 
     use HasFactory;

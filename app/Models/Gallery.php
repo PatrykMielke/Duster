@@ -7,5 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Gallery extends Model
 {
+    protected $fillable = [
+        'listing_id', // lub inne klucze powiązane
+        'image',      // dodaj to pole, aby umożliwić masowe przypisanie
+    ];
     use HasFactory;
 }

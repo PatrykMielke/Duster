@@ -1,8 +1,9 @@
 // resources/js/Pages/Listing/Listings.jsx
+import { Link } from "@inertiajs/react";
 
 import React, { useState } from 'react';
 
-function Table({ products }) {
+function Table({ products, statuses }) {
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
 
     // Funkcja do uzyskiwania zagnieżdżonych wartości z obiektu
@@ -10,14 +11,12 @@ function Table({ products }) {
         return path.split('.').reduce((acc, part) => acc && acc[part], obj);
     };
 
-    // Funkcja pomocnicza do sortowania
     const sortedProducts = React.useMemo(() => {
         if (sortConfig.key) {
             return [...products].sort((a, b) => {
                 const aValue = getNestedValue(a, sortConfig.key);
                 const bValue = getNestedValue(b, sortConfig.key);
 
-                // Obsługa sortowania dla stringów i liczb
                 if (typeof aValue === 'string') {
                     return (aValue.localeCompare(bValue)) * (sortConfig.direction === 'asc' ? 1 : -1);
                 } else {
@@ -28,7 +27,6 @@ function Table({ products }) {
         return products;
     }, [products, sortConfig]);
 
-    // Funkcja ustawiająca parametry sortowania
     const requestSort = (key) => {
         let direction = 'asc';
         if (sortConfig.key === key && sortConfig.direction === 'asc') {
@@ -86,12 +84,10 @@ function Table({ products }) {
                                 <td className="py-2 px-4 border-b text-gray-700">{new Date(listing.created_at).toLocaleDateString()}</td>
                                 <td className="py-2 px-4 border-b text-gray-700">{listing.status.name}</td>
                                 <td className="py-2 px-4 border-b text-gray-700">
-                                    <a
-                                        href={`/listings/${listing.id}`}
-                                        className="text-blue-500 hover:underline"
-                                    >
-                                        Szczegóły
-                                    </a>
+
+                                    {/* tutaj */}
+                                    <Link href={route('listings.edit', listing.id)}>Edytuj</Link>
+
                                 </td>
                             </tr>
                         ))}
