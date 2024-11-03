@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Listing({ product }) {
     // Check if the product has galleries and get the first image if available
-    const imageSrc = product.galleries.length > 0 ? product.galleries[0].image : 'default-image-url.jpg'; // Provide a default image URL if no images are available
+    const imageSrc = product.galleries.length > 0 ? product.galleries[0].image : 'storage/images/1.webp'; // Provide a default image URL if no images are available
 
     return (
         <div key={product.id} className="group relative">

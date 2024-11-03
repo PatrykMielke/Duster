@@ -21,7 +21,7 @@ class GallerySeeder extends Seeder
                 $rng = rand(1, 3);
                 Gallery::create([
                     'listing_id' => $listing->id,
-                    'image' => "/" . $rng . ".webp"
+                    'image' => "storage/images/" . $rng . ".webp"
                 ]);
             }
         }
