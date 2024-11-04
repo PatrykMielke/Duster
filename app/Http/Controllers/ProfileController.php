@@ -1,15 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
+use Auth;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Validation\Rules\Password;
 
 class ProfileController extends Controller
 {
@@ -64,4 +66,15 @@ class ProfileController extends Controller
     {
         return Inertia::render('Profile/wallet', []);
     }
+    public function updatePassword(Request $request){
+
+        $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', Password::defaults(), 'confirmed'],
+        ]);
+        $user = Auth::user();
+        $user->update(['password' => Hash::make($request->password)]);
+        return Redirect::route('profile.edit');
+    }
+
 }

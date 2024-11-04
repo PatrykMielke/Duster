@@ -6,6 +6,7 @@ use App\Models\Listing;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Schema;
 use App\Http\Controllers\ListingFollow;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\VisitController;
@@ -60,6 +61,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/checkout/{id}', [ListingController::class, 'checkout'])->name('listing.showCheckout');
 });
+
+
 ///
 Route::get('/listings', [ListingController::class, 'index'])->name('listings');
 Route::get('/listing/{id}', [ListingController::class, 'show'])->name('listing');
@@ -77,16 +80,7 @@ Route::post('/followed-listings', [ListingFollowController::class, 'store']);
 
 
 
-
-
-
-
-
 //// robocze
-
-
-
-
 
 Route::get('/twarde', function () {
     return Inertia::render('twarde');
@@ -127,10 +121,15 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::prefix('profile')->group(function () {
+        Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+        Route::put('/update-password',[ProfileController::class, 'updatePassword'])->name('profile.update-password');
+
+
+    });
 
     Route::get('/wallet', function () {
         return Inertia::render('Profile/Wallet');

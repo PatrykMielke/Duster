@@ -2,12 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Support\Str;
-
 use App\Models\Sex;
+
 use App\Models\Role;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Size;
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
 use App\Models\Brand;
 use App\Models\Color;
@@ -16,6 +15,7 @@ use App\Models\Status;
 use App\Models\Category;
 use App\Models\Material;
 use App\Models\Condition;
+use Illuminate\Support\Str;
 use App\Models\PaymentMethods;
 use App\Models\DeliveryMethods;
 use Database\Seeders\SexSeeder;
@@ -23,6 +23,7 @@ use Illuminate\Database\Seeder;
 use Database\Seeders\RoleSeeder;
 use Database\Seeders\DetailSeeder;
 use Database\Seeders\ListingSeeder;
+use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
 {
@@ -31,6 +32,7 @@ class DatabaseSeeder extends Seeder
          */
         public function run(): void
         {
+                //Schema::disableForeignKeyConstraints();
 
                 Brand::truncate();
                 Color::truncate();
@@ -44,6 +46,7 @@ class DatabaseSeeder extends Seeder
                 Sex::truncate();
                 Role::truncate();
 
+                //Schema::enableForeignKeyConstraints();
 
                 $this->call(BrandSeeder::class);
                 $this->call(ConditionSeeder::class);
