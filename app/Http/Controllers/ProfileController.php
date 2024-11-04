@@ -9,9 +9,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Validation\Rules\Password;
+use App\Http\Requests\NameUpdateRequest;
+use App\Http\Requests\EmailUpdateRequest;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 class ProfileController extends Controller
 {
@@ -29,10 +30,21 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function updateName(NameUpdateRequest $request): RedirectResponse
     {
+        $request->validate([
+            'name' => 'unique:users,name,' . $request->user()->id,
+        ]);
+
         $request->user()->fill($request->validated());
 
+        $request->user()->save();
+
+        return Redirect::route('profile.edit');
+    }
+    public function updateEmail(EmailUpdateRequest $request): RedirectResponse
+    {
+        $request->user()->fill($request->validated());
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
@@ -41,7 +53,6 @@ class ProfileController extends Controller
 
         return Redirect::route('profile.edit');
     }
-
     /**
      * Delete the user's account.
      */

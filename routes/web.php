@@ -123,7 +123,8 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('profile')->group(function () {
         Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
+        Route::patch('/update-name', [ProfileController::class, 'updateName'])->name('profile.updateName');
+        Route::patch('/update-email', [ProfileController::class, 'updateEmail'])->name('profile.updateEmail');
         Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
         Route::put('/update-password',[ProfileController::class, 'updatePassword'])->name('profile.update-password');
