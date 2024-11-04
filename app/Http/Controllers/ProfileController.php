@@ -1,15 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
+use Auth;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\Rules\Password;
+use App\Http\Requests\NameUpdateRequest;
+use App\Http\Requests\EmailUpdateRequest;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 class ProfileController extends Controller
 {
@@ -27,10 +30,21 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function updateName(NameUpdateRequest $request): RedirectResponse
     {
+        $request->validate([
+            'name' => 'unique:users,name,' . $request->user()->id,
+        ]);
+
         $request->user()->fill($request->validated());
 
+        $request->user()->save();
+
+        return Redirect::route('profile.edit');
+    }
+    public function updateEmail(EmailUpdateRequest $request): RedirectResponse
+    {
+        $request->user()->fill($request->validated());
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
@@ -39,7 +53,6 @@ class ProfileController extends Controller
 
         return Redirect::route('profile.edit');
     }
-
     /**
      * Delete the user's account.
      */
@@ -52,8 +65,7 @@ class ProfileController extends Controller
         $user = $request->user();
 
         Auth::logout();
-
-        $user->delete();
+        $user->update(['is_active' => false]);
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
@@ -64,4 +76,15 @@ class ProfileController extends Controller
     {
         return Inertia::render('Profile/wallet', []);
     }
+    public function updatePassword(Request $request){
+
+        $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', Password::defaults(), 'confirmed'],
+        ]);
+        $user = Auth::user();
+        $user->update(['password' => Hash::make($request->password)]);
+        return Redirect::route('profile.edit');
+    }
+
 }
