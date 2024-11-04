@@ -25,7 +25,7 @@ export default function UpdateProfileInformation({
     return (
         <form onSubmit={submit} className="mt-6 space-y-6">
             <div>
-                <InputLabel htmlFor="email" value="Email" />
+                <InputLabel htmlFor="email" value="Adres e-mail" />
 
                 <TextInput
                     id="email"
