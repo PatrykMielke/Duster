@@ -2,11 +2,12 @@
 
 namespace App\Http\Requests\Auth;
 
-use Illuminate\Auth\Events\Lockout;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\RateLimiter;
+use App\Models\User;
 use Illuminate\Support\Str;
+use Illuminate\Auth\Events\Lockout;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
 
 class LoginRequest extends FormRequest
@@ -29,6 +30,7 @@ class LoginRequest extends FormRequest
         return [
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
+
         ];
     }
 
@@ -41,7 +43,17 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+         // Get the user by email first to check if they are active
+         $user = User::where('email', $this->input('email'))->first();
+
+         // If the user exists and is inactive, throw a validation exception
+         if ($user && !$user->is_active) {
+             throw ValidationException::withMessages([
+                 'email' => trans('auth.failed'),
+             ]);
+         }
+
+        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'),)) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
