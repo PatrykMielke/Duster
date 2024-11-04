@@ -5,8 +5,11 @@ import TextInput from "@/Components/TextInput";
 import Layout from "@/Layouts/Layout";
 import { Head, useForm } from "@inertiajs/react";
 import { useState } from "react";
+import MultiSelectDropdown from "./MultiSelectDropdown";
+import SingleSelectDropdown from "./SingleSelectDropdown";
 
-export default function CreateListing({ users, statuses, colors, sizes, brands, materials, conditions, items, auth }) {
+
+export default function CreateListing({ statuses, colors, sizes, brands, materials, conditions, items, auth }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         title: "",
         description: "",
@@ -16,8 +19,8 @@ export default function CreateListing({ users, statuses, colors, sizes, brands, 
         condition_id: "",
         item_id: "",
         color_ids: [],
-        size_id: sizes[0]?.id || "",
-        brand_id: brands[0]?.id || "",
+        size_id: "",
+        brand_id: "",
         material_ids: [],
         images: []
     });
@@ -30,7 +33,7 @@ export default function CreateListing({ users, statuses, colors, sizes, brands, 
         formData.append("title", data.title);
         formData.append("description", data.description);
         formData.append("price", data.price);
-        formData.append("user_id", data.user_id); // This will now have the authenticated user's ID
+        formData.append("user_id", data.user_id);
         formData.append("status_id", data.status_id);
         formData.append("condition_id", data.condition_id);
         formData.append("item_id", data.item_id);
@@ -59,15 +62,6 @@ export default function CreateListing({ users, statuses, colors, sizes, brands, 
         setImagePreviews(previews);
     };
 
-    const handleColorChange = (e) => {
-        const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
-        setData("color_ids", selectedOptions);
-    };
-
-    const handleMaterialChange = (e) => {
-        const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
-        setData("material_ids", selectedOptions);
-    };
 
     return (
         <Layout>
@@ -121,148 +115,68 @@ export default function CreateListing({ users, statuses, colors, sizes, brands, 
 
 
                         {/* Status Selection */}
-                        <div className="mt-4">
-                            <InputLabel htmlFor="status_id" value="Status" />
-                            <select
-                                id="status_id"
-                                name="status_id"
-                                value={data.status_id}
-                                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                onChange={(e) => setData("status_id", e.target.value)}
-                                required
-                            >
-                                {statuses.map((status) => (
-                                    <option key={status.id} value={status.id}>
-                                        {status.name}
-                                    </option>
-                                ))}
-                            </select>
-                            <InputError message={errors.status_id} className="mt-2" />
-                        </div>
+                        <SingleSelectDropdown
+                            label="Status"
+                            options={statuses}
+                            selectedOption={data.status_id}
+                            onChange={(selectedId) => setData("status_id", selectedId)}
+                            errorMessage={errors.status_id}
+                        />
+
 
                         {/* Condition Selection */}
-                        <div className="mt-4">
-                            <InputLabel htmlFor="condition_id" value="Stan" />
-                            <select
-                                id="condition_id"
-                                name="condition_id"
-                                value={data.condition_id}
-                                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                onChange={(e) => setData("condition_id", e.target.value)}
-                                required
-                            >
-                                <option value="">Wybierz stan</option>
-                                {conditions.map((condition) => (
-                                    <option key={condition.id} value={condition.id}>
-                                        {condition.name}
-                                    </option>
-                                ))}
-                            </select>
-                            <InputError message={errors.condition_id} className="mt-2" />
-                        </div>
+                        <SingleSelectDropdown
+                            label="Stan"
+                            options={conditions}
+                            selectedOption={data.condition_id}
+                            onChange={(selectedId) => setData("condition_id", selectedId)}
+                            errorMessage={errors.condition_id}
+                        />
 
                         {/* Item Selection */}
-                        <div className="mt-4">
-                            <InputLabel htmlFor="item_id" value="Przedmiot" />
-                            <select
-                                id="item_id"
-                                name="item_id"
-                                value={data.item_id}
-                                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                onChange={(e) => setData("item_id", e.target.value)}
-                                required
-                            >
-                                <option value="">Wybierz przedmiot</option>
-                                {items.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                        {item.name}
-                                    </option>
-                                ))}
-                            </select>
-                            <InputError message={errors.item_id} className="mt-2" />
-                        </div>
+                        <SingleSelectDropdown
+                            label="Przedmiot"
+                            options={items}
+                            selectedOption={data.item_id}
+                            onChange={(selectedId) => setData("item_id", selectedId)}
+                            errorMessage={errors.item_id}
+                        />
 
                         {/* Color Selection */}
-                        <div className="mt-4">
-                            <InputLabel htmlFor="color_ids" value="Kolory" />
-                            <select
-                                id="color_ids"
-                                name="color_ids"
-                                multiple
-                                value={data.color_ids}
-                                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                onChange={handleColorChange}
-                                required
-                            >
-                                {colors.map((color) => (
-                                    <option key={color.id} value={color.id}>
-                                        {color.name}
-                                    </option>
-                                ))}
-                            </select>
-                            <InputError message={errors.color_ids} className="mt-2" />
-                        </div>
+                        <MultiSelectDropdown
+                            label="Kolory"
+                            options={colors}
+                            selectedOptions={data.color_ids}
+                            onChange={(selectedColors) => setData("color_ids", selectedColors)}
+                            errorMessage={errors.color_ids}
+                        />
 
                         {/* Size Selection */}
-                        <div className="mt-4">
-                            <InputLabel htmlFor="size_id" value="Rozmiar" />
-                            <select
-                                id="size_id"
-                                name="size_id"
-                                value={data.size_id}
-                                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                onChange={(e) => setData("size_id", e.target.value)}
-                                required
-                            >
-                                {sizes.map((size) => (
-                                    <option key={size.id} value={size.id}>
-                                        {size.name}
-                                    </option>
-                                ))}
-                            </select>
-                            <InputError message={errors.size_id} className="mt-2" />
-                        </div>
+                        <SingleSelectDropdown
+                            label="Rozmiar"
+                            options={sizes}
+                            selectedOption={data.size_id}
+                            onChange={(selectedId) => setData("size_id", selectedId)}
+                            errorMessage={errors.size_id}
+                        />
 
                         {/* Brand Selection */}
-                        <div className="mt-4">
-                            <InputLabel htmlFor="brand_id" value="Marka" />
-                            <select
-                                id="brand_id"
-                                name="brand_id"
-                                value={data.brand_id}
-                                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                onChange={(e) => setData("brand_id", e.target.value)}
-                                required
-                            >
-                                {brands.map((brand) => (
-                                    <option key={brand.id} value={brand.id}>
-                                        {brand.name}
-                                    </option>
-                                ))}
-                            </select>
-                            <InputError message={errors.brand_id} className="mt-2" />
-                        </div>
+                        <SingleSelectDropdown
+                            label="Marka"
+                            options={brands}
+                            selectedOption={data.brand_id}
+                            onChange={(selectedId) => setData("brand_id", selectedId)}
+                            errorMessage={errors.brand_id}
+                        />
 
                         {/* Material Selection */}
-                        <div className="mt-4">
-                            <InputLabel htmlFor="material_ids" value="Materiały" />
-                            <select
-                                id="material_ids"
-                                name="material_ids"
-                                multiple
-                                value={data.material_ids}
-                                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                onChange={handleMaterialChange}
-                                required
-                            >
-                                {materials.map((material) => (
-                                    <option key={material.id} value={material.id}>
-                                        {material.name}
-                                    </option>
-                                ))}
-                            </select>
-                            <InputError message={errors.material_ids} className="mt-2" />
-                        </div>
+                        <MultiSelectDropdown
+                            label="Materiał"
+                            options={materials}
+                            selectedOptions={data.material_ids}
+                            onChange={(selectedMaterials) => setData("material_ids", selectedMaterials)}
+                            errorMessage={errors.material_ids}
+                        />
 
                         {/* Images Field */}
                         <div className="mt-4">

@@ -62,7 +62,10 @@ class Listing extends Model
     {
         return $this->belongsTo(Status::class);
     }
-
+    public function followedBy()
+    {
+        return $this->hasMany(FollowedListing::class);
+    }
 
     use HasFactory;
 }

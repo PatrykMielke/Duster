@@ -59,7 +59,6 @@ class ListingController extends Controller
         $items = Item::all();
 
         return Inertia::render('Listing/Create', [
-            'users' => $users,
             'statuses' => $statuses,
             'colors' => $colors,
             'sizes' => $sizes,
@@ -77,7 +76,7 @@ class ListingController extends Controller
     public function store(Request $request): RedirectResponse
     {
         // Debugowanie danych wejściowych
-
+        dd($request->all());
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -96,16 +95,13 @@ class ListingController extends Controller
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
-        // Tworzenie rekordu ogłoszenia
         $listing = Listing::create($request->only('title', 'description', 'price', 'user_id', 'status_id'));
 
-        // Tworzenie rekordu szczegółów
         $detail = $listing->details()->create(array_merge(
             $request->only('item_id', 'size_id', 'brand_id', 'condition_id'),
             ['listing_id' => $listing->id]
         ));
 
-        // Łączenie kolorów i materiałów
         foreach ($request->color_ids as $color_id) {
             $detail->detailColor()->create([
                 'color_id' => $color_id,
@@ -120,11 +116,9 @@ class ListingController extends Controller
             ]);
         }
 
-        // Przetwarzanie i zapisywanie obrazów
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 try {
-                    // Zapis obrazu w `public/images`
                     $imagePath = $image->store('images', 'public');
 
                     // Zapis ścieżki do obrazu w bazie danych

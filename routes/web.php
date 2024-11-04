@@ -1,15 +1,17 @@
 <?php
 
-use App\Http\Controllers\ListingController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ProfileController;
-
 use App\Models\Sex;
 use Inertia\Inertia;
 use App\Models\Listing;
+
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\ListingFollow;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\VisitController;
+use App\Http\Controllers\ListingController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ListingFollowController;
 
 Route::get('/', function () {
     return Inertia::render('HomePage', [
@@ -66,6 +68,20 @@ Route::get('/listing/{id}', [ListingController::class, 'show'])->name('listing')
 
 
 
+// followed Listings list
+Route::get('followed-listings/{userId}', [ListingFollowController::class, 'index']);
+Route::post('/followed-listings', [ListingFollowController::class, 'store']);
+
+
+
+
+
+
+
+
+
+
+
 //// robocze
 
 
@@ -110,12 +126,16 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
     Route::get('/wallet', function () {
         return Inertia::render('Profile/Wallet');
     })->name('wallet');
+
     Route::get('/settings', function () {
         return Inertia::render('Profile/Settings');
     })->name('settings');
