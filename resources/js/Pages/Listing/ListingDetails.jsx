@@ -8,7 +8,7 @@ import Carousel from '@/Components/Carousel'
 import ToggleButton from './ReportButton'
 import OutlinedFlagSharpIcon from '@mui/icons-material/OutlinedFlagSharp';
 import { Link } from '@inertiajs/react'
-export default function Example({ listing, uniqueUserCount }) {
+export default function Example({ listing, uniqueUserCount, auth }) {
 
 
 
@@ -79,11 +79,11 @@ export default function Example({ listing, uniqueUserCount }) {
                         <ToggleButton
                             label={{ active: 'Zgłoś', inactive: 'Zgłoś' }}
                             icon={<OutlinedFlagSharpIcon />}
-                            color={{ active: 'error', inactive: 'rgb(107 114 128)' }} // Ustawienia kolorów
+                            color={{ active: 'error', inactive: 'rgb(107 114 128)' }}
                         />
 
 
-                        <ToggleFavoriteButton />
+                        <ToggleFavoriteButton listing={listing} auth={auth} />
 
                     </div>
 

@@ -70,7 +70,8 @@ Route::get('/listing/{id}', [ListingController::class, 'show'])->name('listing')
 
 // followed Listings list
 Route::get('followed-listings/{userId}', [ListingFollowController::class, 'index']);
-Route::post('/followed-listings', [ListingFollowController::class, 'store']);
+Route::post('/followed_listings', [ListingFollowController::class, 'store']);
+Route::get('/followed_listings/check', [ListingFollowController::class, 'check']);
 
 
 
