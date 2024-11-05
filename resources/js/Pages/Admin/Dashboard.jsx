@@ -75,7 +75,7 @@ const demoTheme = createTheme({
     },
 });
 
-function PageContent({ pathname }) {
+function PageContent({ pathname, products }) {
     switch (pathname) {
         case "/panel":
             return <DashboardSection component={<UserTable />} />;
@@ -98,7 +98,7 @@ PageContent.propTypes = {
     pathname: PropTypes.string.isRequired,
 };
 
-function DashboardLayoutBranding(props, { products }) {
+function DashboardLayoutBranding(props) {
     const { window } = props;
 
     const router = useDemoRouter("/panel");
@@ -119,7 +119,7 @@ function DashboardLayoutBranding(props, { products }) {
             window={demoWindow}
         >
             <DashboardLayout>
-                <PageContent pathname={router.pathname} />
+                <PageContent pathname={router.pathname} products={props.products} />
             </DashboardLayout>
         </AppProvider>
         // preview-end
