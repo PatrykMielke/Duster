@@ -39,6 +39,7 @@ Route::get('/ProductDetails', function () {
 Route::get('/admin', [ListingController::class, 'adminDashboard'])->name('admin');
 
 
+
 Route::patch('/api/listings/{id}', [ListingController::class, 'updateAdmin']);
 
 
