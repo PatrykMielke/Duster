@@ -16,8 +16,6 @@ import UserTable from "./Partials/UserTable";
 import DashboardSection from "./Partials/DashboardSection";
 import Table from "./Partials/Table";
 
-import Table from "./Partials/Table";
-
 const NAVIGATION = [
     {
         segment: "panel",
@@ -76,17 +74,23 @@ const demoTheme = createTheme({
     },
 });
 
-function PageContent({ pathname }) {
+function PageContent({ pathname, props }) {
     switch (pathname) {
         case "/panel":
             return <DashboardSection component={<UserTable />} />;
         case "/uzytkownicy":
-            return <DashboardSection component={<UserTable />} />;
+            return (
+                <DashboardSection
+                    component={<UserTable users={props.users} />}
+                />
+            );
         case "/skargi":
             return <DashboardSection component={<UserTable />} />;
         case "/ogloszenia":
             return (
-                <DashboardSection component={<Table products={products} />} />
+                <DashboardSection
+                    component={<Table products={props.products} />}
+                />
             );
         case "/zamowienia":
             return <DashboardSection component={<UserTable />} />;
@@ -101,10 +105,9 @@ PageContent.propTypes = {
     pathname: PropTypes.string.isRequired,
 };
 
-function DashboardLayoutBranding(props, { products }) {
+function DashboardLayoutBranding(props) {
     const { window } = props;
-
-    const router = useDemoRouter("/panel");
+    const router = useDemoRouter("/uzytkownicy");
 
     // Remove this const when copying and pasting into your project.
     const demoWindow = window !== undefined ? window() : undefined;
@@ -122,7 +125,7 @@ function DashboardLayoutBranding(props, { products }) {
             window={demoWindow}
         >
             <DashboardLayout>
-                <PageContent pathname={router.pathname} />
+                <PageContent pathname={router.pathname} props={props} />
             </DashboardLayout>
         </AppProvider>
         // preview-end
