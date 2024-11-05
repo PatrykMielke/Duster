@@ -15,6 +15,8 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import UserTable from "./Partials/UserTable";
 import DashboardSection from "./Partials/DashboardSection";
 
+import Table from "./Partials/Table";
+
 const NAVIGATION = [
     {
         segment: "panel",
@@ -82,7 +84,7 @@ function PageContent({ pathname }) {
         case "/skargi":
             return <DashboardSection component={<UserTable />} />;
         case "/ogloszenia":
-            return <DashboardSection component={<UserTable />} />;
+            return <DashboardSection component={<Table products={products} />} />;
         case "/zamowienia":
             return <DashboardSection component={<UserTable />} />;
         case "/faktury":
@@ -96,7 +98,7 @@ PageContent.propTypes = {
     pathname: PropTypes.string.isRequired,
 };
 
-function DashboardLayoutBranding(props) {
+function DashboardLayoutBranding(props, { products }) {
     const { window } = props;
 
     const router = useDemoRouter("/panel");
