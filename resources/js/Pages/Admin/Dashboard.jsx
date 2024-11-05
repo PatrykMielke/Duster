@@ -14,6 +14,7 @@ import ReportIcon from "@mui/icons-material/Report";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import UserTable from "./Partials/UserTable";
 import DashboardSection from "./Partials/DashboardSection";
+import Table from "./Partials/Table";
 
 const NAVIGATION = [
     {
@@ -82,7 +83,7 @@ function PageContent({ pathname }) {
         case "/skargi":
             return <DashboardSection component={<UserTable />} />;
         case "/ogloszenia":
-            return <DashboardSection component={<UserTable />} />;
+            return <DashboardSection component={<Table />} />;
         case "/zamowienia":
             return <DashboardSection component={<UserTable />} />;
         case "/faktury":
