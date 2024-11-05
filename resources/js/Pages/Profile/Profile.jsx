@@ -7,7 +7,7 @@ export default function Profile() {
 
     return (
         <Layout>
-            <div className="flex items-center border-b border-gray-300 p-4 bg-yellow-100 space-x-8">
+            <div className="flex items-center border-b border-gray-300 p-4  space-x-8">
 
                 {/* Sekcja zdjęcia profilowego po lewej */}
                 <div className="flex-shrink-0 border-r border-gray-300 pr-4">
@@ -36,12 +36,13 @@ export default function Profile() {
                             <span className="font-bold">30</span>
                             <p className="text-gray-600">Posts</p>
                         </div>
+
                     </div>
                 </div>
 
 
             </div>
-            <div className="self-end bg-red-100">
+            <div className="self-end ">
                 {/* Sekcja z zakładkami */}
 
                 <Tabs activeTab={activeTab} setActiveTab={setActiveTab} /> {/* Pass props */}

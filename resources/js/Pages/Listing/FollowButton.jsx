@@ -8,6 +8,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 export default function ToggleFavoriteButton({ listing, auth }) {
     const [isFavorite, setIsFavorite] = useState(false);
 
+    // Sprawdzanie, czy użytkownik obserwuje ogłoszenie przy ładowaniu komponentu
     useEffect(() => {
         const checkIfFavorite = async () => {
             try {
@@ -30,7 +31,6 @@ export default function ToggleFavoriteButton({ listing, auth }) {
 
     const submit = async (e) => {
         e.preventDefault();
-        setIsFavorite((prev) => !prev);
 
         const formData = {
             user_id: auth.user.id,
@@ -38,10 +38,19 @@ export default function ToggleFavoriteButton({ listing, auth }) {
         };
 
         try {
-            const response = await axios.post('/followed_listings', formData);
-            console.log('Odpowiedź z backendu:', response.data);
+            if (isFavorite) {
+                // Jeśli już obserwuje, wysyłamy żądanie DELETE, aby usunąć z obserwowanych
+                await axios.delete('/followed_listings', { data: formData });
+                setIsFavorite(false);
+                console.log('Ogłoszenie usunięte z obserwowanych.');
+            } else {
+                // Jeśli jeszcze nie obserwuje, wysyłamy żądanie POST, aby dodać do obserwowanych
+                await axios.post('/followed_listings', formData);
+                setIsFavorite(true);
+                console.log('Ogłoszenie dodane do obserwowanych.');
+            }
         } catch (error) {
-            console.error('Błąd podczas wysyłania danych:', error);
+            console.error('Błąd podczas aktualizacji obserwacji:', error);
         }
     };
 

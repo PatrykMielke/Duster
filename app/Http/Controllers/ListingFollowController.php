@@ -12,8 +12,10 @@ class ListingFollowController extends Controller
     public function index($userId)
     {
         $followedListings = FollowedListing::where('user_id', $userId)->with('listing')->get();
-
-        return response()->json($followedListings);
+        // Pass followed listings to the view or Inertia component
+        return inertia('Profile/FollowedListings', [
+            'followed_listings' => $followedListings
+        ]);
     }
 
     public function store(Request $request)
@@ -53,10 +55,17 @@ class ListingFollowController extends Controller
 
 
 
-    public function destroy($userId)
+    public function destroy(Request $request)
     {
-        $followedListings = FollowedListing::where('user_id', $userId)->with('listing')->get();
+        $validatedData = $request->validate([
+            'listing_id' => 'required|integer|exists:listings,id',
+            'user_id' => 'required|integer|exists:users,id',
+        ]);
 
-        return;
+        FollowedListing::where('listing_id', $validatedData['listing_id'])
+            ->where('user_id', $validatedData['user_id'])
+            ->delete();
+
+        return response()->json(['message' => 'Unfollowed successfully']);
     }
 }

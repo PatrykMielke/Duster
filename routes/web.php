@@ -33,10 +33,6 @@ Route::get('/ProductDetails', function () {
 })->name('products');
 
 
-// Profil uistawienia
-Route::get('/menu', function () {
-    return Inertia::render('Profile/Profile');
-})->name('menu');
 
 
 //
@@ -52,14 +48,19 @@ Route::middleware('auth')->group(function () {
     // dodawanie i zapis nowego ogloszenia
     Route::get('/listings/create', [ListingController::class, 'create'])->name('listings.create');
     Route::post('/listings', [ListingController::class, 'store'])->name('listings.store');
-    //
-
     //// edycja i zapis ogloszenia
     Route::get('/listings/{id}/edit', [ListingController::class, 'edit'])->name('listings.edit');
     Route::put('/listings/{id}', [ListingController::class, 'update'])->name('listings.update');
 
 
     Route::get('/checkout/{id}', [ListingController::class, 'checkout'])->name('listing.showCheckout');
+
+
+
+    // Profil uistawienia
+    Route::get('/menu', function () {
+        return Inertia::render('Profile/Profile');
+    })->name('menu');
 });
 
 
@@ -71,10 +72,11 @@ Route::get('/listing/{id}', [ListingController::class, 'show'])->name('listing')
 
 
 
-// followed Listings list
+// obserwowanie ogloszen
 Route::get('followed-listings/{userId}', [ListingFollowController::class, 'index']);
-Route::post('/followed_listings', [ListingFollowController::class, 'store']);
 Route::get('/followed_listings/check', [ListingFollowController::class, 'check']);
+Route::post('/followed_listings', [ListingFollowController::class, 'store']);
+Route::delete('/followed_listings', [ListingFollowController::class, 'destroy']);
 
 
 
@@ -128,9 +130,7 @@ Route::middleware('auth')->group(function () {
         Route::patch('/update-email', [ProfileController::class, 'updateEmail'])->name('profile.updateEmail');
         Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-        Route::put('/update-password',[ProfileController::class, 'updatePassword'])->name('profile.update-password');
-
-
+        Route::put('/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
     });
 
     Route::get('/wallet', function () {

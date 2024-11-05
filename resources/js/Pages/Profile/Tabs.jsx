@@ -9,6 +9,8 @@ const Tabs = ({ activeTab, setActiveTab }) => {
         { id: 'listings', label: 'Twoje ogłoszenia', icon: <AccountBoxIcon /> },
         { id: 'settings', label: 'Ustawienia', icon: <SettingsIcon /> },
         { id: 'wallet', label: 'Portfel', icon: <WalletIcon /> },
+        { id: 'followed', label: 'Obserwowane', icon: <WalletIcon /> },
+
     ];
 
     return (
