@@ -75,12 +75,12 @@ const demoTheme = createTheme({
     },
 });
 
-function PageContent({ pathname, products }) {
+function PageContent({ pathname, products, users }) {
     switch (pathname) {
         case "/panel":
             return <DashboardSection component={<UserTable />} />;
         case "/uzytkownicy":
-            return <DashboardSection component={<UserTable />} />;
+            return <DashboardSection component={<UserTable users={users} />} />;
         case "/skargi":
             return <DashboardSection component={<UserTable />} />;
         case "/ogloszenia":
@@ -100,7 +100,6 @@ PageContent.propTypes = {
 
 function DashboardLayoutBranding(props) {
     const { window } = props;
-
     const router = useDemoRouter("/panel");
 
     // Remove this const when copying and pasting into your project.
@@ -119,7 +118,7 @@ function DashboardLayoutBranding(props) {
             window={demoWindow}
         >
             <DashboardLayout>
-                <PageContent pathname={router.pathname} products={props.products} />
+                <PageContent pathname={router.pathname} products={props.products} users={props.users} />
             </DashboardLayout>
         </AppProvider>
         // preview-end

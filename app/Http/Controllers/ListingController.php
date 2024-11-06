@@ -39,9 +39,10 @@ class ListingController extends Controller
     {
         // WSZYSTKIE OGLOSZENIA
         $listings = Listing::with(['user', 'galleries', 'status'])->orderBy('created_at', 'desc')->get();
-
+        $users = User::all();
         return Inertia::render('Admin/Dashboard', [
             'products' => $listings,
+            'users' => $users
         ]);
     }
     /** 

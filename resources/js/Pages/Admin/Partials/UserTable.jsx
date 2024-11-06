@@ -48,7 +48,8 @@ const paginationModel = {
     hidePrevButton: true,
 };
 
-export default function DataTable() {
+export default function DataTable({ users }) {
+    console.log(users);
     return (
         <Paper sx={{ width: "100%" }}>
             <DataGrid
