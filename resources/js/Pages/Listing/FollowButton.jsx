@@ -8,8 +8,10 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 export default function ToggleFavoriteButton({ listing, auth }) {
     const [isFavorite, setIsFavorite] = useState(false);
 
-    // Sprawdzanie, czy użytkownik obserwuje ogłoszenie przy ładowaniu komponentu
     useEffect(() => {
+        // Sprawdzanie, czy użytkownik jest zalogowany
+        if (!auth?.user?.id) return;
+
         const checkIfFavorite = async () => {
             try {
                 const response = await axios.get(`/followed_listings/check`, {
@@ -27,10 +29,16 @@ export default function ToggleFavoriteButton({ listing, auth }) {
         };
 
         checkIfFavorite();
-    }, [auth.user.id, listing.id]);
+    }, [auth?.user?.id, listing.id]);
 
     const submit = async (e) => {
         e.preventDefault();
+
+        // Sprawdzanie, czy użytkownik jest zalogowany przed dalszą akcją
+        if (!auth?.user?.id) {
+            console.warn('Użytkownik nie jest zalogowany');
+            return;
+        }
 
         const formData = {
             user_id: auth.user.id,
@@ -39,12 +47,10 @@ export default function ToggleFavoriteButton({ listing, auth }) {
 
         try {
             if (isFavorite) {
-                // Jeśli już obserwuje, wysyłamy żądanie DELETE, aby usunąć z obserwowanych
                 await axios.delete('/followed_listings', { data: formData });
                 setIsFavorite(false);
                 console.log('Ogłoszenie usunięte z obserwowanych.');
             } else {
-                // Jeśli jeszcze nie obserwuje, wysyłamy żądanie POST, aby dodać do obserwowanych
                 await axios.post('/followed_listings', formData);
                 setIsFavorite(true);
                 console.log('Ogłoszenie dodane do obserwowanych.');
@@ -53,6 +59,11 @@ export default function ToggleFavoriteButton({ listing, auth }) {
             console.error('Błąd podczas aktualizacji obserwacji:', error);
         }
     };
+
+    // Wyświetl informację lub ukryj przycisk, jeśli użytkownik nie jest zalogowany
+    if (!auth?.user?.id) {
+        return null; // lub możesz zwrócić placeholder, np. <div>Zaloguj się, aby obserwować</div>
+    }
 
     return (
         <BottomNavigation
