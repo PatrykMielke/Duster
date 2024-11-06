@@ -41,6 +41,27 @@ const rows = [
     { id: 9, email: "Roxie", name: "Harvey", age: 65 },
 ];
 
+const getUsers = (userList) => {
+    let lista = [];
+    let user;
+    userList.forEach((user) => {
+        user = {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            last_activity: new Date(
+                user.session?.last_activity,
+            ).toLocaleDateString("pl-PL", {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+            }),
+        };
+        lista.push(user);
+    });
+    return lista;
+};
+
 const paginationModel = {
     page: 0,
     pageSize: 5,
@@ -49,11 +70,11 @@ const paginationModel = {
 };
 
 export default function DataTable({ users }) {
-    console.log(users);
+    console.log(getUsers(users));
     return (
         <Paper sx={{ width: "100%" }}>
             <DataGrid
-                rows={rows}
+                rows={getUsers(users)}
                 columns={columns}
                 initialState={{ pagination: { paginationModel } }}
                 pageSizeOptions={[5, 10, 20]}

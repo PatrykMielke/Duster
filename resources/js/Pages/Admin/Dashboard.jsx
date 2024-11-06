@@ -14,7 +14,6 @@ import ReportIcon from "@mui/icons-material/Report";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import UserTable from "./Partials/UserTable";
 import DashboardSection from "./Partials/DashboardSection";
-
 import Table from "./Partials/Table";
 
 const NAVIGATION = [
@@ -75,16 +74,24 @@ const demoTheme = createTheme({
     },
 });
 
-function PageContent({ pathname, products, users }) {
+function PageContent({ pathname, props }) {
     switch (pathname) {
         case "/panel":
             return <DashboardSection component={<UserTable />} />;
         case "/uzytkownicy":
-            return <DashboardSection component={<UserTable users={users} />} />;
+            return (
+                <DashboardSection
+                    component={<UserTable users={props.users} />}
+                />
+            );
         case "/skargi":
             return <DashboardSection component={<UserTable />} />;
         case "/ogloszenia":
-            return <DashboardSection component={<Table products={products} />} />;
+            return (
+                <DashboardSection
+                    component={<Table products={props.products} />}
+                />
+            );
         case "/zamowienia":
             return <DashboardSection component={<UserTable />} />;
         case "/faktury":
@@ -100,7 +107,7 @@ PageContent.propTypes = {
 
 function DashboardLayoutBranding(props) {
     const { window } = props;
-    const router = useDemoRouter("/panel");
+    const router = useDemoRouter("/uzytkownicy");
 
     // Remove this const when copying and pasting into your project.
     const demoWindow = window !== undefined ? window() : undefined;
@@ -118,7 +125,7 @@ function DashboardLayoutBranding(props) {
             window={demoWindow}
         >
             <DashboardLayout>
-                <PageContent pathname={router.pathname} products={props.products} users={props.users} />
+                <PageContent pathname={router.pathname} props={props} />
             </DashboardLayout>
         </AppProvider>
         // preview-end

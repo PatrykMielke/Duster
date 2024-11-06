@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Storage;
-
 use App\Models\Item;
+
 use App\Models\Size;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Brand;
 use App\Models\Color;
+use Inertia\Response;
 use App\Models\Detail;
 use App\Models\Status;
 use App\Models\Listing;
 use App\Models\Material;
 use App\Models\Condition;
 use Illuminate\Http\Request;
+use calculateLastActivityDate;
 use Illuminate\Http\RedirectResponse;
-use Inertia\Response;
+use Illuminate\Support\Facades\Storage;
 
 class ListingController extends Controller
 {
@@ -39,13 +40,23 @@ class ListingController extends Controller
     {
         // WSZYSTKIE OGLOSZENIA
         $listings = Listing::with(['user', 'galleries', 'status'])->orderBy('created_at', 'desc')->get();
-        $users = User::all();
+
+        //
+        $users = User::with(['role', 'session'])->get();
+
+        $users->each(function ($user) {
+            if (isset($user->session->last_activity)) {
+                $user->session->last_activity = CalculateDatesController::getLastActivity($user->session->last_activity);
+            }
+        });
+
+        //dd($users);
         return Inertia::render('Admin/Dashboard', [
             'products' => $listings,
-            'users' => $users
+            'users' => $users,
         ]);
     }
-    /** 
+    /**
      * Show the form for creating a new resource.
      */
     public function create()
