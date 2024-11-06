@@ -9,7 +9,6 @@ export default function ToggleFavoriteButton({ listing, auth }) {
     const [isFavorite, setIsFavorite] = useState(false);
 
     useEffect(() => {
-        // Sprawdzanie, czy użytkownik jest zalogowany
         if (!auth?.user?.id) return;
 
         const checkIfFavorite = async () => {
@@ -34,9 +33,7 @@ export default function ToggleFavoriteButton({ listing, auth }) {
     const submit = async (e) => {
         e.preventDefault();
 
-        // Sprawdzanie, czy użytkownik jest zalogowany przed dalszą akcją
         if (!auth?.user?.id) {
-            console.warn('Użytkownik nie jest zalogowany');
             return;
         }
 
@@ -60,9 +57,8 @@ export default function ToggleFavoriteButton({ listing, auth }) {
         }
     };
 
-    // Wyświetl informację lub ukryj przycisk, jeśli użytkownik nie jest zalogowany
     if (!auth?.user?.id) {
-        return null; // lub możesz zwrócić placeholder, np. <div>Zaloguj się, aby obserwować</div>
+        return null;
     }
 
     return (
