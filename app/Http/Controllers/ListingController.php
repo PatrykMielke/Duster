@@ -42,10 +42,10 @@ class ListingController extends Controller
         $listings = Listing::with(['user', 'galleries', 'status'])->orderBy('created_at', 'desc')->get();
 
         //
-        $users = User::with(['role','session'])->get();
+        $users = User::with(['role', 'session'])->get();
 
         $users->each(function ($user) {
-            if(isset($user->session->last_activity)){
+            if (isset($user->session->last_activity)) {
                 $user->session->last_activity = CalculateDatesController::getLastActivity($user->session->last_activity);
             }
         });
