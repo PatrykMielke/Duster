@@ -24,9 +24,9 @@ Route::get('/', function () {
 })->name('index');
 
 
-Route::get('/HomePage', function () {
-    return Inertia::render('HomePage');
-})->name('HomePage');
+Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
+
+
 
 Route::get('/ProductDetails', function () {
     return Inertia::render('ProductDetails');
@@ -35,7 +35,7 @@ Route::get('/ProductDetails', function () {
 
 
 
-//
+//ADMIN
 Route::get('/admin', [ListingController::class, 'adminDashboard'])->name('admin');
 
 
@@ -58,8 +58,8 @@ Route::middleware('auth')->group(function () {
 
 
 
-    // Profil uistawienia
-    Route::get('/menu', function () {
+    // Profil ustawienia
+    Route::get('/profile/', function () {
         return Inertia::render('Profile/Profile');
     })->name('menu');
 });

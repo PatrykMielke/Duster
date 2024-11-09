@@ -25,7 +25,15 @@ class NameUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255',Rule::unique(User::class)->ignore($this->user()->id),],
-
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'name.unique' => 'Nazwa jest już zajęta',
+            'name.required' => 'Nazwa jest wymagana',
+            'name.string' => 'Nazwa musi być ciągiem znaków',
+            'name.max' => 'Nazwa nie może być dłuższa niż 255 znaków',
         ];
     }
 }

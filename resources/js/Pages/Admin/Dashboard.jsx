@@ -15,6 +15,10 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import UserTable from "./Partials/UserTable";
 import DashboardSection from "./Partials/DashboardSection";
 import Table from "./Partials/Table";
+import DashboardSegment from "./Partials/DashobardSegment";
+import ReportTable from "./Partials/ReportTable";
+import OrderTable from "./Partials/OrderTable";
+import InvoiceTable from "./Partials/InvoiceTable";
 
 const NAVIGATION = [
     {
@@ -77,7 +81,7 @@ const demoTheme = createTheme({
 function PageContent({ pathname, props }) {
     switch (pathname) {
         case "/panel":
-            return <DashboardSection component={<UserTable />} />;
+            return <DashboardSection component={<DashboardSegment />} />;
         case "/uzytkownicy":
             return (
                 <DashboardSection
@@ -85,7 +89,7 @@ function PageContent({ pathname, props }) {
                 />
             );
         case "/skargi":
-            return <DashboardSection component={<UserTable />} />;
+            return <DashboardSection component={<ReportTable />} />;
         case "/ogloszenia":
             return (
                 <DashboardSection
@@ -93,9 +97,9 @@ function PageContent({ pathname, props }) {
                 />
             );
         case "/zamowienia":
-            return <DashboardSection component={<UserTable />} />;
+            return <DashboardSection component={<OrderTable />} />;
         case "/faktury":
-            return <DashboardSection component={<UserTable />} />;
+            return <DashboardSection component={<InvoiceTable />} />;
         default:
             console.log("error");
     }

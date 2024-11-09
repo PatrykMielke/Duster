@@ -1,14 +1,18 @@
 // resources/js/Pages/Listing/Listings.jsx
+import ApplicationLogo from "@/Components/ApplicationLogo";
 import { Link } from "@inertiajs/react";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 function Table({ products, statuses }) {
-    const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+    const [sortConfig, setSortConfig] = useState({
+        key: null,
+        direction: "asc",
+    });
 
     // Funkcja do uzyskiwania zagnieżdżonych wartości z obiektu
     const getNestedValue = (obj, path) => {
-        return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+        return path.split(".").reduce((acc, part) => acc && acc[part], obj);
     };
 
     const sortedProducts = React.useMemo(() => {
@@ -17,10 +21,16 @@ function Table({ products, statuses }) {
                 const aValue = getNestedValue(a, sortConfig.key);
                 const bValue = getNestedValue(b, sortConfig.key);
 
-                if (typeof aValue === 'string') {
-                    return (aValue.localeCompare(bValue)) * (sortConfig.direction === 'asc' ? 1 : -1);
+                if (typeof aValue === "string") {
+                    return (
+                        aValue.localeCompare(bValue) *
+                        (sortConfig.direction === "asc" ? 1 : -1)
+                    );
                 } else {
-                    return (aValue - bValue) * (sortConfig.direction === 'asc' ? 1 : -1);
+                    return (
+                        (aValue - bValue) *
+                        (sortConfig.direction === "asc" ? 1 : -1)
+                    );
                 }
             });
         }
@@ -28,9 +38,9 @@ function Table({ products, statuses }) {
     }, [products, sortConfig]);
 
     const requestSort = (key) => {
-        let direction = 'asc';
-        if (sortConfig.key === key && sortConfig.direction === 'asc') {
-            direction = 'desc';
+        let direction = "asc";
+        if (sortConfig.key === key && sortConfig.direction === "asc") {
+            direction = "desc";
         }
         setSortConfig({ key, direction });
     };
@@ -44,50 +54,94 @@ function Table({ products, statuses }) {
                         <tr>
                             <th
                                 className="py-2 px-4 border-b font-semibold text-gray-600 cursor-pointer"
-                                onClick={() => requestSort('id')}
+                                onClick={() => requestSort("id")}
                             >
-                                ID {sortConfig.key === 'id' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
+                                ID{" "}
+                                {sortConfig.key === "id"
+                                    ? sortConfig.direction === "asc"
+                                        ? "↑"
+                                        : "↓"
+                                    : ""}
                             </th>
                             <th
                                 className="py-2 px-4 border-b font-semibold text-gray-600 cursor-pointer"
-                                onClick={() => requestSort('title')}
+                                onClick={() => requestSort("title")}
                             >
-                                Tytuł {sortConfig.key === 'title' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
+                                Tytuł{" "}
+                                {sortConfig.key === "title"
+                                    ? sortConfig.direction === "asc"
+                                        ? "↑"
+                                        : "↓"
+                                    : ""}
                             </th>
                             <th
                                 className="py-2 px-4 border-b font-semibold text-gray-600 cursor-pointer"
-                                onClick={() => requestSort('price')}
+                                onClick={() => requestSort("price")}
                             >
-                                Cena {sortConfig.key === 'price' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
+                                Cena{" "}
+                                {sortConfig.key === "price"
+                                    ? sortConfig.direction === "asc"
+                                        ? "↑"
+                                        : "↓"
+                                    : ""}
                             </th>
                             <th
                                 className="py-2 px-4 border-b font-semibold text-gray-600 cursor-pointer"
-                                onClick={() => requestSort('created_at')}
+                                onClick={() => requestSort("created_at")}
                             >
-                                Data utworzenia {sortConfig.key === 'created_at' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
+                                Data utworzenia{" "}
+                                {sortConfig.key === "created_at"
+                                    ? sortConfig.direction === "asc"
+                                        ? "↑"
+                                        : "↓"
+                                    : ""}
                             </th>
                             <th
                                 className="py-2 px-4 border-b font-semibold text-gray-600 cursor-pointer"
-                                onClick={() => requestSort('status.name')}
+                                onClick={() => requestSort("status.name")}
                             >
-                                Status {sortConfig.key === 'status.name' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
+                                Status{" "}
+                                {sortConfig.key === "status.name"
+                                    ? sortConfig.direction === "asc"
+                                        ? "↑"
+                                        : "↓"
+                                    : ""}
                             </th>
-                            <th className="py-2 px-4 border-b font-semibold text-gray-600">Akcje</th>
+                            <th className="py-2 px-4 border-b font-semibold text-gray-600">
+                                Akcje
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         {sortedProducts.map((listing) => (
                             <tr key={listing.id} className="hover:bg-gray-100">
-                                <td className="py-2 px-4 border-b text-gray-700">{listing.id}</td>
-                                <td className="py-2 px-4 border-b text-gray-700">{listing.title}</td>
-                                <td className="py-2 px-4 border-b text-gray-700">{listing.price} zł</td>
-                                <td className="py-2 px-4 border-b text-gray-700">{new Date(listing.created_at).toLocaleDateString()}</td>
-                                <td className="py-2 px-4 border-b text-gray-700">{listing.status.name}</td>
                                 <td className="py-2 px-4 border-b text-gray-700">
-
+                                    {listing.id}
+                                </td>
+                                <td className="py-2 px-4 border-b text-gray-700">
+                                    {listing.title}
+                                </td>
+                                <td className="py-2 px-4 border-b text-gray-700">
+                                    {listing.price} zł
+                                </td>
+                                <td className="py-2 px-4 border-b text-gray-700">
+                                    {new Date(
+                                        listing.created_at,
+                                    ).toLocaleDateString()}
+                                </td>
+                                <td className="py-2 px-4 border-b text-gray-700">
+                                    {listing.status.name}
+                                </td>
+                                <td className="py-2 px-4 border-b text-gray-700">
                                     {/* tutaj */}
-                                    <Link href={route('listings.edit', listing.id)}>Edytuj</Link>
-
+                                    <Link
+                                        href={route(
+                                            "listings.edit",
+                                            listing.id,
+                                        )}
+                                    >
+                                        Edytuj
+                                    </Link>
                                 </td>
                             </tr>
                         ))}

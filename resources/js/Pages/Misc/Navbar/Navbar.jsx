@@ -3,17 +3,14 @@ import Example from "../../../Components/DropDownButton";
 import CategoryItems from "./Partials/CategoryItems";
 import Login from "./Partials/Login";
 import { Fragment, useState } from "react";
-import {
-    Bars3Icon,
-} from "@heroicons/react/24/outline";
+import { Bars3Icon } from "@heroicons/react/24/outline";
 import MobileCategoryList from "./Partials/MobileCategoryList";
 
 import Searchbar from "./Partials/Searchbar";
 import ProfileDropdown from "./Partials/ProfileDropdown";
 import CurrencyDropdown from "./Partials/CurrencyDropdown";
 import Logo from "./Partials/Logo";
-import { Link, usePage } from '@inertiajs/react';
-
+import { Link, usePage } from "@inertiajs/react";
 
 export default function Navbar(props) {
     const [open, setOpen] = useState(false);
@@ -49,27 +46,19 @@ export default function Navbar(props) {
                                 <CategoryItems navigation={navigation} />
 
                                 <div className="ml-auto flex items-center">
-
                                     {user ? ( // Logged In view
+                                        <></>
+                                    ) : (
+                                        // Guest view
                                         <>
-
-                                        </>
-                                    ) : (// Guest view
-                                        <>
-                                            < Login />
+                                            <Login />
                                         </>
                                     )}
-
-
-
-
-
 
                                     <Searchbar />
                                     <CurrencyDropdown />
                                     <Example />
                                     <ProfileDropdown />
-
                                 </div>
                             </div>
                         </div>
@@ -79,7 +68,6 @@ export default function Navbar(props) {
         </>
     );
 }
-
 
 const navigation = {
     categories: [
@@ -221,4 +209,3 @@ const navigation = {
         { name: "Stores", href: "#" },
     ], */
 };
-

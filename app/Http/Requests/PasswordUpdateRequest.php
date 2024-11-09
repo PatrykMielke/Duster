@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\User;
-use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Foundation\Http\FormRequest;
 
-class EmailUpdateRequest extends FormRequest
+class PasswordUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,23 +23,18 @@ class EmailUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique(User::class)->ignore($this->user()->id),
-            ],
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required','min:8', Password::defaults(), 'confirmed'],
+
         ];
     }
-
     public function messages(): array
     {
         return [
-            'email.unique' => 'Adres e-mail jest już zajęty.',
-            'email.required' => 'Adres e-mail jest wymagany.',
-            'email.email' => 'Adres e-mail nie jest poprawny.',
-            'email.max' => 'Adres e-mail jest zbyt długi.',
+            'password.required' => 'Hasło jest wymagane.',
+            'password.min' => 'Hasło musi zawierać przynajmniej 8 znaków.',
+            'current_password' => 'Hasło niepoprawne.',
+            'password.confirmed' => 'Hasła się nie zgadzają.',
         ];
     }
 }

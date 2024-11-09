@@ -8,10 +8,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Validation\Rules\Password;
 use App\Http\Requests\NameUpdateRequest;
+use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\EmailUpdateRequest;
+use Illuminate\Validation\Rules\Password;
+use App\Http\Requests\PasswordUpdateRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 class ProfileController extends Controller
@@ -26,15 +27,18 @@ class ProfileController extends Controller
             'status' => session('status'),
         ]);
     }
+    public function show(Request $request){
 
+        return Inertia::render('Profile/Profile', [
+            'user' => $request->id,
+        ]);
+    }
     /**
      * Update the user's profile information.
      */
     public function updateName(NameUpdateRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => 'unique:users,name,' . $request->user()->id,
-        ]);
+
 
         $request->user()->fill($request->validated());
 
@@ -76,12 +80,11 @@ class ProfileController extends Controller
     {
         return Inertia::render('Profile/wallet', []);
     }
-    public function updatePassword(Request $request){
+    public function updatePassword(PasswordUpdateRequest $request)
+    {
 
-        $request->validate([
-            'current_password' => ['required', 'current_password'],
-            'password' => ['required', Password::defaults(), 'confirmed'],
-        ]);
+        $request->user()->fill($request->validated());
+
         $user = Auth::user();
         $user->update(['password' => Hash::make($request->password)]);
         return Redirect::route('profile.edit');

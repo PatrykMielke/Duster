@@ -22,10 +22,10 @@ export default function Example() {
                 <div className="py-1">
                     <MenuItem>
                         <Link
-                            href={route("HomePage")} // Laravel route helper, przekierowanie do trasy /qq
+                            href={route("index")} // Laravel route helper, przekierowanie do trasy /qq
                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                         >
-                            HomePage
+                            Strona główna
                         </Link>
                     </MenuItem>
 
@@ -34,23 +34,24 @@ export default function Example() {
                             href={route("index")} // Laravel route helper, przekierowanie do trasy /qq
                             className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
                         >
-                            /                        </Link>
-                    </MenuItem>
-
-
-                    <MenuItem>
-                        <Link
-                            href={route('listings')} // Laravel route helper, przekierowanie do trasy /qq
-                            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
-                        >
-                            Listings
+                            /{" "}
                         </Link>
                     </MenuItem>
-                    <a className="block px-4 py-2 text-sm text-red-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 "
-                    >ROBOCZE</a>
+
                     <MenuItem>
                         <Link
-                            href={route('twarde')} // Laravel route helper, przekierowanie do trasy /qq
+                            href={route("listings")} // Laravel route helper, przekierowanie do trasy /qq
+                            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
+                        >
+                            Ogłoszenia
+                        </Link>
+                    </MenuItem>
+                    <a className="block px-4 py-2 text-sm text-red-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 ">
+                        ROBOCZE
+                    </a>
+                    <MenuItem>
+                        <Link
+                            href={route("twarde")} // Laravel route helper, przekierowanie do trasy /qq
                             className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
                         >
                             twarde
@@ -58,7 +59,7 @@ export default function Example() {
                     </MenuItem>
                     <MenuItem>
                         <Link
-                            href={route('tes')} // Laravel route helper, przekierowanie do trasy /qq
+                            href={route("tes")} // Laravel route helper, przekierowanie do trasy /qq
                             className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
                         >
                             tes
@@ -66,7 +67,7 @@ export default function Example() {
                     </MenuItem>
                     <MenuItem>
                         <Link
-                            href={route('t')} // Laravel route helper, przekierowanie do trasy /qq
+                            href={route("t")} // Laravel route helper, przekierowanie do trasy /qq
                             className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
                         >
                             t

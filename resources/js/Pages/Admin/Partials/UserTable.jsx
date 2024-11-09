@@ -29,21 +29,8 @@ const columns = [
     }, */
 ];
 
-const rows = [
-    { id: 1, email: "Snow", name: "Jon", age: 35 },
-    { id: 2, email: "Lannister", name: "Cersei", age: 42 },
-    { id: 3, email: "Lannister", name: "Jaime", age: 45 },
-    { id: 4, email: "Stark", name: "Arya", age: 16 },
-    { id: 5, email: "Targaryen", name: "Daenerys", age: null },
-    { id: 6, email: "Melisandre", name: null, age: 150 },
-    { id: 7, email: "Clifford", name: "Ferrara", age: 44 },
-    { id: 8, email: "Frances", name: "Rossini", age: 36 },
-    { id: 9, email: "Roxie", name: "Harvey", age: 65 },
-];
-
 const getUsers = (userList) => {
     let lista = [];
-    let user;
     userList.forEach((user) => {
         user = {
             id: user.id,
@@ -56,6 +43,7 @@ const getUsers = (userList) => {
                 minute: "2-digit",
                 second: "2-digit",
             }),
+            role: user.role.name,
         };
         lista.push(user);
     });

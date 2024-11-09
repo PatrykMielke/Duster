@@ -6,7 +6,7 @@ function Search(props) {
         <div className="flex flex-col items-center justify-center h-[80vh]">
             {/* Heading */}
             <h1 className="text-4xl font-bold text-gray-900 mb-8">
-                Find what you're looking for
+                Znajdź to czego szukasz!
             </h1>
 
             {/* Search Bar */}
@@ -26,7 +26,7 @@ function Search(props) {
                         type="submit"
                         className="absolute inset-y-0 right-0 flex items-center rounded-full bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     >
-                        Search
+                        Szukaj
                     </button>
                 </div>
             </form>
@@ -48,7 +48,7 @@ export default function HomePage() {
     };
 
     return (
-        <Layout title="Welcome to My App">
+        <Layout title="Duster">
             <Search
                 searchQuery={searchQuery}
                 handleSearchChange={handleSearchChange}
