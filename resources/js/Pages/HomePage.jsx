@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Layout from "@/Layouts/Layout"; // Adjust the import path as necessary
-
+import Select from "./Select";
 function Search(props) {
     return (
         <div className="flex flex-col items-center justify-center h-[80vh]">
@@ -30,6 +30,7 @@ function Search(props) {
                     </button>
                 </div>
             </form>
+            <Select />
         </div>
     );
 }
