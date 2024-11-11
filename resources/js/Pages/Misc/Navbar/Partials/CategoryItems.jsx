@@ -41,7 +41,7 @@ export default function CategoryItems(props) {
                                                         <div
                                                             key={item.name}
                                                         ></div>
-                                                    )
+                                                    ),
                                                 )}
                                             </div>
                                             <div className="row-start-1 grid grid-cols-4 gap-x-8 gap-y-10 text-sm">
@@ -78,11 +78,11 @@ export default function CategoryItems(props) {
                                                                                 }
                                                                             </a>
                                                                         </li>
-                                                                    )
+                                                                    ),
                                                                 )}
                                                             </ul>
                                                         </div>
-                                                    )
+                                                    ),
                                                 )}
                                             </div>
                                         </div>

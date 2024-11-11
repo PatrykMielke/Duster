@@ -47,8 +47,6 @@ export default function CommentForm(props) {
         <div>
             <Button onClick={handleOpen}>Oceń użytkownika</Button>
             <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
                 open={open}
                 onClose={handleClose}
                 closeAfterTransition

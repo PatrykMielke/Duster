@@ -31,6 +31,15 @@ export default function Example() {
 
                     <MenuItem>
                         <Link
+                            href={route("views")} // Laravel route helper, przekierowanie do trasy /qq
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                        >
+                            Widoki
+                        </Link>
+                    </MenuItem>
+
+                    <MenuItem>
+                        <Link
                             href={route("index")} // Laravel route helper, przekierowanie do trasy /qq
                             className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
                         >

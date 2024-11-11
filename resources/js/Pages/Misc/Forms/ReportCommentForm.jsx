@@ -103,6 +103,15 @@ function ReportModal({ open, onClose, username, id }) {
                     value={additionalComments}
                     onChange={handleCommentsChange}
                     margin="normal"
+                    sx={{
+                        mt: 2,
+                        "& .MuiOutlinedInput-root": {
+                            "& textarea": {
+                                boxShadow: "none",
+                                outline: "none",
+                            },
+                        },
+                    }}
                 />
 
                 <Box
