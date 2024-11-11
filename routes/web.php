@@ -28,7 +28,7 @@ Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.s
 
 Route::get('/views', function () {
     return Inertia::render('Views');
-});
+})->name('views');
 
 
 Route::get('/ProductDetails', function () {

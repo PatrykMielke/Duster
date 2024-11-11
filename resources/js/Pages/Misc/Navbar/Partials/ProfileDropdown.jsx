@@ -41,6 +41,9 @@ export default function ProfileDropdown() {
                 <Link href={route("profile.edit")}>
                     <MenuItem>Ustawienia</MenuItem>
                 </Link>
+                <Link href={route("views")}>
+                    <MenuItem>Wdoki</MenuItem>
+                </Link>
 
                 <Divider variant="middle" component="li" />
 
