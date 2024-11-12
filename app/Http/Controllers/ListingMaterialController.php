@@ -34,7 +34,7 @@ class ListingMaterialController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ListingMaterial $listingMaterial)
+    public function show(ListingMaterialController $listingMaterial)
     {
         //
     }
@@ -42,7 +42,7 @@ class ListingMaterialController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ListingMaterial $listingMaterial)
+    public function edit(ListingMaterialController $listingMaterial)
     {
         //
     }
@@ -50,7 +50,7 @@ class ListingMaterialController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ListingMaterial $listingMaterial)
+    public function update(Request $request, ListingMaterialController $listingMaterial)
     {
         //
     }
@@ -58,7 +58,7 @@ class ListingMaterialController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ListingMaterial $listingMaterial)
+    public function destroy(ListingMaterialController $listingMaterial)
     {
         //
     }

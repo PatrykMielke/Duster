@@ -34,7 +34,7 @@ class ListingColorController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ListingColor $listingColor)
+    public function show(ListingColorController $listingColor)
     {
         //
     }
@@ -42,7 +42,7 @@ class ListingColorController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ListingColor $listingColor)
+    public function edit(ListingColorController $listingColor)
     {
         //
     }
@@ -50,7 +50,7 @@ class ListingColorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ListingColor $listingColor)
+    public function update(Request $request, ListingColorController $listingColor)
     {
         //
     }
@@ -58,7 +58,7 @@ class ListingColorController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ListingColor $listingColor)
+    public function destroy(ListingColorController $listingColor)
     {
         //
     }

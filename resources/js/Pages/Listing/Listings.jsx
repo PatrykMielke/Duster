@@ -15,7 +15,7 @@
 
 import Layout from "@/Layouts/Layout";
 import ProductSection from "@/Components/FilterBar";
-import Listing from "./Listing";
+import Listing from "./Partials/Listing";
 export default function Example({ products }) {
     return (
         <Layout>

@@ -4,8 +4,8 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import { Head, useForm } from "@inertiajs/react";
 import { useState } from "react";
-import MultiSelectDropdown from "./MultiSelectDropdown";
-import SingleSelectDropdown from "./SingleSelectDropdown";
+import MultiSelectDropdown from "./Partials/MultiSelectDropdown";
+import SingleSelectDropdown from "./Partials/SingleSelectDropdown";
 
 
 const Edit = ({ listing, users = [], statuses = [], conditions = [], items = [], colors = [], sizes = [], brands = [], materials = [] }) => {

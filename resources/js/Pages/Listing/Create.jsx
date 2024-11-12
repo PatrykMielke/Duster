@@ -5,8 +5,8 @@ import TextInput from "@/Components/TextInput";
 import Layout from "@/Layouts/Layout";
 import { Head, useForm } from "@inertiajs/react";
 import { useState } from "react";
-import MultiSelectDropdown from "./MultiSelectDropdown";
-import SingleSelectDropdown from "./SingleSelectDropdown";
+import MultiSelectDropdown from "./Partials/MultiSelectDropdown";
+import SingleSelectDropdown from "./Partials/SingleSelectDropdown";
 
 
 export default function CreateListing({ statuses, colors, sizes, brands, materials, conditions, items, auth }) {

@@ -32,7 +32,6 @@ export default function CheckoutForm({ listing }) {
 
 
 
-
     const handleQuantityChange = (index, newQuantity) => {
         const updatedQuantities = [...quantities];
         updatedQuantities[index] = newQuantity;

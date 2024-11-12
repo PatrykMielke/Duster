@@ -1,11 +1,11 @@
 'use client'
-import ToggleFavoriteButton from './FollowButton'
+import ToggleFavoriteButton from './Partials/FollowButton'
 import { useState } from 'react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import { Radio, RadioGroup } from '@headlessui/react'
 import Layout from "@/Layouts/Layout";
 import Carousel from '@/Components/Carousel'
-import ToggleButton from './ReportButton'
+import ToggleButton from './Partials/ReportButton'
 import OutlinedFlagSharpIcon from '@mui/icons-material/OutlinedFlagSharp';
 import { Link } from '@inertiajs/react'
 export default function Example({ listing, uniqueUserCount, auth }) {

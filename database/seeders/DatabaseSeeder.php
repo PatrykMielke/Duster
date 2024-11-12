@@ -79,6 +79,7 @@ class DatabaseSeeder extends Seeder
                         'password' => '111111111', // password
                         'role_id' => 2,
                         'remember_token' => Str::random(10),
+                        'is_active' => true,
                 ]);
         }
 }
