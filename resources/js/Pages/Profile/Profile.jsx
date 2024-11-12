@@ -39,8 +39,8 @@ export default function Profile({ user, products }) {
                 {/* Sekcja zdjęcia profilowego po lewej */}
                 <div className="flex-shrink-0 border-r border-gray-300 pr-4">
                     <img
-                        src="https://cdn-icons-png.flaticon.com/512/147/147144.png"
-                        alt="Profile"
+                        src={"/avatars/" + user.avatar}
+                        alt="Avatar"
                         className="w-24 h-24 object-cover rounded-full"
                     />
                 </div>
