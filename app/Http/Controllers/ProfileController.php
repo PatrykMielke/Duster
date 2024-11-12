@@ -31,7 +31,7 @@ class ProfileController extends Controller
     }
     public function show($id){
         // WSZYSTKIE OGLOSZENIA
-        if(!$user = User::find($id)){
+        if(!$user = User::withCount(['followers', 'following'])->find($id)){
             return redirect()->route('index');
         }
 

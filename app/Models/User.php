@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Cashier\Billable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -57,5 +58,29 @@ class User extends Authenticatable
     public function session()
     {
         return $this->hasOne(Session::class);
+    }
+
+    // Define the relationship for "followers" (users who follow this user)
+    public function followers(): HasMany
+    {
+        return $this->hasMany(FollowedUser::class, 'followed_user_id', 'id');
+    }
+
+    // Define the relationship for "following" (users that this user follows)
+    public function following(): HasMany
+    {
+        return $this->hasMany(FollowedUser::class, 'user_id', 'id');
+    }
+
+    // Method to get the count of followers
+    public function followerCount(): int
+    {
+        return $this->followers()->count();
+    }
+
+    // Method to get the count of following
+    public function followingCount(): int
+    {
+        return $this->following()->count();
     }
 }

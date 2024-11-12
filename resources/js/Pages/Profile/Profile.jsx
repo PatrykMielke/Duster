@@ -52,11 +52,15 @@ export default function Profile({ user, products }) {
 
                     <div className="flex space-x-8 mt-4">
                         <div>
-                            <span className="font-bold">120</span>
+                            <span className="font-bold">
+                                {user.following_count}
+                            </span>
                             <p className="text-gray-600">Obserwuje</p>
                         </div>
                         <div>
-                            <span className="font-bold">80</span>
+                            <span className="font-bold">
+                                {user.followers_count}
+                            </span>
                             <p className="text-gray-600">Obserwujących</p>
                         </div>
                         <div>
