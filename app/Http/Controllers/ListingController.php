@@ -35,7 +35,6 @@ class ListingController extends Controller
         ]);
     }
 
-
     public function adminDashboard()
     {
         // WSZYSTKIE OGLOSZENIA

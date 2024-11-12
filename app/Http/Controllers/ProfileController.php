@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 use Auth;
+use App\Models\User;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Listing;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -27,10 +29,24 @@ class ProfileController extends Controller
             'status' => session('status'),
         ]);
     }
-    public function show(Request $request){
+    public function show($id){
+        // WSZYSTKIE OGLOSZENIA
+        if(!$user = User::find($id)){
+            return redirect()->route('index');
+        }
+
+
+        $listings = Listing::with(['user', 'galleries'])
+            ->where('status_id', 1)
+            ->where('user_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+
 
         return Inertia::render('Profile/Profile', [
-            'user' => $request->id,
+            'user' => $user,
+            'products' => $listings,
         ]);
     }
     /**

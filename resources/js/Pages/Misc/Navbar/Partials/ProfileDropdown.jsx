@@ -32,19 +32,19 @@ export default function ProfileDropdown() {
             </MenuButton>
 
             <Menu slots={{ listbox: AnimatedListbox }}>
-                <Link href={route("profile.show", user.id)}>
+                <Link href={route("profile.show", user.id)} as="button">
                     <MenuItem>Twój profil</MenuItem>{" "}
                 </Link>
-                <Link href={route("wallet")}>
+                <Link href={route("wallet")} as="button">
                     <MenuItem>Portfel</MenuItem>
                 </Link>
-                <Link href={route("profile.edit")}>
+                <Link href={route("profile.edit")} as="button">
                     <MenuItem>Ustawienia</MenuItem>
                 </Link>
 
                 <Divider variant="middle" component="li" />
 
-                <Link href={route("logout")} method="post">
+                <Link href={route("logout")} method="post" as="button">
                     <MenuItem>Wyloguj</MenuItem>
                 </Link>
             </Menu>
