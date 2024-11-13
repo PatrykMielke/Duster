@@ -4,62 +4,59 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+
+    public function getCategories()
     {
-        //
+        // Get the top-level categories, such as 'Women' and 'Men'
+        $topCategories = Category::whereNull('parent_id')->with('children.children')->get();
+
+        $navigation = [
+            'categories' => $this->buildNavigation($topCategories),
+        ];
+
+        return response()->json($navigation);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    private function buildNavigation($categories)
     {
-        //
-    }
+        $result = [];
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        foreach ($categories as $category) {
+            $sections = [];
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Category $category)
-    {
-        //
-    }
+            // Loop through first-level children (e.g., "Clothing", "Accessories")
+            foreach ($category->children as $section) {
+                $items = [];
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Category $category)
-    {
-        //
-    }
+                // Loop through second-level children (items in each section)
+                foreach ($section->children as $item) {
+                    $items[] = [
+                        'name' => $item->name,
+                        'href' => '#', // Or you could store a URL in the database for each item
+                    ];
+                }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Category $category)
-    {
-        //
-    }
+                $sections[] = [
+                    'id' => strtolower($section->name), // Unique section ID
+                    'name' => $section->name,
+                    'items' => $items,
+                ];
+            }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Category $category)
-    {
-        //
+            $result[] = [
+                'id' => strtolower($category->name),
+                'name' => $category->name,
+                'sections' => $sections,
+            ];
+        }
+
+        return $result;
     }
 }

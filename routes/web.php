@@ -2,8 +2,10 @@
 
 use App\Models\Sex;
 use Inertia\Inertia;
-use App\Models\Listing;
+use App\Models\Order;
 
+use App\Models\Listing;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Schema;
@@ -12,10 +14,11 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ListingFollowController;
-use App\Models\Order;
 
 Route::get('/', function () {
+
     return Inertia::render('HomePage', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -25,7 +28,7 @@ Route::get('/', function () {
 })->name('index');
 
 
-
+Route::get('/categories', [CategoryController::class, 'getCategories'])->name('categories');
 
 Route::get('/views', function () {
     return Inertia::render('Views');
@@ -128,5 +131,7 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('Profile/Settings');
     })->name('settings');
 });
+
+Route::get('/kategoria/{id}', [ListingController::class, 'showByCategory'])->name('kategoria');
 
 require __DIR__ . '/auth.php';

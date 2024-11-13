@@ -67,38 +67,6 @@ export default function MobileCategoryList(props) {
                                         key={category.name}
                                         className="space-y-10 px-4 pb-8 pt-10"
                                     >
-                                        <div className="grid grid-cols-2 gap-x-4">
-                                            {category.featured.map((item) => (
-                                                <div
-                                                    key={item.name}
-                                                    className="group relative text-sm"
-                                                >
-                                                    <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
-                                                        <img
-                                                            alt={item.imageAlt}
-                                                            src={item.imageSrc}
-                                                            className="object-cover object-center"
-                                                        />
-                                                    </div>
-                                                    <a
-                                                        href={item.href}
-                                                        className="mt-6 block font-medium text-gray-900"
-                                                    >
-                                                        <span
-                                                            aria-hidden="true"
-                                                            className="absolute inset-0 z-10"
-                                                        />
-                                                        {item.name}
-                                                    </a>
-                                                    <p
-                                                        aria-hidden="true"
-                                                        className="mt-1"
-                                                    >
-                                                        Shop now
-                                                    </p>
-                                                </div>
-                                            ))}
-                                        </div>
                                         {category.sections.map((section) => (
                                             <div key={section.name}>
                                                 <p
@@ -127,7 +95,7 @@ export default function MobileCategoryList(props) {
                                                                     {item.name}
                                                                 </a>
                                                             </li>
-                                                        )
+                                                        ),
                                                     )}
                                                 </ul>
                                             </div>
