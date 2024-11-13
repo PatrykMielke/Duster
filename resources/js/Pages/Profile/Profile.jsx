@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "@/Layouts/Layout";
 import FilterBar from "@/Components/FilterBar";
 import Listing from "@/Pages/Listing/Partials/Listing";
+import Rating from "@mui/material/Rating";
 
 export default function Profile({ user, products }) {
     // State to hold the sorted products
@@ -48,8 +49,19 @@ export default function Profile({ user, products }) {
                 {/* Sekcja informacji o użytkowniku */}
                 <div className="flex-grow">
                     <h2 className="text-2xl font-semibold">{user.name}</h2>
-                    <p className="text-gray-500">{user.email}</p>
-
+                    <div className="mt-3">
+                        <div className="flex items-center">
+                            <Rating
+                                defaultValue={1}
+                                precision={0.1}
+                                value={user.averageRating}
+                                readOnly
+                            />
+                            <p className="ml-3 font-medium">
+                                {user.ratingCount} reviews
+                            </p>
+                        </div>
+                    </div>
                     <div className="flex space-x-8 mt-4">
                         <div>
                             <span className="font-bold">

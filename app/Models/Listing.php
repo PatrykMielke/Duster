@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Listing extends Model
 {
 
-
     protected $fillable = [
         'title',
         'description',

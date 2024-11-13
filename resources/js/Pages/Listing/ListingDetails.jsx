@@ -8,6 +8,8 @@ import Carousel from "@/Components/Carousel";
 import ToggleButton from "./Partials/ReportButton";
 import OutlinedFlagSharpIcon from "@mui/icons-material/OutlinedFlagSharp";
 import { Link } from "@inertiajs/react";
+import Rating from "@mui/material/Rating";
+
 export default function Example({ listing, uniqueUserCount, auth }) {
     const formatTimeDifference = (diffInHours) => {
         if (diffInHours < 1) return "mniej niż godzina temu";
@@ -140,27 +142,32 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                                 <h3 className="sr-only">Reviews</h3>
                                 <div className="flex items-center">
                                     <div className="flex items-center">
-                                        {[0, 1, 2, 3, 4].map((rating) => (
+                                        <Rating
+                                            defaultValue={1}
+                                            precision={0.1}
+                                            value={listing.averageRating}
+                                            readOnly
+                                        />
+                                        {/* {[0, 1, 2, 3, 4].map((rating) => (
                                             <StarIcon
                                                 key={rating}
                                                 aria-hidden="true"
                                                 className={classNames(
-                                                    reviews.average > rating
+                                                    listing.averageRating >
+                                                        rating
                                                         ? "text-gray-900"
                                                         : "text-gray-200",
                                                     "h-5 w-5 flex-shrink-0",
                                                 )}
                                             />
-                                        ))}
+                                        ))} */}
                                     </div>
-                                    <p className="sr-only">
-                                        {reviews.average} out of 5 stars
-                                    </p>
+
                                     <a
-                                        href={reviews.href}
+                                        href={"../profil/" + listing.user.id}
                                         className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
                                     >
-                                        {reviews.totalCount} reviews
+                                        {listing.ratingCount} reviews
                                     </a>
                                 </div>
                             </div>
@@ -271,7 +278,6 @@ const product = {
         { id: 2, name: "Clothing", href: "#" },
     ],
 };
-const reviews = { href: "#", average: 4, totalCount: 117 };
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
