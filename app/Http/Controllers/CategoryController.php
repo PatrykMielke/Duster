@@ -39,7 +39,7 @@ class CategoryController extends Controller
                 foreach ($section->children as $item) {
                     $items[] = [
                         'name' => $item->name,
-                        'href' => '#', // Or you could store a URL in the database for each item
+                        'href' => route('showByCategory', ['id' => $item->id]), // Or you could store a URL in the database for each item
                     ];
                 }
 

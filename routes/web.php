@@ -132,6 +132,6 @@ Route::middleware('auth')->group(function () {
     })->name('settings');
 });
 
-Route::get('/kategoria/{id}', [ListingController::class, 'showByCategory'])->name('kategoria');
+Route::get('/kategoria/{id}', [ListingController::class, 'showByCategory'])->name('showByCategory');
 
 require __DIR__ . '/auth.php';

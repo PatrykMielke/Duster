@@ -36,7 +36,7 @@ export default function CategoryItems(props) {
                                             {" "}
                                             {/* NAVBAR ULOZENIE */}
                                             <div className="col-start-2 mx-auto grid grid-cols-2 gap-x-8"></div>
-                                            <div className="row-start-1 grid grid-cols-4 gap-x-8 gap-y-10 text-sm">
+                                            <div className="row-start-1 grid grid-cols-3 gap-x-8 gap-y-10 text-sm">
                                                 {category.sections.map(
                                                     (section) => (
                                                         <div key={section.name}>
