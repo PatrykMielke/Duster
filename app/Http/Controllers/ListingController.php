@@ -16,7 +16,9 @@ use App\Models\Listing;
 use App\Models\Material;
 use App\Models\Condition;
 use Illuminate\Http\Request;
+use App\Models\PaymentMethods;
 use calculateLastActivityDate;
+use App\Models\DeliveryMethods;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 
@@ -166,15 +168,6 @@ class ListingController extends Controller
         ]);
     }
 
-    public function checkout($id)
-    {
-        $listing = Listing::with(['user', 'galleries', 'details.size', 'details.brand', 'details.condition', 'details.detailColor.color', 'details.detailMaterial.material',])->findOrFail($id);
-
-
-        return Inertia::render('Listing/Checkout/Checkout', [
-            'listing' => $listing
-        ]);
-    }
     /**
      * Show the form for editing the specified resource.
      */

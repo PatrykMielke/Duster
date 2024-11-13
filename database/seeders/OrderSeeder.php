@@ -23,10 +23,16 @@ class OrderSeeder extends Seeder
         foreach ($listings as $listing) {
             Order::create([
                 'buyer_id' => User::inRandomOrder()->first()->id,
+
                 'listing_id' => $listing->id,
                 'delivery_method_id' => DeliveryMethods::inRandomOrder()->first()->id,
                 'payment_method_id' => PaymentMethods::inRandomOrder()->first()->id,
-                'address' => fake()->address(),
+                'address' => fake()->streetAddress(),
+                'zipcode' => fake()->postcode(),
+                'city' => fake()->city(),
+                'country' => fake()->country(),
+                'apartment' => fake()->optional()->buildingNumber(),
+
             ]);
         }
 

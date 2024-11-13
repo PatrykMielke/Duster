@@ -14,20 +14,13 @@ class PaymentMethodsSeeder extends Seeder
     public function run(): void
     {
         $nazwaMetody = [
-            'Karta kredytowa',
-            'Karta debetowa',
-            'PayPal',
-            'Przelew bankowy',
+
             'BLIK',
-            'Apple Pay',
             'Google Pay',
-            'Kryptowaluta',
-            'Płatność przy odbiorze',
-            'Portfel elektroniczny'
         ];
 
         foreach ($nazwaMetody as $metoda) {
             PaymentMethods::create(['name' => $metoda]);
         }
-    }   
+    }
 }

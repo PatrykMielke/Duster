@@ -13,6 +13,7 @@ use App\Http\Controllers\VisitController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ListingFollowController;
+use App\Models\Order;
 
 Route::get('/', function () {
     return Inertia::render('HomePage', [
@@ -56,13 +57,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/listings/{id}/edit', [ListingController::class, 'edit'])->name('listings.edit');
     Route::put('/listings/{id}', [ListingController::class, 'update'])->name('listings.update');
 
-
-    Route::get('/checkout/{id}', [ListingController::class, 'checkout'])->name('listing.showCheckout');
-
+    Route::get('/checkout/{id}', [OrderController::class, 'index'])->name('order.showCheckout');
 
 
     // Profil ustawienia
-    Route::get('/profile/', function () {
+    Route::get('/menu/', function () {
         return Inertia::render('Profile/Profile');
     })->name('menu');
 });
@@ -107,7 +106,6 @@ Route::get('/t', function () {
 
 
 
-Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 
 
