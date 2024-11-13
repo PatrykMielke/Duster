@@ -25,7 +25,7 @@ Route::get('/', function () {
 })->name('index');
 
 
-Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
+
 
 Route::get('/views', function () {
     return Inertia::render('Views');
@@ -58,12 +58,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/listings/{id}', [ListingController::class, 'update'])->name('listings.update');
 
     Route::get('/checkout/{id}', [OrderController::class, 'index'])->name('order.showCheckout');
-
-
-    // Profil ustawienia
-    Route::get('/menu/', function () {
-        return Inertia::render('Profile/Profile');
-    })->name('menu');
 });
 
 
@@ -80,8 +74,6 @@ Route::get('followed-listings/{userId}', [ListingFollowController::class, 'index
 Route::get('/followed_listings/check', [ListingFollowController::class, 'check']);
 Route::post('/followed_listings', [ListingFollowController::class, 'store']);
 Route::delete('/followed_listings', [ListingFollowController::class, 'destroy']);
-
-
 
 
 
@@ -104,16 +96,7 @@ Route::get('/t', function () {
 
 
 
-
-
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
-
-
-
-
-
-
-
 
 
 
@@ -127,6 +110,8 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
 
     Route::prefix('profile')->group(function () {
+
+        Route::get('/{id}', [ProfileController::class, 'show'])->name('profile.show');
         Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/update-name', [ProfileController::class, 'updateName'])->name('profile.updateName');
         Route::patch('/update-email', [ProfileController::class, 'updateEmail'])->name('profile.updateEmail');
