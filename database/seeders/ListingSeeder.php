@@ -22,7 +22,7 @@ class ListingSeeder extends Seeder
             foreach (range(1, $numberOfListings) as $i)
                 Listing::create([
                     'title' => fake()->sentence(1),
-                    'description' => fake()->sentence(10),
+                    'description' => fake()->paragraph(5),
                     'price' => rand(10, 400),
                     'user_id' => $userId,
                     'status_id' => Status::inRandomOrder()->first()->id,
