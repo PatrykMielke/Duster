@@ -18,7 +18,7 @@ class OrderSeeder extends Seeder
     public function run(): void
     {
 
-        $listings = Listing::all();
+        $listings = Listing::where('status_id', 2)->get();
 
         foreach ($listings as $listing) {
             Order::create([
@@ -36,9 +36,5 @@ class OrderSeeder extends Seeder
             ]);
         }
 
-
-
-        for ($orderQuantity = 0; $orderQuantity < 3; $orderQuantity++) {
-        }
     }
 }

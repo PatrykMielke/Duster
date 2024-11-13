@@ -49,15 +49,15 @@ class DatabaseSeeder extends Seeder
                 //Schema::enableForeignKeyConstraints();
 
                 $this->call(BrandSeeder::class);
+                $this->call(CategorySeeder::class);
+                $this->call(ColorSeeder::class);
                 $this->call(ConditionSeeder::class);
                 $this->call(DeliveryMethodSeeder::class);
                 $this->call(MaterialSeeder::class);
                 $this->call(SizeSeeder::class);
                 $this->call(RoleSeeder::class);
                 User::factory(100)->create();
-                $this->call(ColorSeeder::class);
                 $this->call(PaymentMethodsSeeder::class);
-                $this->call(CategorySeeder::class);
                 $this->call(StatusSeeder::class);
                 $this->call(ListingSeeder::class);
                 $this->call(VisitSeeder::class);
@@ -65,6 +65,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(DetailMaterialSeeder::class);
                 $this->call(DetailColorSeeder::class);
                 $this->call(FollowedUserSeeder::class);
+                $this->call(FollowedListingSeeder::class);
                 $this->call(GallerySeeder::class);
                 $this->call(OrderSeeder::class);
 

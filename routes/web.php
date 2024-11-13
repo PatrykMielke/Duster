@@ -87,6 +87,11 @@ Route::get('/tesa', function () {
 Route::get('/t', function () {
     return Inertia::render('t');
 })->name('t');
+Route::get('/listingsss', function () {
+    $listings = Listing::where('status_id', 1)->get();
+    dd($listings);
+    return Inertia::render('t');
+})->name('t');
 
 
 Route::get('/views', function () {
