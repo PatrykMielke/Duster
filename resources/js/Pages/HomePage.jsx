@@ -1,6 +1,8 @@
 import { useState } from "react";
-import Layout from "@/Layouts/Layout"; // Adjust the import path as necessary
+import Layout from "@/Layouts/Layout";
 import Select from "./Select";
+import { router } from "@inertiajs/react";
+
 function Search(props) {
     return (
         <div className="flex flex-col items-center justify-center h-[80vh]">
@@ -17,7 +19,7 @@ function Search(props) {
                 <div className="relative">
                     <input
                         type="text"
-                        value={props.searchQuery}
+                        value={props.searchQuery.query}
                         onChange={props.handleSearchChange}
                         placeholder="Search for something..."
                         className="w-full rounded-full border border-gray-300 py-3 px-4 text-gray-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -36,16 +38,18 @@ function Search(props) {
 }
 
 export default function HomePage() {
-    const [searchQuery, setSearchQuery] = useState("");
+    const [searchQuery, setSearchQuery] = useState({
+        query: "",
+    });
 
     const handleSearchChange = (e) => {
-        setSearchQuery(e.target.value);
+        setSearchQuery({ query: e.target.value });
     };
 
     const handleSearchSubmit = (e) => {
         e.preventDefault();
-        // Add search handling logic here
         console.log("Search query:", searchQuery);
+        router.get("/listings", searchQuery);
     };
 
     return (
@@ -54,7 +58,7 @@ export default function HomePage() {
                 searchQuery={searchQuery}
                 handleSearchChange={handleSearchChange}
                 handleSearchSubmit={handleSearchSubmit}
-            ></Search>
+            />
         </Layout>
     );
 }

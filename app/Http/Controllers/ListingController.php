@@ -26,14 +26,30 @@ class ListingController extends Controller
 {
     /**
      * Display a listing of the resource.
-     */
-    public function index()
+     */ public function index(Request $request)
     {
-        // WSZYSTKIE OGLOSZENIA
-        $listings = Listing::with(['user', 'galleries'])->orderBy('created_at', 'desc')->where('status_id', 1)->get();
+        // Pobieramy zapytanie tekstowe do wyszukiwania
+        $query = $request->input('query');
 
+        // Tworzymy podstawowe zapytanie z filtrem `status_id`
+        $listingsQuery = Listing::with(['user', 'galleries'])
+            ->orderBy('created_at', 'desc')
+            ->where('status_id', 1);
+
+        // Dodajemy warunek przeszukujący jedynie pole `title`, jeśli podano zapytanie
+        if ($query) {
+            $listingsQuery->where('title', 'like', "%{$query}%");
+        }
+
+        // Pobieramy listingi z uwzględnieniem filtrów
+        $listings = $listingsQuery->get();
+
+        // Renderowanie widoku z listingami
         return Inertia::render('Listing/Listings', [
             'products' => $listings,
+            'filters' => [
+                'query' => $query,
+            ],
         ]);
     }
 
@@ -89,11 +105,10 @@ class ListingController extends Controller
     public function store(Request $request): RedirectResponse
     {
         // Debugowanie danych wejściowych
-        dd($request->all());
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'price' => 'required|numeric',
+            'price' => 'required|numeric|max_digits:8,2',
             'user_id' => 'required|exists:users,id',
             'status_id' => 'required|exists:statuses,id',
             'condition_id' => 'required|exists:conditions,id',
