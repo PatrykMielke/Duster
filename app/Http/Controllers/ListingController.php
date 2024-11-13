@@ -13,6 +13,7 @@ use Inertia\Response;
 use App\Models\Detail;
 use App\Models\Status;
 use App\Models\Listing;
+use App\Models\Category;
 use App\Models\Material;
 use App\Models\Condition;
 use Illuminate\Http\Request;
@@ -50,6 +51,26 @@ class ListingController extends Controller
             'filters' => [
                 'query' => $query,
             ],
+        ]);
+    }
+
+    public function showByCategory($categoryId)
+    {
+        // jeśli nie ma produktów o takiej kategorii
+        $listings = Listing::whereHas('details', function ($query) use($categoryId){
+                $query->where('category_id', $categoryId);
+            })
+            ->with(['user', 'galleries', 'details.category'])  // Eager load the relationships
+            ->get();
+
+        if(!$category = Category::find($categoryId)){
+            return redirect()->route('index');
+        }
+
+        // Renderowanie widoku z listingami
+        return Inertia::render('Listing/Listings', [
+            'products' => $listings,
+            'category' => $category->name
         ]);
     }
 

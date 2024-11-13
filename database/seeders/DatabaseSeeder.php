@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(RoleSeeder::class);
 
 
-                User::factory(20)->create();
+                User::factory(100)->create();
 
                 $this->call(ColorSeeder::class);
                 $this->call(PaymentMethodsSeeder::class);
@@ -81,5 +81,14 @@ class DatabaseSeeder extends Seeder
                         'remember_token' => Str::random(10),
                         'is_active' => true,
                 ]);
+                User::create([
+                    'name' => 'patryk@patryk.patryk',
+                    'email' => 'patryk@patryk.patryk',
+                    'email_verified_at' => now(),
+                    'password' => 'patryk@patryk.patryk', // password
+                    'role_id' => 2,
+                    'remember_token' => Str::random(10),
+                    'is_active' => true,
+            ]);
         }
 }

@@ -36,7 +36,7 @@ class Listing extends Model
 
     public function item()
     {
-        return $this->belongsTo(Item::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function details()

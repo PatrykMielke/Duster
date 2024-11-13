@@ -9,14 +9,16 @@ class Detail extends Model
 {
     // Add the fillable attributes
     protected $fillable = [
-        'item_id',
+        'category_id',
         'size_id',
         'brand_id',
         'condition_id',
-        'listing_id', // Ensure this is included as well if you're using it in the create
-        // Add any other fields that need mass assignment
+        'listing_id',
     ];
-
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
     public function size()
     {
         return $this->belongsTo(Size::class);

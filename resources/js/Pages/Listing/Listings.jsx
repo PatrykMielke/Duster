@@ -4,7 +4,7 @@ import Layout from "@/Layouts/Layout";
 import React, { useState, useEffect } from "react";
 import FilterBar from "@/Components/FilterBar";
 
-export default function Listings({ products }) {
+export default function Listings({ products, category }) {
     // State to hold the sorted products
     const [sortedProducts, setSortedProducts] = useState(products);
     const [sortCriteria, setSortCriteria] = useState("created_at");
@@ -38,7 +38,9 @@ export default function Listings({ products }) {
         <Layout>
             <div className="bg-white">
                 <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6  lg:max-w-7xl lg:px-8">
-                    <h2 className="text-2xl font-bold tracking-tight text-gray-900"></h2>
+                    <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+                        {category ? "Kategoria: " + category : ""}
+                    </h2>
                     <FilterBar
                         onSortChange={(criteria, order) => {
                             setSortCriteria(criteria);

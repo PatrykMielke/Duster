@@ -14,16 +14,16 @@ class ListingSeeder extends Seeder
      */
     public function run(): void
     {
-        foreach (range(1, 20) as $userId) {
+        foreach (range(1, 100) as $userId) {
             // Losujemy liczbę ogłoszeń dla danego użytkownika (od 1 do 5)
-            $numberOfListings = rand(1, 5);
+            $numberOfListings = rand(1, 20);
 
             // Tworzymy ogłoszenia dla danego użytkownika
             foreach (range(1, $numberOfListings) as $i)
                 Listing::create([
                     'title' => fake()->sentence(1),
                     'description' => fake()->sentence(10),
-                    'price' => rand(100, 1000),
+                    'price' => rand(10, 400),
                     'user_id' => $userId,
                     'status_id' => Status::inRandomOrder()->first()->id,
                 ]);
