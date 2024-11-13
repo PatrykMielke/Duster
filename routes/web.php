@@ -18,26 +18,14 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ListingFollowController;
 
 Route::get('/', function () {
-
-    return Inertia::render('HomePage', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return Inertia::render('HomePage');
 })->name('index');
 
-
-Route::get('/categories', [CategoryController::class, 'getCategories'])->name('categories');
-
-Route::get('/views', function () {
-    return Inertia::render('Views');
-})->name('views');
+Route::get('/kategoria/{id}', [ListingController::class, 'showByCategory'])->name('showByCategory');
 
 
-Route::get('/ProductDetails', function () {
-    return Inertia::render('ProductDetails');
-})->name('products');
+
+
 
 
 
@@ -54,34 +42,39 @@ Route::patch('/api/listings/{id}', [ListingController::class, 'updateAdmin']);
 Route::middleware('auth')->group(function () {
 
     // dodawanie i zapis nowego ogloszenia
-    Route::get('/listings/create', [ListingController::class, 'create'])->name('listings.create');
-    Route::post('/listings', [ListingController::class, 'store'])->name('listings.store');
+    Route::get('/ogloszenia/stworz', [ListingController::class, 'create'])->name('listings.create');
+    Route::post('/ogloszenia', [ListingController::class, 'store'])->name('listings.store');
     //// edycja i zapis ogloszenia
-    Route::get('/listings/{id}/edit', [ListingController::class, 'edit'])->name('listings.edit');
-    Route::put('/listings/{id}', [ListingController::class, 'update'])->name('listings.update');
+    Route::get('/ogloszenia/{id}/edycja', [ListingController::class, 'edit'])->name('listings.edit');
+    Route::put('/ogloszenia/{id}', [ListingController::class, 'update'])->name('listings.update');
 
     Route::get('/checkout/{id}', [OrderController::class, 'index'])->name('order.showCheckout');
 });
 
 
 ///
-Route::get('/listings', [ListingController::class, 'index'])->name('listings');
-Route::get('/listing/{id}', [ListingController::class, 'show'])->name('listing');
+Route::get('/ogloszenia', [ListingController::class, 'index'])->name('listings');
+Route::get('/ogloszenia/{id}', [ListingController::class, 'show'])->name('listing');
 
-//Route::get('/checkout/{id}', [ListingController::class, 'checkout'])->name('listing.showCheckout');
 
 
 
 // obserwowanie ogloszen
-Route::get('followed-listings/{userId}', [ListingFollowController::class, 'index']);
-Route::get('/followed_listings/check', [ListingFollowController::class, 'check']);
-Route::post('/followed_listings', [ListingFollowController::class, 'store']);
-Route::delete('/followed_listings', [ListingFollowController::class, 'destroy']);
+Route::prefix('obserwowane')->group(function () {
+    Route::get('/{userId}', [ListingFollowController::class, 'index']);
+    Route::get('/check', [ListingFollowController::class, 'check']);
+    Route::post('/', [ListingFollowController::class, 'store']);
+    Route::delete('/', [ListingFollowController::class, 'destroy']);
+});
+
 
 
 
 
 //// robocze
+
+//Route::get('/checkout/{id}', [ListingController::class, 'checkout'])->name('listing.showCheckout');
+
 
 Route::get('/twarde', function () {
     return Inertia::render('twarde');
@@ -95,15 +88,23 @@ Route::get('/t', function () {
     return Inertia::render('t');
 })->name('t');
 
-////
+
+Route::get('/views', function () {
+    return Inertia::render('Views');
+})->name('views');
+
+Route::get('/ProductDetails', function () {
+    return Inertia::render('ProductDetails');
+})->name('products');
 
 
 
-Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+
+Route::post('/zamowienia', [OrderController::class, 'store'])->name('orders.store');
 
 Route::middleware('auth')->group(function () {
 
-    Route::prefix('profile')->group(function () {
+    Route::prefix('profil')->group(function () {
 
         Route::get('/{id}', [ProfileController::class, 'show'])->name('profile.show');
         Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -123,6 +124,13 @@ Route::middleware('auth')->group(function () {
     })->name('settings');
 });
 
-Route::get('/kategoria/{id}', [ListingController::class, 'showByCategory'])->name('showByCategory');
+// API
+
+Route::get('/categories', [CategoryController::class, 'getCategories'])->name('categories');
+
+
+Route::fallback(function () {
+    return Inertia::render('HomePage', );
+});
 
 require __DIR__ . '/auth.php';

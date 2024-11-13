@@ -64,7 +64,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(DetailSeeder::class);
                 $this->call(DetailMaterialSeeder::class);
                 $this->call(DetailColorSeeder::class);
-
+                $this->call(FollowedUserSeeder::class);
                 $this->call(GallerySeeder::class);
                 $this->call(OrderSeeder::class);
 

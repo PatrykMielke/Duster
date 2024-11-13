@@ -42,8 +42,6 @@ class ProfileController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-
-
         return Inertia::render('Profile/Profile', [
             'user' => $user,
             'products' => $listings,

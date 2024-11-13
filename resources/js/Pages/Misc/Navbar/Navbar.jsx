@@ -26,7 +26,7 @@ export default function Navbar() {
         const fetchCategories = async () => {
             try {
                 const response = await axios.get("/categories");
-                //console.log("API response:", response.data); // Log the response data
+                console.log("API response:", response.data); // Log the response data
                 setNavigationData(response.data);
                 setLoading(false);
             } catch (err) {
