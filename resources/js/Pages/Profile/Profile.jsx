@@ -3,8 +3,23 @@ import Layout from "@/Layouts/Layout";
 import FilterBar from "@/Components/FilterBar";
 import Listing from "@/Pages/Listing/Partials/Listing";
 import Rating from "@mui/material/Rating";
+import Comment from "@/Components/Comment";
+import ReportCommentForm from "@/Pages/Misc/Forms/ReportCommentForm";
+export default function Profile({ user, products, comments }) {
+    const [open, setOpen] = useState(false);
+    const [selectedUsername, setSelectedUsername] = useState("");
+    const [selectedId, setSelectedId] = useState(0);
+    // Function to open the dialog
+    const handleReportOpen = (username, id) => {
+        setSelectedUsername(username);
+        setSelectedId(id);
+        setOpen(true);
+    };
 
-export default function Profile({ user, products }) {
+    // Function to close the dialog
+    const handleReportClose = () => {
+        setOpen(false);
+    };
     // State to hold the sorted products
     const [sortedProducts, setSortedProducts] = useState(products);
     const [sortCriteria, setSortCriteria] = useState("created_at");
@@ -103,6 +118,27 @@ export default function Profile({ user, products }) {
                     </div>
                 </div>
             </div>
+            {comments.length > 0 ? "KOMENTARZE" : ""}
+            {comments.map((comment) => (
+                <Comment
+                    //key={comment.user_id} // Używamy unikalnego ID komentarza
+                    id={comment.user.id} // ID użytkownika, który dodał komentarz
+                    avatar={
+                        comment.user.avatar ||
+                        "https://geex.x-kom.pl/wp-content/uploads/2022/08/andrew-tate.png"
+                    } // Jeśli dostępne, użyj awatara użytkownika
+                    username={comment.user.name} // Używamy nazwy użytkownika
+                    rating={comment.rating} // Rating komentarza
+                    comment={comment.comment} // Tekst komentarza
+                    onReport={handleReportOpen} // Funkcja do zgłaszania komentarza
+                />
+            ))}
+            <ReportCommentForm
+                username={selectedUsername}
+                id={selectedId}
+                open={open}
+                onClose={handleReportClose}
+            />
         </Layout>
     );
 }
