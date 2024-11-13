@@ -119,20 +119,22 @@ export default function Profile({ user, products, comments }) {
                 </div>
             </div>
             {comments.length > 0 ? "KOMENTARZE" : ""}
-            {comments.map((comment) => (
-                <Comment
-                    //key={comment.user_id} // Używamy unikalnego ID komentarza
-                    id={comment.user.id} // ID użytkownika, który dodał komentarz
-                    avatar={
-                        comment.user.avatar ||
-                        "https://geex.x-kom.pl/wp-content/uploads/2022/08/andrew-tate.png"
-                    } // Jeśli dostępne, użyj awatara użytkownika
-                    username={comment.user.name} // Używamy nazwy użytkownika
-                    rating={comment.rating} // Rating komentarza
-                    comment={comment.comment} // Tekst komentarza
-                    onReport={handleReportOpen} // Funkcja do zgłaszania komentarza
-                />
-            ))}
+            <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-2 xl:gap-x-8">
+                {comments.map((comment) => (
+                    <Comment
+                        //key={comment.user_id} // Używamy unikalnego ID komentarza
+                        id={comment.user.id} // ID użytkownika, który dodał komentarz
+                        avatar={
+                            comment.user.avatar ||
+                            "https://geex.x-kom.pl/wp-content/uploads/2022/08/andrew-tate.png"
+                        } // Jeśli dostępne, użyj awatara użytkownika
+                        username={comment.user.name} // Używamy nazwy użytkownika
+                        rating={comment.rating} // Rating komentarza
+                        comment={comment.comment} // Tekst komentarza
+                        onReport={handleReportOpen} // Funkcja do zgłaszania komentarza
+                    />
+                ))}
+            </div>
             <ReportCommentForm
                 username={selectedUsername}
                 id={selectedId}
