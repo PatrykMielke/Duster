@@ -13,10 +13,13 @@ class DeliveryMethodSeeder extends Seeder
     public function run(): void
     {
         $deliveryMethods = [
-            ['name' => 'InPost', 'price' => 12.99],
-            ['name' => 'Poczta Polska', 'price' => 8.50],
+            ['name' => 'InPost Paczkomat', 'price' => 9.99],
+            ['name' => 'InPost Kurier', 'price' => 12.99],
+            ['name' => 'Poczta Polska ', 'price' => 8.50],
+            ['name' => 'Pocztex ', 'price' => 13.50],
             ['name' => 'DHL', 'price' => 15.00],
             ['name' => 'UPS', 'price' => 18.50],
+            ['name' => 'DPD', 'price' => 16.99],
         ];
 
         foreach ($deliveryMethods as $deliveryMethod) {

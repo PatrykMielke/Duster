@@ -53,17 +53,12 @@ class DatabaseSeeder extends Seeder
                 $this->call(DeliveryMethodSeeder::class);
                 $this->call(MaterialSeeder::class);
                 $this->call(SizeSeeder::class);
-                $this->call(SexSeeder::class);
                 $this->call(RoleSeeder::class);
-
-
                 User::factory(100)->create();
-
                 $this->call(ColorSeeder::class);
                 $this->call(PaymentMethodsSeeder::class);
                 $this->call(CategorySeeder::class);
                 $this->call(StatusSeeder::class);
-                $this->call(ItemSeeder::class);
                 $this->call(ListingSeeder::class);
                 $this->call(VisitSeeder::class);
                 $this->call(DetailSeeder::class);
@@ -72,6 +67,7 @@ class DatabaseSeeder extends Seeder
 
                 $this->call(GallerySeeder::class);
                 $this->call(OrderSeeder::class);
+
                 User::create([
                         'name' => 'admin',
                         'email' => 'admin@a.com',
@@ -80,6 +76,8 @@ class DatabaseSeeder extends Seeder
                         'role_id' => 2,
                         'remember_token' => Str::random(10),
                         'is_active' => true,
+                        'avatar' => '/avatars/igor.jpg'
+
                 ]);
                 User::create([
                     'name' => 'patryk@patryk.patryk',
@@ -89,6 +87,7 @@ class DatabaseSeeder extends Seeder
                     'role_id' => 2,
                     'remember_token' => Str::random(10),
                     'is_active' => true,
+                    'avatar' => '/avatars/bateman.jpg'
             ]);
         }
 }

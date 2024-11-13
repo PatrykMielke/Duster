@@ -101,15 +101,6 @@ Route::get('/t', function () {
 
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 
-
-
-
-
-///////////
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
 
     Route::prefix('profile')->group(function () {

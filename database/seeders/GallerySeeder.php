@@ -18,10 +18,10 @@ class GallerySeeder extends Seeder
 
         foreach ($listings as $listing) {
             for ($i = 0; $i < 5; $i++) {
-                $rng = rand(1, 3);
+                $rng = rand(1, 102);
                 Gallery::create([
                     'listing_id' => $listing->id,
-                    'image' => "storage/images/" . $rng . ".webp"
+                    'image' => "/gallery/" . $rng . ".avif"
                 ]);
             }
         }

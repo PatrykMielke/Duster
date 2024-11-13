@@ -33,6 +33,7 @@ class UserFactory extends Factory
             'role_id' => Role::inRandomOrder()->first()->id ?? 1,
             'remember_token' => Str::random(10),
             'is_active' => fake()->boolean(90),
+            'avatar' => '/avatars/'.rand(1, 20).'.avif',
         ];
     }
 

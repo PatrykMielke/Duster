@@ -14,9 +14,13 @@ class PaymentMethodsSeeder extends Seeder
     public function run(): void
     {
         $nazwaMetody = [
-
+            'Przelewy 24',
             'BLIK',
             'Google Pay',
+            'Apple Pay',
+            'PayPal',
+            'Karta VISA',
+            'Karta Mastercard',
         ];
 
         foreach ($nazwaMetody as $metoda) {

@@ -39,7 +39,7 @@ export default function Profile({ user, products }) {
                 {/* Sekcja zdjęcia profilowego po lewej */}
                 <div className="flex-shrink-0 border-r border-gray-300 pr-4">
                     <img
-                        src={"/avatars/" + user.avatar}
+                        src={user.avatar}
                         alt="Avatar"
                         className="w-24 h-24 object-cover rounded-full"
                     />
