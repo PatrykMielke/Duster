@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Schema;
 use App\Http\Controllers\ListingFollow;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\VisitController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
@@ -127,6 +128,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/settings', function () {
         return Inertia::render('Profile/Settings');
     })->name('settings');
+
+    // Dodawanie komentarza
+    Route::post('/comments', [CommentController::class, 'store']);
+
+    // Pobieranie komentarzy dla profilu użytkownika
+    Route::get('/comments/{profileUserId}', [CommentController::class, 'index']);
 });
 
 // API

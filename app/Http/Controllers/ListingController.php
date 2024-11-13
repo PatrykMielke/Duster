@@ -192,6 +192,7 @@ class ListingController extends Controller
      */
     public function show($id)
     {
+
         $listing = Listing::with(['user', 'galleries', 'details.size', 'details.brand', 'details.condition', 'details.detailColor.color', 'details.detailMaterial.material',])->findOrFail($id);
         $uniqueUserCount = $listing->visits()->distinct('user_id')->count('user_id');
 

@@ -68,6 +68,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(FollowedListingSeeder::class);
                 $this->call(GallerySeeder::class);
                 $this->call(OrderSeeder::class);
+                $this->call(CommentSeeder::class);
 
                 User::create([
                         'name' => 'admin',
