@@ -5,7 +5,7 @@ import Listing from "@/Pages/Listing/Partials/Listing";
 import Rating from "@mui/material/Rating";
 import Comment from "@/Components/Comment";
 import ReportCommentForm from "@/Pages/Misc/Forms/ReportCommentForm";
-export default function Profile({ user, products, comments }) {
+export default function Profile({ user, auth, products, comments }) {
     const [open, setOpen] = useState(false);
     const [selectedUsername, setSelectedUsername] = useState("");
     const [selectedId, setSelectedId] = useState(0);
