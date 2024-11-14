@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import Layout from "@/Layouts/Layout";
 import FilterBar from "@/Components/FilterBar";
 import Listing from "@/Pages/Listing/Partials/Listing";
+import axios from 'axios';
 
-export default function Profile({ user, products }) {
+export default function Profile({ user, auth, products }) {
     // State to hold the sorted products
     const [sortedProducts, setSortedProducts] = useState(products);
     const [sortCriteria, setSortCriteria] = useState("created_at");
     const [sortOrder, setSortOrder] = useState("desc");
-
+    const [isFollowed, setIsFollowed] = useState(false)
     // Step 2: Sorting function
     const sortProducts = (criteria, order) => {
         const sorted = [...products].sort((a, b) => {
@@ -27,6 +28,67 @@ export default function Profile({ user, products }) {
         });
         setSortedProducts(sorted);
     };
+
+
+
+    useEffect(() => {
+        if (!auth?.user?.id) return;
+
+        const checkIfFollowed = async () => {
+
+            try {
+                const response = await axios.get('followed-users/check', {
+                    params: {
+                        user_id: auth.user.id,
+                        followed_user_id: user.id,
+                    },
+                });
+                if (response.data.isFollowed) {
+                    setIsFollowed(true);
+                }
+            }
+            catch (error) {
+                console.error('Bład podczas sprawdzania obserwacji:', error);
+            }
+        };
+
+
+
+        checkIfFollowed();
+    }, [auth?.user?.id, user.id]);
+
+    const submit = async (e) => {
+        e.preventDefault();
+
+        if (!auth?.user?.id) {
+            return;
+        }
+
+        const formData = {
+            user_id: auth.user.id,
+            followed_user_id: user.id,
+        };
+
+        try {
+            if (isFollowed) {
+                await axios.delete('followed_users.destroy', { data: formData });
+                setIsFollowed(false);
+                console.log('Uzytkownik usunięty z obserwowanych.');
+            } else {
+                await axios.post('followed_users.store', formData);
+                setIsFollowed(true);
+                console.log('Uzytkownik dodany do obserwowanych.');
+            }
+        } catch (error) {
+            console.error('Bład podczas aktualizacji obserwacji:', error);
+        }
+
+        if (!auth?.user?.id) {
+            return null;
+        }
+    };
+
+
 
     // Step 3: Use `useEffect` to sort products when sort criteria or order changes
     useEffect(() => {
@@ -50,22 +112,31 @@ export default function Profile({ user, products }) {
                     <h2 className="text-2xl font-semibold">{user.name}</h2>
                     <p className="text-gray-500">{user.email}</p>
 
-                    <div className="flex space-x-8 mt-4">
-                        <div>
-                            <span className="font-bold">
-                                {user.following_count}
-                            </span>
-                            <p className="text-gray-600">Obserwuje</p>
+                    <div className="flex justify-between items-center mt-4 bg-gray-100 p-4 rounded-lg">
+                        <div className="flex space-x-8">
+                            <div>
+                                <span className="font-bold">{user.following_count}</span>
+                                <p className="text-gray-600">Obserwuje</p>
+                            </div>
+                            <div>
+                                <span className="font-bold">{user.followers_count}</span>
+                                <p className="text-gray-600">Obserwujących</p>
+                            </div>
+                            <div>
+                                <span className="font-bold">{products.length}</span>
+                                <p className="text-gray-600">Ogłoszenia</p>
+                            </div>
                         </div>
                         <div>
-                            <span className="font-bold">
-                                {user.followers_count}
-                            </span>
-                            <p className="text-gray-600">Obserwujących</p>
-                        </div>
-                        <div>
-                            <span className="font-bold">{products.length}</span>
-                            <p className="text-gray-600">Ogłoszenia</p>
+                            <button
+                                className="font-bold bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+                                onClick={submit}
+
+                            >
+
+
+
+                            </button>
                         </div>
                     </div>
                 </div>

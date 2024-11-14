@@ -2,8 +2,9 @@
 
 use App\Models\Sex;
 use Inertia\Inertia;
-use App\Models\Listing;
+use App\Models\Order;
 
+use App\Models\Listing;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Schema;
@@ -12,8 +13,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserFollowController;
 use App\Http\Controllers\ListingFollowController;
-use App\Models\Order;
 
 Route::get('/', function () {
     return Inertia::render('HomePage', [
@@ -42,41 +43,48 @@ Route::get('/ProductDetails', function () {
 //ADMIN
 Route::get('/admin', [ListingController::class, 'adminDashboard'])->name('admin');
 
-
-
+//Edycja ogloszen z widoku admina
 Route::patch('/api/listings/{id}', [ListingController::class, 'updateAdmin']);
 
+
+/// Wszystkie ogloszenia
+Route::get('/listings', [ListingController::class, 'index'])->name('listings');
+Route::get('/listing/{id}', [ListingController::class, 'show'])->name('listing');
 
 
 Route::middleware('auth')->group(function () {
 
-    // dodawanie i zapis nowego ogloszenia
+    // Nowe ogloszenie
     Route::get('/listings/create', [ListingController::class, 'create'])->name('listings.create');
     Route::post('/listings', [ListingController::class, 'store'])->name('listings.store');
-    //// edycja i zapis ogloszenia
+    // Edycja ogloszenia
     Route::get('/listings/{id}/edit', [ListingController::class, 'edit'])->name('listings.edit');
     Route::put('/listings/{id}', [ListingController::class, 'update'])->name('listings.update');
 
+
+    //Zakup ogkoszenia
     Route::get('/checkout/{id}', [OrderController::class, 'index'])->name('order.showCheckout');
+    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 });
 
 
-///
-Route::get('/listings', [ListingController::class, 'index'])->name('listings');
-Route::get('/listing/{id}', [ListingController::class, 'show'])->name('listing');
 
 //Route::get('/checkout/{id}', [ListingController::class, 'checkout'])->name('listing.showCheckout');
 
 
 
-// obserwowanie ogloszen
+// obserwowanie ogloszen i uzytkownikow
 Route::get('followed-listings/{userId}', [ListingFollowController::class, 'index']);
 Route::get('/followed_listings/check', [ListingFollowController::class, 'check']);
 Route::post('/followed_listings', [ListingFollowController::class, 'store']);
 Route::delete('/followed_listings', [ListingFollowController::class, 'destroy']);
 
-
-
+Route::prefix('followed-users')->group(function () {
+    Route::get('/{userId}', [UserFollowController::class, 'index'])->name('followed_users.index');
+    Route::get('/check', [UserFollowController::class, 'check'])->name('followed_users.check');
+    Route::post('/', [UserFollowController::class, 'store'])->name('followed_users.store');
+    Route::delete('/', [UserFollowController::class, 'destroy'])->name('followed_users.destroy');
+});
 
 //// robocze
 
@@ -94,9 +102,6 @@ Route::get('/t', function () {
 
 ////
 
-
-
-Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 
 
 

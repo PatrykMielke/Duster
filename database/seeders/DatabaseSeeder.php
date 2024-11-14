@@ -18,6 +18,8 @@ use App\Models\Condition;
 use Illuminate\Support\Str;
 use App\Models\PaymentMethods;
 use App\Models\DeliveryMethods;
+use App\Models\FollowedListing;
+use App\Models\FollowedUser;
 use Database\Seeders\SexSeeder;
 use Illuminate\Database\Seeder;
 use Database\Seeders\RoleSeeder;
@@ -45,6 +47,8 @@ class DatabaseSeeder extends Seeder
                 Size::truncate();
                 Sex::truncate();
                 Role::truncate();
+                FollowedUser::truncate();
+                FollowedListing::truncate();
 
                 //Schema::enableForeignKeyConstraints();
 
@@ -69,6 +73,8 @@ class DatabaseSeeder extends Seeder
                 $this->call(DetailSeeder::class);
                 $this->call(DetailMaterialSeeder::class);
                 $this->call(DetailColorSeeder::class);
+                $this->call(FollowedListingSeeder::class);
+                $this->call(FollowedUserSeeder::class);
 
                 $this->call(GallerySeeder::class);
                 $this->call(OrderSeeder::class);
