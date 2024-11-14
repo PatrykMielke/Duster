@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Wallet;
 use Laravel\Cashier\Billable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -62,6 +63,10 @@ class User extends Authenticatable
     public function session()
     {
         return $this->hasOne(Session::class);
+    }
+    public function wallet()
+    {
+        return $this->hasOne(Wallet::class);
     }
 
     // Define the relationship for "followers" (users who follow this user)

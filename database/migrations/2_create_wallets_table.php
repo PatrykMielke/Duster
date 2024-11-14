@@ -14,8 +14,8 @@ return new class extends Migration
     {
         Schema::create('wallets', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'user_id')->constrained();
-            $table->decimal('balance')->constrained();
+            $table->foreignIdFor(User::class, 'user_id')->constrained()->unique();
+            $table->decimal('balance', 10, 2);
             $table->timestamps();
         });
     }

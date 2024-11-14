@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Schema;
 use App\Http\Controllers\ListingFollow;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\VisitController;
+use App\Http\Controllers\WalletController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\ProfileController;
@@ -83,6 +84,8 @@ Route::prefix('followed-users')->group(function () {
     Route::delete('/', [UserFollowController::class, 'destroy'])->name('followed_users.destroy');
 });
 
+Route::get('/wallet', [WalletController::class, 'index'])->name('wallet');
+Route::post('/portfel', [WalletController::class, 'store']);
 //// robocze
 
 //Route::get('/checkout/{id}', [ListingController::class, 'checkout'])->name('listing.showCheckout');
@@ -132,9 +135,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
     });
 
-    Route::get('/wallet', function () {
-        return Inertia::render('Profile/Wallet');
-    })->name('wallet');
+
 
     Route::get('/settings', function () {
         return Inertia::render('Profile/Settings');
