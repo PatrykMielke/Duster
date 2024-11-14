@@ -122,6 +122,11 @@ export default function Profile({ user, auth, products }) {
         sortProducts(sortCriteria, sortOrder);
     }, [sortCriteria, sortOrder, products]);
 
+    const handleDeleteComment = (commentId) => {
+        setComments((prevComments) =>
+            prevComments.filter((comment) => comment.id !== commentId),
+        );
+    };
     return (
         <Layout>
             <div className="flex items-center border-b border-gray-300 p-4  space-x-8">
@@ -223,16 +228,19 @@ export default function Profile({ user, auth, products }) {
             <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2 lg:grid-cols-1 xl:gap-x-8">
                 {comments.map((comment) => (
                     <Comment
-                        //key={comment.user_id} // Używamy unikalnego ID komentarza
-                        id={comment.user_id} // ID użytkownika, który dodał komentarz
+                        key={comment.id} // Używamy unikalnego ID komentarza
+                        id={comment.id} // ID użytkownika, który dodał komentarz
                         avatar={
                             comment.user.avatar ||
                             "https://geex.x-kom.pl/wp-content/uploads/2022/08/andrew-tate.png"
-                        } // Jeśli dostępne, użyj awatara użytkownika
-                        username={comment.user.name} // Używamy nazwy użytkownika
-                        rating={comment.rating} // Rating komentarza
-                        comment={comment.comment} // Tekst komentarza
-                        onReport={handleReportOpen} // Funkcja do zgłaszania komentarza
+                        }
+                        username={comment.user.name}
+                        rating={comment.rating}
+                        comment={comment.comment}
+                        onReport={handleReportOpen}
+                        onDelete={handleDeleteComment} // Przekazujemy obsługę usuwania
+                        authorId={comment.user_id} // ID autora komentarza
+                        currentUserId={auth.user.id} // ID aktualnie zalogowanego użytkownika
                     />
                 ))}
             </div>

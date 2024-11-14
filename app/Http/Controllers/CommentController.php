@@ -45,4 +45,8 @@ class CommentController extends Controller
             ->get();
         return response()->json($comments);
     }
+    public function destroy($commentId){
+        Comment::where('id', $commentId)->delete();
+        return response()->json(['message'=>'Deleted Successfully']);
+    }
 }

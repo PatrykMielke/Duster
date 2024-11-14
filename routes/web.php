@@ -147,6 +147,7 @@ Route::get('/categories', [CategoryController::class, 'getCategories'])->name('c
 
 Route::post('/comments', [CommentController::class, 'store'])->middleware('auth');
 Route::get('/comments/{id}', [CommentController::class, 'getComments']);
+Route::delete('/comments/{id}', [CommentController::class, 'destroy']);
 
 
 Route::fallback(function () {
