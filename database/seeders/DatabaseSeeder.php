@@ -16,14 +16,15 @@ use App\Models\Category;
 use App\Models\Material;
 use App\Models\Condition;
 use Illuminate\Support\Str;
+use App\Models\FollowedUser;
 use App\Models\PaymentMethods;
 use App\Models\DeliveryMethods;
 use App\Models\FollowedListing;
-use App\Models\FollowedUser;
 use Database\Seeders\SexSeeder;
 use Illuminate\Database\Seeder;
 use Database\Seeders\RoleSeeder;
 use Database\Seeders\DetailSeeder;
+use Database\Seeders\WalletSeeder;
 use Database\Seeders\ListingSeeder;
 use Illuminate\Support\Facades\Schema;
 
@@ -93,5 +94,6 @@ class DatabaseSeeder extends Seeder
                 $this->call(GallerySeeder::class);
                 $this->call(OrderSeeder::class);
                 $this->call(CommentSeeder::class);
+                $this->call(WalletSeeder::class);
         }
 }

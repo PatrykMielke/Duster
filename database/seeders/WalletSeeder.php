@@ -20,7 +20,7 @@ class WalletSeeder extends Seeder
             if (!$user->wallet) {
                 Wallet::create([
                     'user_id' => $user->id,
-                    'balance' => 0
+                    'balance' => fake()->randomFloat(2, 0, 2000),
                 ]);
             }
         }
