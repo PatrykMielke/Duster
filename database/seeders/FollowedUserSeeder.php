@@ -11,13 +11,13 @@ class FollowedUserSeeder extends Seeder
 {
     public function run()
     {
-        $users = User::select('id',)->pluck('id')->toArray();
+        $users = User::whereIn('id', range(1, 100))->pluck('id')->toArray();
 
         foreach ($users as $userId) {
             $followedUsers = collect($users)
-                ->reject(fn($id) => $id === $userId)
-                ->random(rand(1, 5))
-                ->unique();
+                ->reject(fn($id) => $id === $userId) // Avoid following oneself
+                ->random(rand(1, 30)) // Each user follows 1-5 other random users
+                ->unique(); // Ensure no duplicates
 
             foreach ($followedUsers as $followedUserId) {
                 FollowedUser::create([

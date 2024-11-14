@@ -5,6 +5,7 @@ use Auth;
 use App\Models\User;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Comment;
 use App\Models\Listing;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -35,6 +36,14 @@ class ProfileController extends Controller
             return redirect()->route('index');
         }
 
+        // Pobierz średnią ocenę dla komentarzy użytkownika (średnia z jego komentarzy)
+        $averageRating = Comment::where('profile_user_id', $user->id)
+                        ->avg('rating'); // Obliczamy średnią ocenę
+        $ratingCount = $user->comments()->count('rating');
+
+        // Możesz dodać średnią ocenę do obiektu $listing
+        $user->averageRating = $averageRating;
+        $user->ratingCount = $ratingCount;
 
         $listings = Listing::with(['user', 'galleries'])
             ->where('status_id', 1)
@@ -42,11 +51,15 @@ class ProfileController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-
+            $comments = Comment::with('user') // Załaduj dane użytkownika powiązanego z każdym komentarzem
+            ->where('profile_user_id', $user->id)
+            ->orderBy('created_at', 'desc') // Opcjonalnie możesz posortować po dacie
+            ->get();
 
         return Inertia::render('Profile/Profile', [
             'user' => $user,
             'products' => $listings,
+            'comments' => $comments,
         ]);
     }
     /**

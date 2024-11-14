@@ -53,11 +53,6 @@ const NAVIGATION = [
         icon: <LocalShippingIcon />,
     },
     {
-        segment: "faktury",
-        title: "Faktury",
-        icon: <ReceiptIcon />,
-    },
-    {
         kind: "divider",
     },
 ];
@@ -98,8 +93,6 @@ function PageContent({ pathname, props }) {
             );
         case "/zamowienia":
             return <DashboardSection component={<OrderTable />} />;
-        case "/faktury":
-            return <DashboardSection component={<InvoiceTable />} />;
         default:
             console.log("error");
     }

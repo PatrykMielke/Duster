@@ -2,9 +2,24 @@ import React, { useState, useEffect } from "react";
 import Layout from "@/Layouts/Layout";
 import FilterBar from "@/Components/FilterBar";
 import Listing from "@/Pages/Listing/Partials/Listing";
-import axios from 'axios';
+import Rating from "@mui/material/Rating";
+import Comment from "@/Components/Comment";
+import ReportCommentForm from "@/Pages/Misc/Forms/ReportCommentForm";
+export default function Profile({ user, products, comments }) {
+    const [open, setOpen] = useState(false);
+    const [selectedUsername, setSelectedUsername] = useState("");
+    const [selectedId, setSelectedId] = useState(0);
+    // Function to open the dialog
+    const handleReportOpen = (username, id) => {
+        setSelectedUsername(username);
+        setSelectedId(id);
+        setOpen(true);
+    };
 
-export default function Profile({ user, auth, products }) {
+    // Function to close the dialog
+    const handleReportClose = () => {
+        setOpen(false);
+    };
     // State to hold the sorted products
     const [sortedProducts, setSortedProducts] = useState(products);
     const [sortCriteria, setSortCriteria] = useState("created_at");
@@ -101,7 +116,7 @@ export default function Profile({ user, auth, products }) {
                 {/* Sekcja zdjęcia profilowego po lewej */}
                 <div className="flex-shrink-0 border-r border-gray-300 pr-4">
                     <img
-                        src={"/avatars/" + user.avatar}
+                        src={user.avatar}
                         alt="Avatar"
                         className="w-24 h-24 object-cover rounded-full"
                     />
@@ -110,33 +125,35 @@ export default function Profile({ user, auth, products }) {
                 {/* Sekcja informacji o użytkowniku */}
                 <div className="flex-grow">
                     <h2 className="text-2xl font-semibold">{user.name}</h2>
-                    <p className="text-gray-500">{user.email}</p>
-
-                    <div className="flex justify-between items-center mt-4 bg-gray-100 p-4 rounded-lg">
-                        <div className="flex space-x-8">
-                            <div>
-                                <span className="font-bold">{user.following_count}</span>
-                                <p className="text-gray-600">Obserwuje</p>
-                            </div>
-                            <div>
-                                <span className="font-bold">{user.followers_count}</span>
-                                <p className="text-gray-600">Obserwujących</p>
-                            </div>
-                            <div>
-                                <span className="font-bold">{products.length}</span>
-                                <p className="text-gray-600">Ogłoszenia</p>
-                            </div>
+                    <div className="mt-3">
+                        <div className="flex items-center">
+                            <Rating
+                                defaultValue={1}
+                                precision={0.1}
+                                value={user.averageRating}
+                                readOnly
+                            />
+                            <p className="ml-3 font-medium">
+                                {user.ratingCount} reviews
+                            </p>
+                        </div>
+                    </div>
+                    <div className="flex space-x-8 mt-4">
+                        <div>
+                            <span className="font-bold">
+                                {user.following_count}
+                            </span>
+                            <p className="text-gray-600">Obserwuje</p>
                         </div>
                         <div>
-                            <button
-                                className="font-bold bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
-                                onClick={submit}
-
-                            >
-
-
-
-                            </button>
+                            <span className="font-bold">
+                                {user.followers_count}
+                            </span>
+                            <p className="text-gray-600">Obserwujących</p>
+                        </div>
+                        <div>
+                            <span className="font-bold">{products.length}</span>
+                            <p className="text-gray-600">Ogłoszenia</p>
                         </div>
                     </div>
                 </div>
@@ -162,6 +179,29 @@ export default function Profile({ user, auth, products }) {
                     </div>
                 </div>
             </div>
+            {comments.length > 0 ? "KOMENTARZE" : ""}
+            <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-2 xl:gap-x-8">
+                {comments.map((comment) => (
+                    <Comment
+                        //key={comment.user_id} // Używamy unikalnego ID komentarza
+                        id={comment.user.id} // ID użytkownika, który dodał komentarz
+                        avatar={
+                            comment.user.avatar ||
+                            "https://geex.x-kom.pl/wp-content/uploads/2022/08/andrew-tate.png"
+                        } // Jeśli dostępne, użyj awatara użytkownika
+                        username={comment.user.name} // Używamy nazwy użytkownika
+                        rating={comment.rating} // Rating komentarza
+                        comment={comment.comment} // Tekst komentarza
+                        onReport={handleReportOpen} // Funkcja do zgłaszania komentarza
+                    />
+                ))}
+            </div>
+            <ReportCommentForm
+                username={selectedUsername}
+                id={selectedId}
+                open={open}
+                onClose={handleReportClose}
+            />
         </Layout>
     );
 }

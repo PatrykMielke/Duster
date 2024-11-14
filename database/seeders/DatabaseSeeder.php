@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
         {
                 //Schema::disableForeignKeyConstraints();
 
-                Brand::truncate();
+                /* Brand::truncate();
                 Color::truncate();
                 Status::truncate();
                 Category::truncate();
@@ -47,37 +47,31 @@ class DatabaseSeeder extends Seeder
                 Size::truncate();
                 Sex::truncate();
                 Role::truncate();
-                FollowedUser::truncate();
-                FollowedListing::truncate();
-
+ */
                 //Schema::enableForeignKeyConstraints();
 
                 $this->call(BrandSeeder::class);
+                $this->call(CategorySeeder::class);
+                $this->call(ColorSeeder::class);
                 $this->call(ConditionSeeder::class);
                 $this->call(DeliveryMethodSeeder::class);
                 $this->call(MaterialSeeder::class);
                 $this->call(SizeSeeder::class);
-                $this->call(SexSeeder::class);
                 $this->call(RoleSeeder::class);
-
-
-                User::factory(20)->create();
-
-                $this->call(ColorSeeder::class);
+                User::factory(100)->create();
                 $this->call(PaymentMethodsSeeder::class);
-                $this->call(CategorySeeder::class);
                 $this->call(StatusSeeder::class);
-                $this->call(ItemSeeder::class);
                 $this->call(ListingSeeder::class);
                 $this->call(VisitSeeder::class);
                 $this->call(DetailSeeder::class);
                 $this->call(DetailMaterialSeeder::class);
                 $this->call(DetailColorSeeder::class);
-                $this->call(FollowedListingSeeder::class);
                 $this->call(FollowedUserSeeder::class);
-
+                $this->call(FollowedListingSeeder::class);
                 $this->call(GallerySeeder::class);
                 $this->call(OrderSeeder::class);
+                $this->call(CommentSeeder::class);
+
                 User::create([
                         'name' => 'admin',
                         'email' => 'admin@a.com',
@@ -86,6 +80,18 @@ class DatabaseSeeder extends Seeder
                         'role_id' => 2,
                         'remember_token' => Str::random(10),
                         'is_active' => true,
+                        'avatar' => '/avatars/igor.jpg'
+
+                ]);
+                User::create([
+                        'name' => 'patryk@patryk.patryk',
+                        'email' => 'patryk@patryk.patryk',
+                        'email_verified_at' => now(),
+                        'password' => 'patryk@patryk.patryk', // password
+                        'role_id' => 2,
+                        'remember_token' => Str::random(10),
+                        'is_active' => true,
+                        'avatar' => '/avatars/bateman.jpg'
                 ]);
         }
 }

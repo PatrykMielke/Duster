@@ -15,18 +15,21 @@ class FollowedListingSeeder extends Seeder
      */
     public function run(): void
     {
-        $listings = Listing::all();
-        $users = User::pluck('id')->toArray();
+        $users = User::whereIn('id', range(1, 100))->pluck('id')->toArray();
 
-        foreach ($users as $user) {
-            $followedListingsCount = rand(3, 9);
+        // Get all listing IDs to randomly select from
+        $listings = Listing::pluck('id')->toArray();
 
-            $followedListings = $listings->random($followedListingsCount);
+        foreach ($users as $userId) {
+            // Randomly select a set of listing IDs for each user to follow
+            $followedListings = collect($listings)
+                ->random(rand(1, 80)) // Each user follows 1-30 random listings
+                ->unique(); // Ensure no duplicates
 
-            foreach ($followedListings as $listing) {
+            foreach ($followedListings as $listingId) {
                 FollowedListing::create([
-                    'listing_id' => $listing->id,
-                    'user_id' => $user
+                    'user_id' => $userId,
+                    'listing_id' => $listingId,
                 ]);
             }
         }

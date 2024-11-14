@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Item;
 use App\Models\Size;
 use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Detail;
 use App\Models\Listing;
 use App\Models\Condition;
@@ -19,7 +20,7 @@ class DetailSeeder extends Seeder
     public function run(): void
     {
         $listings = Listing::all();
-        $items = Item::all();
+        $categories = Category::all();
         $sizes = Size::all();
         $brands = Brand::all();
         $conditions = Condition::all();
@@ -27,14 +28,14 @@ class DetailSeeder extends Seeder
 
 
         foreach ($listings as $listing) {
-            $randomItem = $items->random();
+            $randomCategory = $categories->random();
             $randomSize = $sizes->random();
             $randomBrand = $brands->random();
             $randomCondition = $conditions->random();
 
             Detail::create([
                 'listing_id' => $listing->id,
-                'item_id' => $randomItem->id,
+                'category_id' => $randomCategory->id,
                 'size_id' => $randomSize->id,
                 'brand_id' => $randomBrand->id,
                 'condition_id' => $randomCondition->id

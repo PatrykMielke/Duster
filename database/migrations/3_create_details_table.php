@@ -2,6 +2,7 @@
 
 use App\Models\Size;
 use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Listing;
 use App\Models\Condition;
 use App\Models\Item;
@@ -20,7 +21,7 @@ return new class extends Migration
         Schema::create('details', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Listing::class, 'listing_id')->constrained();
-            $table->foreignIdFor(Item::class, 'item_id')->constrained();
+            $table->foreignIdFor(Category::class, 'category_id')->constrained();
             $table->foreignIdFor(Size::class, 'size_id')->constrained();
             $table->foreignIdFor(Brand::class)->constrained();
             $table->foreignIdFor(Condition::class)->constrained();

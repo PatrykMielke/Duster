@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Layout from "@/Layouts/Layout";
-import Select from "./Select";
 import { router } from "@inertiajs/react";
 
 function Search(props) {
@@ -32,7 +31,6 @@ function Search(props) {
                     </button>
                 </div>
             </form>
-            <Select />
         </div>
     );
 }

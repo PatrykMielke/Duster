@@ -15,10 +15,8 @@ class StatusSeeder extends Seeder
     {
         $statuses = [
             'Aktywne',
-            'Ukryte',
-            'Nieaktywne',
             'Zakończone',
-            'Usunięte'
+            'Usunięte',
         ];
 
         foreach ($statuses as $status) {

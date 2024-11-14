@@ -35,16 +35,8 @@ export default function CategoryItems(props) {
                                         <div className=" gap-y-10 py-16">
                                             {" "}
                                             {/* NAVBAR ULOZENIE */}
-                                            <div className="col-start-2 mx-auto grid grid-cols-2 gap-x-8">
-                                                {category.featured.map(
-                                                    (item) => (
-                                                        <div
-                                                            key={item.name}
-                                                        ></div>
-                                                    ),
-                                                )}
-                                            </div>
-                                            <div className="row-start-1 grid grid-cols-4 gap-x-8 gap-y-10 text-sm">
+                                            <div className="col-start-2 mx-auto grid grid-cols-2 gap-x-8"></div>
+                                            <div className="row-start-1 grid grid-cols-3 gap-x-8 gap-y-10 text-sm">
                                                 {category.sections.map(
                                                     (section) => (
                                                         <div key={section.name}>

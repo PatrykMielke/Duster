@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Listing extends Model
 {
 
-
     protected $fillable = [
         'title',
         'description',
@@ -36,7 +35,7 @@ class Listing extends Model
 
     public function item()
     {
-        return $this->belongsTo(Item::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function details()

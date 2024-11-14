@@ -18,6 +18,7 @@ class conditionSeeder extends Seeder
             'Nowy bez metki',
             'Bardzo dobry',
             'Dobry',
+            'Średni',
             'Zniszczony'];
 
         foreach ($condition as $condition) {

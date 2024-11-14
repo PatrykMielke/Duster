@@ -5,37 +5,28 @@ use Inertia\Inertia;
 use App\Models\Order;
 
 use App\Models\Listing;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Schema;
 use App\Http\Controllers\ListingFollow;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\VisitController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserFollowController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ListingFollowController;
 
 Route::get('/', function () {
-    return Inertia::render('HomePage', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return Inertia::render('HomePage');
 })->name('index');
 
+Route::get('/kategoria/{id}', [ListingController::class, 'showByCategory'])->name('showByCategory');
 
 
 
-Route::get('/views', function () {
-    return Inertia::render('Views');
-})->name('views');
 
-
-Route::get('/ProductDetails', function () {
-    return Inertia::render('ProductDetails');
-})->name('products');
 
 
 
@@ -54,12 +45,12 @@ Route::get('/listing/{id}', [ListingController::class, 'show'])->name('listing')
 
 Route::middleware('auth')->group(function () {
 
-    // Nowe ogloszenie
-    Route::get('/listings/create', [ListingController::class, 'create'])->name('listings.create');
-    Route::post('/listings', [ListingController::class, 'store'])->name('listings.store');
-    // Edycja ogloszenia
-    Route::get('/listings/{id}/edit', [ListingController::class, 'edit'])->name('listings.edit');
-    Route::put('/listings/{id}', [ListingController::class, 'update'])->name('listings.update');
+    // dodawanie i zapis nowego ogloszenia
+    Route::get('/ogloszenia/stworz', [ListingController::class, 'create'])->name('listings.create');
+    Route::post('/ogloszenia', [ListingController::class, 'store'])->name('listings.store');
+    //// edycja i zapis ogloszenia
+    Route::get('/ogloszenia/{id}/edycja', [ListingController::class, 'edit'])->name('listings.edit');
+    Route::put('/ogloszenia/{id}', [ListingController::class, 'update'])->name('listings.update');
 
 
     //Zakup ogkoszenia
@@ -68,16 +59,21 @@ Route::middleware('auth')->group(function () {
 });
 
 
+///
+Route::get('/ogloszenia', [ListingController::class, 'index'])->name('listings');
+Route::get('/ogloszenia/{id}', [ListingController::class, 'show'])->name('listing');
 
-//Route::get('/checkout/{id}', [ListingController::class, 'checkout'])->name('listing.showCheckout');
 
 
 
-// obserwowanie ogloszen i uzytkownikow
-Route::get('followed-listings/{userId}', [ListingFollowController::class, 'index']);
-Route::get('/followed_listings/check', [ListingFollowController::class, 'check']);
-Route::post('/followed_listings', [ListingFollowController::class, 'store']);
-Route::delete('/followed_listings', [ListingFollowController::class, 'destroy']);
+// obserwowanie ogloszen
+Route::prefix('obserwowane')->group(function () {
+    Route::get('/{userId}', [ListingFollowController::class, 'index']);
+    Route::get('/check', [ListingFollowController::class, 'check']);
+    Route::post('/', [ListingFollowController::class, 'store']);
+    Route::delete('/', [ListingFollowController::class, 'destroy']);
+});
+
 
 Route::prefix('followed-users')->group(function () {
     Route::get('/{userId}', [UserFollowController::class, 'index'])->name('followed_users.index');
@@ -87,6 +83,9 @@ Route::prefix('followed-users')->group(function () {
 });
 
 //// robocze
+
+//Route::get('/checkout/{id}', [ListingController::class, 'checkout'])->name('listing.showCheckout');
+
 
 Route::get('/twarde', function () {
     return Inertia::render('twarde');
@@ -99,22 +98,29 @@ Route::get('/tesa', function () {
 Route::get('/t', function () {
     return Inertia::render('t');
 })->name('t');
+Route::get('/listingsss', function () {
+    $listings = Listing::where('status_id', 1)->get();
+    dd($listings);
+    return Inertia::render('t');
+})->name('t');
 
-////
+
+Route::get('/views', function () {
+    return Inertia::render('Views');
+})->name('views');
+
+Route::get('/ProductDetails', function () {
+    return Inertia::render('ProductDetails');
+})->name('products');
 
 
 
 
-
-
-///////////
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::post('/zamowienia', [OrderController::class, 'store'])->name('orders.store');
 
 Route::middleware('auth')->group(function () {
 
-    Route::prefix('profile')->group(function () {
+    Route::prefix('profil')->group(function () {
 
         Route::get('/{id}', [ProfileController::class, 'show'])->name('profile.show');
         Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -132,6 +138,21 @@ Route::middleware('auth')->group(function () {
     Route::get('/settings', function () {
         return Inertia::render('Profile/Settings');
     })->name('settings');
+
+    // Dodawanie komentarza
+    Route::post('/comments', [CommentController::class, 'store']);
+
+    // Pobieranie komentarzy dla profilu użytkownika
+    Route::get('/comments/{profileUserId}', [CommentController::class, 'index']);
+});
+
+// API
+
+Route::get('/categories', [CategoryController::class, 'getCategories'])->name('categories');
+
+
+Route::fallback(function () {
+    return Inertia::render('HomePage',);
 });
 
 require __DIR__ . '/auth.php';
