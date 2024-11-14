@@ -32,7 +32,6 @@ class ListingController extends Controller
     {
         // Pobieramy zapytanie tekstowe do wyszukiwania
         $query = $request->input('query');
-
         // Tworzymy podstawowe zapytanie z filtrem `status_id`
         $listingsQuery = Listing::with(['user', 'galleries'])
             ->orderBy('created_at', 'desc')
@@ -58,13 +57,13 @@ class ListingController extends Controller
     public function showByCategory($categoryId)
     {
         // jeśli nie ma produktów o takiej kategorii
-        $listings = Listing::whereHas('details', function ($query) use($categoryId){
-                $query->where('category_id', $categoryId);
-            })
+        $listings = Listing::whereHas('details', function ($query) use ($categoryId) {
+            $query->where('category_id', $categoryId);
+        })
             ->with(['user', 'galleries', 'details.category'])  // Eager load the relationships
             ->get();
 
-        if(!$category = Category::find($categoryId)){
+        if (!$category = Category::find($categoryId)) {
             return redirect()->route('index');
         }
 
@@ -209,7 +208,7 @@ class ListingController extends Controller
 
         // Pobierz średnią ocenę dla komentarzy użytkownika (średnia z jego komentarzy)
         $averageRating = Comment::where('profile_user_id', $user->id)
-                        ->avg('rating'); // Obliczamy średnią ocenę
+            ->avg('rating'); // Obliczamy średnią ocenę
         $ratingCount = $user->comments()->count('rating');
 
         // Możesz dodać średnią ocenę do obiektu $listing
