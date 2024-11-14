@@ -213,7 +213,7 @@ export default function Profile({ user, auth, products }) {
 
                 <div className="flex justify-end items-end">
                     <span className="text-blue-500 cursor-pointer">
-                        {auth ? (
+                        {auth.user.id !== user.id ? (
                             <CommentForm
                                 profileUserId={user.id}
                                 onCommentAdded={loadComments}
