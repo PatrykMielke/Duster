@@ -22,8 +22,8 @@ export default function ProfileDropdown() {
         <Dropdown>
             <MenuButton>
                 <div style={{ display: "flex", alignItems: "center" }}>
-                    <span style={{ marginRight: "11px" }}>{user.name}</span>
-                    <ProfileIcon />
+                    {/* <span style={{ marginRight: "11px" }}>{user.name}</span> */}
+                    <ProfileIcon username={user.name} />
                     <ChevronDownIcon
                         aria-hidden="true"
                         className="-mr-1 h-5 w-5 text-gray-400"

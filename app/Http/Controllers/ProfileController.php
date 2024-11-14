@@ -63,7 +63,6 @@ class ProfileController extends Controller
     public function updateName(NameUpdateRequest $request): RedirectResponse
     {
 
-
         $request->user()->fill($request->validated());
 
         $request->user()->save();
@@ -106,7 +105,6 @@ class ProfileController extends Controller
     }
     public function updatePassword(PasswordUpdateRequest $request)
     {
-
         $request->user()->fill($request->validated());
 
         $user = Auth::user();
