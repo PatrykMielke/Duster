@@ -38,8 +38,9 @@ class ProfileController extends Controller
 
         // Pobierz średnią ocenę dla komentarzy użytkownika (średnia z jego komentarzy)
         $averageRating =Comment::where('profile_user_id', $user->id)
-                            ->avg('rating'); // Obliczamy średnią ocenę
-        $ratingCount = $user->comments()->count('rating');
+            ->avg('rating'); // Obliczamy średnią ocenę
+        $ratingCount = Comment::where('profile_user_id', $user->id)->count('rating');
+
 
         // Możesz dodać średnią ocenę do obiektu $listing
         $user->averageRating = $averageRating;
