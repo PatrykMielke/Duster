@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import BottomNavigation from "@mui/material/BottomNavigation";
+import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 export default function ToggleFavoriteButton({ listing, auth }) {
     const [isFavorite, setIsFavorite] = useState(false);
@@ -23,7 +23,7 @@ export default function ToggleFavoriteButton({ listing, auth }) {
                     setIsFavorite(true);
                 }
             } catch (error) {
-                console.error('Błąd podczas sprawdzania obserwacji:', error);
+                console.error("Błąd podczas sprawdzania obserwacji:", error);
             }
         };
 
@@ -44,16 +44,16 @@ export default function ToggleFavoriteButton({ listing, auth }) {
 
         try {
             if (isFavorite) {
-                await axios.delete('/followed_listings', { data: formData });
+                await axios.delete("/followed_listings", { data: formData });
                 setIsFavorite(false);
-                console.log('Ogłoszenie usunięte z obserwowanych.');
+                console.log("Ogłoszenie usunięte z obserwowanych.");
             } else {
-                await axios.post('/followed_listings', formData);
+                await axios.post("/followed_listings", formData);
                 setIsFavorite(true);
-                console.log('Ogłoszenie dodane do obserwowanych.');
+                console.log("Ogłoszenie dodane do obserwowanych.");
             }
         } catch (error) {
-            console.error('Błąd podczas aktualizacji obserwacji:', error);
+            console.error("Błąd podczas aktualizacji obserwacji:", error);
         }
     };
 
@@ -69,14 +69,20 @@ export default function ToggleFavoriteButton({ listing, auth }) {
         >
             <BottomNavigationAction
                 label={isFavorite ? "Obserwowane" : "Obserwuj"}
-                icon={isFavorite ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
+                icon={
+                    isFavorite ? (
+                        <FavoriteIcon color="error" />
+                    ) : (
+                        <FavoriteBorderIcon />
+                    )
+                }
                 onClick={submit}
                 showLabel={true}
                 sx={{
-                    '.MuiBottomNavigationAction-label': {
-                        color: 'rgb(107 114 128)',
-                        fontSize: '0.875rem',
-                        fontWeight: '500',
+                    ".MuiBottomNavigationAction-label": {
+                        color: "rgb(107 114 128)",
+                        fontSize: "0.875rem",
+                        fontWeight: "500",
                     },
                 }}
             />

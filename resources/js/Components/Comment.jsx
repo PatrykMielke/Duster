@@ -20,7 +20,6 @@ function Comment({ id, avatar, username, rating, comment, onReport }) {
                 borderRadius: "8px",
                 mb: 2,
                 boxShadow: "0px 2px 5px rgba(0,0,0,0.1)",
-                width: 500,
             }}
         >
             {/* Flag icon for reporting */}

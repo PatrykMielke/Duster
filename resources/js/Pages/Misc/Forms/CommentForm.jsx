@@ -5,9 +5,11 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import Rating from "@mui/material/Rating";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import axios from "axios";
 
 const style = {
     position: "absolute",
@@ -19,6 +21,7 @@ const style = {
     border: "2px solid #000",
     boxShadow: 24,
     p: 4,
+    pt: 2, // Dodatkowe miejsce na ikonę zamykania
 };
 
 export default function CommentForm(props) {
@@ -37,10 +40,26 @@ export default function CommentForm(props) {
         setDescription(event.target.value);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log("Selected Value:", rating);
-        console.log("Description:", description);
+        try {
+            const response = await axios.post("/comments", {
+                profile_user_id: props.profileUserId, // ID użytkownika, do którego jest komentarz
+                rating: rating,
+                comment: description,
+            });
+            setRating(0); // Reset rating
+            setDescription(""); // Reset description
+
+            console.log("Komentarz został zapisany:", response.data);
+            handleClose(); // Zamyka modal po zapisaniu
+            props.onCommentAdded();
+        } catch (error) {
+            console.error(
+                "Wystąpił błąd podczas zapisywania komentarza:",
+                error,
+            );
+        }
     };
 
     return (
@@ -59,10 +78,24 @@ export default function CommentForm(props) {
             >
                 <Fade in={open}>
                     <Box component="form" sx={style} onSubmit={handleSubmit}>
+                        {/* Ikona X do zamykania */}
+                        <IconButton
+                            onClick={handleClose}
+                            sx={{
+                                position: "absolute",
+                                top: 8,
+                                right: 8,
+                            }}
+                        >
+                            <CloseIcon />
+                        </IconButton>
+
+                        {/* Tytuł modala */}
                         <Typography
                             id="transition-modal-title"
                             variant="h6"
                             component="h2"
+                            sx={{ mb: 2 }}
                         >
                             Oceń użytkownika {props?.userName}
                         </Typography>
@@ -94,13 +127,22 @@ export default function CommentForm(props) {
                             }}
                         />
 
-                        <Button
-                            sx={{ mt: 3 }}
-                            type="submit"
-                            variant="contained"
+                        {/* Przyciski "Anuluj" i "Oceń" */}
+                        <Box
+                            sx={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                                mt: 3,
+                                gap: 1,
+                            }}
                         >
-                            Zgłoś
-                        </Button>
+                            <Button onClick={handleClose} variant="outlined">
+                                Anuluj
+                            </Button>
+                            <Button type="submit" variant="contained">
+                                Oceń
+                            </Button>
+                        </Box>
                     </Box>
                 </Fade>
             </Modal>

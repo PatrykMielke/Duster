@@ -4,8 +4,26 @@ import FilterBar from "@/Components/FilterBar";
 import Listing from "@/Pages/Listing/Partials/Listing";
 import Rating from "@mui/material/Rating";
 import Comment from "@/Components/Comment";
+import NewComment from "@/Components/NewComment";
 import ReportCommentForm from "@/Pages/Misc/Forms/ReportCommentForm";
-export default function Profile({ user, auth, products, comments }) {
+import CommentForm from "../Misc/Forms/CommentForm";
+export default function Profile({ user, auth, products }) {
+    const [comments, setComments] = useState([]);
+
+    // Funkcja do załadowania komentarzy
+    const loadComments = async () => {
+        try {
+            const response = await axios.get(`/comments/${user.id}`);
+            setComments(response.data);
+        } catch (error) {
+            console.error("Błąd podczas ładowania komentarzy:", error);
+        }
+    };
+    // Załaduj komentarze przy montowaniu komponentu
+    useEffect(() => {
+        loadComments();
+    }, [user.id]);
+
     const [open, setOpen] = useState(false);
     const [selectedUsername, setSelectedUsername] = useState("");
     const [selectedId, setSelectedId] = useState(0);
@@ -24,7 +42,7 @@ export default function Profile({ user, auth, products, comments }) {
     const [sortedProducts, setSortedProducts] = useState(products);
     const [sortCriteria, setSortCriteria] = useState("created_at");
     const [sortOrder, setSortOrder] = useState("desc");
-    const [isFollowed, setIsFollowed] = useState(false)
+    const [isFollowed, setIsFollowed] = useState(false);
     // Step 2: Sorting function
     const sortProducts = (criteria, order) => {
         const sorted = [...products].sort((a, b) => {
@@ -44,15 +62,12 @@ export default function Profile({ user, auth, products, comments }) {
         setSortedProducts(sorted);
     };
 
-
-
     useEffect(() => {
         if (!auth?.user?.id) return;
 
         const checkIfFollowed = async () => {
-
             try {
-                const response = await axios.get('followed-users/check', {
+                const response = await axios.get("followed-users/check", {
                     params: {
                         user_id: auth.user.id,
                         followed_user_id: user.id,
@@ -61,13 +76,10 @@ export default function Profile({ user, auth, products, comments }) {
                 if (response.data.isFollowed) {
                     setIsFollowed(true);
                 }
-            }
-            catch (error) {
-                console.error('Bład podczas sprawdzania obserwacji:', error);
+            } catch (error) {
+                console.error("Bład podczas sprawdzania obserwacji:", error);
             }
         };
-
-
 
         checkIfFollowed();
     }, [auth?.user?.id, user.id]);
@@ -86,24 +98,24 @@ export default function Profile({ user, auth, products, comments }) {
 
         try {
             if (isFollowed) {
-                await axios.delete('followed_users.destroy', { data: formData });
+                await axios.delete("followed_users.destroy", {
+                    data: formData,
+                });
                 setIsFollowed(false);
-                console.log('Uzytkownik usunięty z obserwowanych.');
+                console.log("Uzytkownik usunięty z obserwowanych.");
             } else {
-                await axios.post('followed_users.store', formData);
+                await axios.post("followed_users.store", formData);
                 setIsFollowed(true);
-                console.log('Uzytkownik dodany do obserwowanych.');
+                console.log("Uzytkownik dodany do obserwowanych.");
             }
         } catch (error) {
-            console.error('Bład podczas aktualizacji obserwacji:', error);
+            console.error("Bład podczas aktualizacji obserwacji:", error);
         }
 
         if (!auth?.user?.id) {
             return null;
         }
     };
-
-
 
     // Step 3: Use `useEffect` to sort products when sort criteria or order changes
     useEffect(() => {
@@ -124,7 +136,7 @@ export default function Profile({ user, auth, products, comments }) {
 
                 {/* Sekcja informacji o użytkowniku */}
                 <div className="flex-grow">
-                    <h2 className="text-2xl font-semibold">{user.name}</h2>
+                    <h2 className="text-3xl font-semibold">{user.name}</h2>
                     <div className="mt-3">
                         <div className="flex items-center">
                             <Rating
@@ -134,7 +146,7 @@ export default function Profile({ user, auth, products, comments }) {
                                 readOnly
                             />
                             <p className="ml-3 font-medium">
-                                {user.ratingCount} reviews
+                                {user.ratingCount} opinii
                             </p>
                         </div>
                     </div>
@@ -158,18 +170,28 @@ export default function Profile({ user, auth, products, comments }) {
                     </div>
                 </div>
             </div>
-            <div className="self-end ">
-                {/* Sekcja z zakładkami */}
+            <div className="grid grid-cols-2 p-4 border-b border-gray-200">
+                <div>
+                    <span class="text-3xl font-semibold">Ogłoszenia</span>
+                </div>
 
-                <div className="bg-white rounded-[2rem] p-4">
-                    <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6  lg:max-w-7xl lg:px-8">
-                        <h2 className="text-2xl font-bold tracking-tight text-gray-900"></h2>
+                <div className="flex justify-end items-end">
+                    <span className="text-blue-500 cursor-pointer">
                         <FilterBar
                             onSortChange={(criteria, order) => {
                                 setSortCriteria(criteria);
                                 setSortOrder(order);
                             }}
                         />
+                    </span>
+                </div>
+            </div>
+            <div className="self-end ">
+                {/* Sekcja z zakładkami */}
+
+                <div className="bg-white rounded-[2rem] p-4">
+                    <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6  lg:max-w-7xl lg:px-8">
+                        <h2 className="text-2xl font-bold tracking-tight text-gray-900"></h2>
 
                         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                             {sortedProducts.map((product) => (
@@ -179,12 +201,30 @@ export default function Profile({ user, auth, products, comments }) {
                     </div>
                 </div>
             </div>
-            {comments.length > 0 ? "KOMENTARZE" : ""}
-            <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-2 xl:gap-x-8">
+            <div className="grid grid-cols-2 p-4 border-b border-gray-200">
+                <div>
+                    <span className="text-3xl font-semibold">Komentarze</span>
+                </div>
+
+                <div className="flex justify-end items-end">
+                    <span className="text-blue-500 cursor-pointer">
+                        {auth ? (
+                            <CommentForm
+                                profileUserId={user.id}
+                                onCommentAdded={loadComments}
+                            />
+                        ) : (
+                            ""
+                        )}
+                    </span>
+                </div>
+            </div>
+
+            <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2 lg:grid-cols-1 xl:gap-x-8">
                 {comments.map((comment) => (
                     <Comment
                         //key={comment.user_id} // Używamy unikalnego ID komentarza
-                        id={comment.user.id} // ID użytkownika, który dodał komentarz
+                        id={comment.user_id} // ID użytkownika, który dodał komentarz
                         avatar={
                             comment.user.avatar ||
                             "https://geex.x-kom.pl/wp-content/uploads/2022/08/andrew-tate.png"

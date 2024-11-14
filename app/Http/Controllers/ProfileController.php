@@ -37,8 +37,8 @@ class ProfileController extends Controller
         }
 
         // Pobierz średnią ocenę dla komentarzy użytkownika (średnia z jego komentarzy)
-        $averageRating = Comment::where('profile_user_id', $user->id)
-                        ->avg('rating'); // Obliczamy średnią ocenę
+        $averageRating =Comment::where('profile_user_id', $user->id)
+                            ->avg('rating'); // Obliczamy średnią ocenę
         $ratingCount = $user->comments()->count('rating');
 
         // Możesz dodać średnią ocenę do obiektu $listing
@@ -51,15 +51,9 @@ class ProfileController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-            $comments = Comment::with('user') // Załaduj dane użytkownika powiązanego z każdym komentarzem
-            ->where('profile_user_id', $user->id)
-            ->orderBy('created_at', 'desc') // Opcjonalnie możesz posortować po dacie
-            ->get();
-
         return Inertia::render('Profile/Profile', [
             'user' => $user,
-            'products' => $listings,
-            'comments' => $comments,
+            'products' => $listings
         ]);
     }
     /**

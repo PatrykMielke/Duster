@@ -224,7 +224,6 @@ class ListingController extends Controller
         return Inertia::render('Listing/ListingDetails', [
             'listing' => $listing,
             'uniqueUserCount' => $uniqueUserCount,
-
         ]);
     }
 
@@ -234,8 +233,6 @@ class ListingController extends Controller
 
     public function edit($id): Response | RedirectResponse
     {
-
-
         if (Auth::check() && Auth::user()->id != $id) {
             // Zwróć błąd 403 zamiast przekierowania
             abort(403, 'Unauthorized action.');

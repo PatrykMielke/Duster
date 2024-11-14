@@ -26,12 +26,6 @@ Route::get('/', function () {
 Route::get('/kategoria/{id}', [ListingController::class, 'showByCategory'])->name('showByCategory');
 
 
-
-
-
-
-
-
 //ADMIN
 Route::get('/admin', [ListingController::class, 'adminDashboard'])->name('admin');
 
@@ -68,7 +62,7 @@ Route::get('/ogloszenia/{id}', [ListingController::class, 'show'])->name('listin
 
 
 // obserwowanie ogloszen
-Route::prefix('obserwowane')->group(function () {
+Route::prefix('followed_listings')->group(function () {
     Route::get('/{userId}', [ListingFollowController::class, 'index']);
     Route::get('/check', [ListingFollowController::class, 'check']);
     Route::post('/', [ListingFollowController::class, 'store']);
@@ -150,6 +144,9 @@ Route::middleware('auth')->group(function () {
 // API
 
 Route::get('/categories', [CategoryController::class, 'getCategories'])->name('categories');
+
+Route::post('/comments', [CommentController::class, 'store'])->middleware('auth');
+Route::get('/comments/{id}', [CommentController::class, 'getComments']);
 
 
 Route::fallback(function () {
