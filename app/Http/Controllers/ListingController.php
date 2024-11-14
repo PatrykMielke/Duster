@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\Size;
 use App\Models\User;
@@ -22,6 +23,7 @@ use App\Models\PaymentMethods;
 use calculateLastActivityDate;
 use App\Models\DeliveryMethods;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 
 class ListingController extends Controller
@@ -230,8 +232,16 @@ class ListingController extends Controller
      * Show the form for editing the specified resource.
      */
 
-    public function edit($id): Response
+    public function edit($id): Response | RedirectResponse
     {
+
+
+        if (Auth::check() && Auth::user()->id != $id) {
+            // Zwróć błąd 403 zamiast przekierowania
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Jeśli użytkownik jest uprawniony do edycji
         $listing = Listing::with(['details', 'details.detailColor', 'details.detailMaterial'])->findOrFail($id);
 
         $users = User::all();

@@ -59,19 +59,6 @@ class DatabaseSeeder extends Seeder
                 $this->call(SizeSeeder::class);
                 $this->call(RoleSeeder::class);
                 User::factory(100)->create();
-                $this->call(PaymentMethodsSeeder::class);
-                $this->call(StatusSeeder::class);
-                $this->call(ListingSeeder::class);
-                $this->call(VisitSeeder::class);
-                $this->call(DetailSeeder::class);
-                $this->call(DetailMaterialSeeder::class);
-                $this->call(DetailColorSeeder::class);
-                $this->call(FollowedUserSeeder::class);
-                $this->call(FollowedListingSeeder::class);
-                $this->call(GallerySeeder::class);
-                $this->call(OrderSeeder::class);
-                $this->call(CommentSeeder::class);
-
                 User::create([
                         'name' => 'admin',
                         'email' => 'admin@a.com',
@@ -93,5 +80,18 @@ class DatabaseSeeder extends Seeder
                         'is_active' => true,
                         'avatar' => '/avatars/bateman.jpg'
                 ]);
+
+                $this->call(PaymentMethodsSeeder::class);
+                $this->call(StatusSeeder::class);
+                $this->call(ListingSeeder::class);
+                $this->call(VisitSeeder::class);
+                $this->call(DetailSeeder::class);
+                $this->call(DetailMaterialSeeder::class);
+                $this->call(DetailColorSeeder::class);
+                $this->call(FollowedUserSeeder::class);
+                $this->call(FollowedListingSeeder::class);
+                $this->call(GallerySeeder::class);
+                $this->call(OrderSeeder::class);
+                $this->call(CommentSeeder::class);
         }
 }
