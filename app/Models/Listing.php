@@ -16,6 +16,17 @@ class Listing extends Model
         'user_id',
         'status_id',
     ];
+    protected $appends = ['follow_count'];
+
+    public function getFollowCountAttribute(): int
+    {
+        return $this->follows()->count();
+    }
+
+    public function follows()
+    {
+        return $this->hasMany(FollowedListing::class, 'listing_id');
+    }
 
     public function visits()
     {

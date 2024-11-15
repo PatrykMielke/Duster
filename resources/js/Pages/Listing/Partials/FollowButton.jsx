@@ -19,6 +19,7 @@ export default function ToggleFavoriteButton({ listing, auth }) {
                         listing_id: listing.id,
                     },
                 });
+                console.log(response);
                 if (response.data.isFavorite) {
                     setIsFavorite(true);
                 }

@@ -1,8 +1,11 @@
-import React from 'react';
+import React from "react";
 
 export default function Listing({ product }) {
     // Check if the product has galleries and get the first image if available
-    const imageSrc = product.galleries.length > 0 ? product.galleries[0].image : 'storage/images/1.webp'; // Provide a default image URL if no images are available
+    const imageSrc =
+        product.galleries.length > 0
+            ? product.galleries[0].image
+            : "storage/images/1.webp"; // Provide a default image URL if no images are available
 
     return (
         <div key={product.id} className="group relative">
@@ -15,9 +18,7 @@ export default function Listing({ product }) {
             <div className="mt-4 flex justify-between">
                 <div>
                     <h3 className="text-sm text-gray-700">
-                        <a
-                            href={route("listing", product.id)}
-                        >
+                        <a href={route("listing", product.id)}>
                             <span
                                 aria-hidden="true"
                                 className="absolute inset-0"

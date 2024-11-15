@@ -69,6 +69,7 @@ class ListingController extends Controller
             return redirect()->route('index');
         }
 
+
         // Renderowanie widoku z listingami
         return Inertia::render('Listing/Listings', [
             'products' => $listings,
@@ -216,7 +217,6 @@ class ListingController extends Controller
         // Możesz dodać średnią ocenę do obiektu $listing
         $listing->averageRating = $averageRating;
         $listing->ratingCount = $ratingCount;
-
 
         $uniqueUserCount = $listing->visits()->distinct('user_id')->count('user_id');
 

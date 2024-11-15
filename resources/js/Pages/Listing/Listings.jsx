@@ -9,7 +9,7 @@ export default function Listings({ products, category }) {
     const [sortedProducts, setSortedProducts] = useState(products);
     const [sortCriteria, setSortCriteria] = useState("created_at");
     const [sortOrder, setSortOrder] = useState("desc");
-
+    console.log(products);
     // Step 2: Sorting function
     const sortProducts = (criteria, order) => {
         const sorted = [...products].sort((a, b) => {
@@ -19,10 +19,10 @@ export default function Listings({ products, category }) {
                 return order === "asc"
                     ? new Date(a.created_at) - new Date(b.created_at)
                     : new Date(b.created_at) - new Date(a.created_at);
-            } else if (criteria === "favorites") {
+            } else if (criteria === "follow_count") {
                 return order === "asc"
-                    ? a.favorites - b.favorites
-                    : b.favorites - a.favorites;
+                    ? a.follow_count - b.follow_count
+                    : b.follow_count - a.follow_count;
             }
             return 0;
         });

@@ -64,7 +64,7 @@ Route::get('/ogloszenia/{id}', [ListingController::class, 'show'])->name('listin
 
 // obserwowanie ogloszen
 Route::prefix('followed_listings')->group(function () {
-    Route::get('/{userId}', [ListingFollowController::class, 'index']);
+    //Route::get('/{userId}', [ListingFollowController::class, 'index']);
     Route::get('/check', [ListingFollowController::class, 'check']);
     Route::post('/', [ListingFollowController::class, 'store']);
     Route::delete('/', [ListingFollowController::class, 'destroy']);
