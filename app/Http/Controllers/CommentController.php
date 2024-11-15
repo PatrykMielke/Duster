@@ -9,6 +9,7 @@ class CommentController extends Controller
 {
     public function store(Request $request)
     {
+        if(!$id = auth()->id()) return redirect()->route('index');
         // Walidacja danych
         $validated = $request->validate([
             'profile_user_id' => 'required|exists:users,id',
@@ -24,14 +25,28 @@ class CommentController extends Controller
             'comment' => $validated['comment'],
         ]);
 
-        return response()->json($comment, 201); // Zwróć utworzony komentarz w odpowiedzi
+        return response()->json(['message'=>'success']); // Zwróć utworzony komentarz w odpowiedzi
     }
 
     public function index($profileUserId)
     {
         // Pobierz komentarze dla profilu
-        $comments = Comment::where('profile_user_id', $profileUserId)->get();
-
+        $comments = Comment::with('user')
+            ->where('profile_user_id', $profileUserId)
+            ->orderBy('created_at','desc')
+            ->get();
         return response()->json($comments);
+    }
+
+    public function getComments($userId){
+        $comments = Comment::with('user') // Załaduj dane użytkownika powiązanego z każdym komentarzem
+            ->where('profile_user_id', $userId)
+            ->orderBy('created_at', 'desc') // Opcjonalnie możesz posortować po dacie
+            ->get();
+        return response()->json($comments);
+    }
+    public function destroy($commentId){
+        Comment::where('id', $commentId)->delete();
+        return response()->json(['message'=>'Deleted Successfully']);
     }
 }

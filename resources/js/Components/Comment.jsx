@@ -1,11 +1,35 @@
 import React from "react";
 import { Box, Avatar, Typography, Rating, IconButton } from "@mui/material";
 import FlagIcon from "@mui/icons-material/Flag";
+import DeleteIcon from "@mui/icons-material/Delete";
+import axios from "axios";
 
-function Comment({ id, avatar, username, rating, comment, onReport }) {
+function Comment({
+    id,
+    avatar,
+    username,
+    rating,
+    comment,
+    onReport,
+    onDelete,
+    authorId,
+    currentUserId,
+}) {
+    const isAuthor = currentUserId === authorId;
+
+    // Obsługa kliknięcia przycisku zgłoszenia
     const handleReportClick = () => {
-        // Call onReport with the username when the report button is clicked
         onReport(username, id);
+    };
+
+    // Obsługa kliknięcia przycisku usunięcia
+    const handleDeleteClick = async () => {
+        try {
+            await axios.delete(`/comments/${id}`); // Wyślij żądanie DELETE do API
+            onDelete(id); // Wywołaj funkcję odświeżającą listę komentarzy
+        } catch (error) {
+            console.error("Błąd podczas usuwania komentarza:", error);
+        }
     };
 
     return (
@@ -20,48 +44,63 @@ function Comment({ id, avatar, username, rating, comment, onReport }) {
                 borderRadius: "8px",
                 mb: 2,
                 boxShadow: "0px 2px 5px rgba(0,0,0,0.1)",
-                width: 500,
             }}
         >
-            {/* Flag icon for reporting */}
-            <IconButton
-                aria-label="report"
-                onClick={handleReportClick} // Ensure the state is updated on user interaction, not during render
-                sx={{
-                    position: "absolute",
-                    top: 8,
-                    right: 8,
-                    color: "gray",
-                    "&:hover": { color: "red" },
-                }}
-            >
-                <FlagIcon />
-            </IconButton>
+            {/* Warunkowe renderowanie przycisku „Usuń” lub „Zgłoś” */}
+            {isAuthor ? (
+                <IconButton
+                    aria-label="delete"
+                    onClick={handleDeleteClick}
+                    sx={{
+                        position: "absolute",
+                        top: 8,
+                        right: 8,
+                        color: "gray",
+                        "&:hover": { color: "red" },
+                    }}
+                >
+                    <DeleteIcon />
+                </IconButton>
+            ) : (
+                <IconButton
+                    aria-label="report"
+                    onClick={handleReportClick}
+                    sx={{
+                        position: "absolute",
+                        top: 8,
+                        right: 8,
+                        color: "gray",
+                        "&:hover": { color: "red" },
+                    }}
+                >
+                    <FlagIcon />
+                </IconButton>
+            )}
 
-            {/* User Avatar */}
+            {/* Awatar użytkownika */}
             <Avatar
                 src={avatar}
                 alt={username}
                 sx={{ width: 56, height: 56 }}
             />
 
-            {/* Comment Content */}
+            {/* Treść komentarza */}
             <Box sx={{ flexGrow: 1 }}>
-                {/* Username */}
+                {/* Nazwa użytkownika */}
                 <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
                     {username}
                 </Typography>
 
-                {/* Rating */}
+                {/* Ocena */}
                 <Rating
                     name="user-rating"
-                    value={Number(rating)} // Ensure rating is a number
+                    value={Number(rating)}
                     precision={0.5}
                     readOnly
                     sx={{ mb: 1 }}
                 />
 
-                {/* Comment */}
+                {/* Komentarz */}
                 <Typography variant="body2">{comment}</Typography>
             </Box>
         </Box>

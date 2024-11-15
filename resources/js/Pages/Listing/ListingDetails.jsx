@@ -23,7 +23,7 @@ export default function Example({ listing, uniqueUserCount, auth }) {
     const diffInMilliseconds = now - createdAt;
     const diffInHours = Math.floor(diffInMilliseconds / (1000 * 60 * 60));
 
-    console.log(listing);
+    //console.log(listing);
     return (
         <Layout>
             <div className="bg-white rounded-[2rem] p-4">
@@ -139,7 +139,7 @@ export default function Example({ listing, uniqueUserCount, auth }) {
 
                             {/* Reviews */}
                             <div className="mt-3">
-                                <h3 className="sr-only">Reviews</h3>
+                                <h3 className="sr-only">Opinie</h3>
                                 <div className="flex items-center">
                                     <div className="flex items-center">
                                         <Rating
@@ -167,12 +167,12 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                                         href={"../profil/" + listing.user.id}
                                         className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
                                     >
-                                        {listing.ratingCount} reviews
+                                        {listing.ratingCount} opinii
                                     </a>
                                 </div>
                             </div>
 
-                            <h2 className="sr-only">Product information</h2>
+                            <h2 className="sr-only">Informacje o produkcie</h2>
                             <p className="text-3xl tracking-tight text-gray-900 mt-12">
                                 {listing.price}zł
                             </p>

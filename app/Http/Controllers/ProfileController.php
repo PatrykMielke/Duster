@@ -37,9 +37,10 @@ class ProfileController extends Controller
         }
 
         // Pobierz średnią ocenę dla komentarzy użytkownika (średnia z jego komentarzy)
-        $averageRating = Comment::where('profile_user_id', $user->id)
-                        ->avg('rating'); // Obliczamy średnią ocenę
-        $ratingCount = $user->comments()->count('rating');
+        $averageRating =Comment::where('profile_user_id', $user->id)
+            ->avg('rating'); // Obliczamy średnią ocenę
+        $ratingCount = Comment::where('profile_user_id', $user->id)->count('rating');
+
 
         // Możesz dodać średnią ocenę do obiektu $listing
         $user->averageRating = $averageRating;
@@ -51,15 +52,9 @@ class ProfileController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-            $comments = Comment::with('user') // Załaduj dane użytkownika powiązanego z każdym komentarzem
-            ->where('profile_user_id', $user->id)
-            ->orderBy('created_at', 'desc') // Opcjonalnie możesz posortować po dacie
-            ->get();
-
         return Inertia::render('Profile/Profile', [
             'user' => $user,
-            'products' => $listings,
-            'comments' => $comments,
+            'products' => $listings
         ]);
     }
     /**
@@ -67,7 +62,6 @@ class ProfileController extends Controller
      */
     public function updateName(NameUpdateRequest $request): RedirectResponse
     {
-
 
         $request->user()->fill($request->validated());
 
@@ -111,7 +105,6 @@ class ProfileController extends Controller
     }
     public function updatePassword(PasswordUpdateRequest $request)
     {
-
         $request->user()->fill($request->validated());
 
         $user = Auth::user();
