@@ -3,25 +3,24 @@ import { router } from '@inertiajs/react';
 import { usePage } from '@inertiajs/react';
 import { PlusIcon } from '@heroicons/react/24/solid';
 import Layout from '@/Layouts/Layout';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
+import SnackbarNotification from '@/components/SnackbarNotification'; // Import the Snackbar component
 
-export default function Wallet({ auth, wallet }) {
+export default function Wallet({ auth, wallet, message }) {
     const [currentBalance, setCurrentBalance] = useState(0);
-    const [snackbarOpen, setSnackbarOpen] = useState(false); // Stan otwarcia snackbara
-    const [snackbarMessage, setSnackbarMessage] = useState(""); // Przechowywanie komunikatu
+    const [snackbarOpen, setSnackbarOpen] = useState(false); // State to control snackbar visibility
+    const [snackbarMessage, setSnackbarMessage] = useState(""); // State to store the message for the snackbar
     const { errors } = usePage().props;
     const [isLoading, setIsLoading] = useState(false);
     const user_id = auth?.user?.id;
 
-    // Ustawienie salda
+    // Set balance when the wallet data is available
     useEffect(() => {
         if (wallet && wallet.balance !== undefined) {
             setCurrentBalance(wallet.balance);
         }
     }, [wallet]);
 
-    // Funkcja do dodawania salda
+    // Add balance to the wallet
     const addBalance = (amount) => {
         setIsLoading(true);
         const formattedAmount = amount.toFixed(2);
@@ -31,16 +30,17 @@ export default function Wallet({ auth, wallet }) {
             preserveScroll: true,
             onFinish: () => {
                 setIsLoading(false);
-                // Wyświetl snackbar po zakończeniu transakcji
-                setSnackbarMessage("Płatność przebiegła pomyślnie!");
-                setSnackbarOpen(true);
+                // Display the snackbar message after the operation completes
+                setSnackbarMessage(message);  // Backend message is passed as a prop
+                setSnackbarOpen(true);        // Show snackbar
             }
         });
     };
 
+    // Predefined amounts for the user to add to their wallet
     const amounts = [10, 20, 50, 100, 500];
 
-    // Funkcja do zamknięcia snackbara
+    // Close the snackbar (called when user clicks close or after a timeout)
     const handleSnackbarClose = (event, reason) => {
         if (reason === 'clickaway') {
             return;
@@ -80,21 +80,12 @@ export default function Wallet({ auth, wallet }) {
                 )}
             </div>
 
-            {/* Snackbar z komunikatem */}
-            <Snackbar
+            {/* Snackbar to display the message */}
+            <SnackbarNotification
                 open={snackbarOpen}
-                autoHideDuration={3000}
-                onClose={handleSnackbarClose}
-            >
-                <Alert
-                    onClose={handleSnackbarClose}
-                    severity="success"
-                    variant="filled"
-                    sx={{ width: '100%' }}
-                >
-                    {snackbarMessage}
-                </Alert>
-            </Snackbar>
+                message={snackbarMessage}  // Pass the message from the backend
+                handleClose={handleSnackbarClose}  // Function to close snackbar
+            />
         </Layout>
     );
 }

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Layout from "@/Layouts/Layout";
 import { router } from "@inertiajs/react";
+import SnackbarNotification from '@/components/SnackbarNotification'; // Importujemy komponent Snackbar
 
 function Search(props) {
     return (
@@ -35,10 +36,13 @@ function Search(props) {
     );
 }
 
-export default function HomePage() {
+export default function HomePage({ message }) {
     const [searchQuery, setSearchQuery] = useState({
         query: "",
     });
+
+    const [snackbarOpen, setSnackbarOpen] = useState(false); // Stan dla Snackbara
+    const [snackbarMessage, setSnackbarMessage] = useState(""); // Komunikat dla Snackbara
 
     const handleSearchChange = (e) => {
         setSearchQuery({ query: e.target.value });
@@ -47,7 +51,32 @@ export default function HomePage() {
     const handleSearchSubmit = (e) => {
         e.preventDefault();
         console.log("Search query:", searchQuery);
-        router.get("/listings", searchQuery);
+
+        router.get("/listings", searchQuery, {
+            onFinish: () => {
+                setSnackbarMessage("Wyszukiwanie zakończone");  // Domyślny komunikat po wyszukaniu
+                setSnackbarOpen(true);
+            },
+            onError: () => {
+                setSnackbarMessage("Wystąpił błąd podczas wyszukiwania");
+                setSnackbarOpen(true);
+            }
+        });
+    };
+
+    useEffect(() => {
+        if (message) {
+            // Jeśli jest message w props, wyświetl je w Snackbarze
+            setSnackbarMessage(message);
+            setSnackbarOpen(true);
+        }
+    }, [message]);  // Zależność od props.message, żeby za każdym razem reagować na zmianę komunikatu
+
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackbarOpen(false);
     };
 
     return (
@@ -56,6 +85,13 @@ export default function HomePage() {
                 searchQuery={searchQuery}
                 handleSearchChange={handleSearchChange}
                 handleSearchSubmit={handleSearchSubmit}
+            />
+
+            {/* Snackbar Notification */}
+            <SnackbarNotification
+                open={snackbarOpen}
+                message={snackbarMessage}  // Wyświetlamy przekazany komunikat
+                handleClose={handleSnackbarClose}  // Funkcja do zamknięcia Snackbara
             />
         </Layout>
     );

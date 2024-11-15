@@ -7,6 +7,7 @@ use App\Models\User;
 use Inertia\Inertia;
 
 use App\Models\Order;
+use App\Models\Wallet;
 use App\Models\Listing;
 use Illuminate\Http\Request;
 use Laravel\Cashier\Cashier;
@@ -86,10 +87,30 @@ class OrderController extends Controller
             'apartment' => $validatedData['apartment'] ?? null,
         ];
 
+        $buyerWallet = Wallet::where('user_id', $validatedData['buyer_id'])->first();
+        $listing = Listing::where('id', $validatedData['listing_id'])->first();
+
+
+        if ($buyerWallet->balance < $listing->price) {
+            return Inertia::render(
+                'Profile/Wallet',
+                [
+                    'message' => 'Nie masz wystarczających srodków na koncie.',
+
+                ],
+                status: 400
+            );
+        }
+        $buyerWallet->decrement('balance', $listing->price);
 
         Order::create($orderData);
-        Listing::where('id', $validatedData['listing_id'])->update(['status_id' => 4]);
-        return response()->json(['message' => 'Zamówienie zostało pomyślnie zapisane'], 201);
+        Listing::where('id', $validatedData['listing_id'])->update(['status_id' => 2]);
+        return Inertia::render(
+            'HomePage',
+            [
+                'message' => 'Płatność przebiegła pomyślnie.',
+            ]
+        );
     }
 
     /**
