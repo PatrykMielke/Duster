@@ -8,7 +8,7 @@ import SnackbarNotification from '@/components/SnackbarNotification'; // Import 
 export default function Wallet({ auth, wallet, message }) {
     const [currentBalance, setCurrentBalance] = useState(0);
     const [snackbarOpen, setSnackbarOpen] = useState(false); // State to control snackbar visibility
-    const [snackbarMessage, setSnackbarMessage] = useState(""); // State to store the message for the snackbar
+    const [snackbarMessage, setSnackbarMessage] = useState(); // State to store the message for the snackbar
     const { errors } = usePage().props;
     const [isLoading, setIsLoading] = useState(false);
     const user_id = auth?.user?.id;
