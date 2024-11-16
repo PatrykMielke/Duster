@@ -25,7 +25,7 @@ class AdminDashboardController extends Controller
                 $user->session->last_activity = CalculateDatesController::getLastActivity($user->session->last_activity);
             }
         });
-        $orders = Order::with(['buyer', 'listing', 'paymentMethod', 'deliveryMethod'])->get();
+        $orders = Order::with(['buyer', 'listing','listing.user', 'paymentMethod', 'deliveryMethod'])->get();
 
         return Inertia::render('Admin/Dashboard', [
             'products' => $listings,

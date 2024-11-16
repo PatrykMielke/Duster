@@ -31,27 +31,26 @@ export default function Table({ orders, statuses }) {
             title: order.listing.title,
             description: order.listing.description,
             price: order.listing.price,
-            seller_id: order.user_id,
-            buyer_id: order.user_id,
-            //            status_id: order.apartment,
+            seller_id: order.listing.user.name,
+            status_id: order.apartment,
             buyer_id: order.buyer.name,
             payment_method: order.payment_method.name,
-            delivery_method: order.status_id,
-            created_at: order.create_at,
+            delivery_method: order.delivery_method.name,
+            created_at: new Date(order.created_at).toLocaleString(),
         }));
     };
-
+    console.log(orders);
     const columns = [
         { field: "id", headerName: "ID", width: 100 },
-        { field: "title", headerName: "Tytuł", width: 200 },
-        { field: "description", headerName: "Opis", width: 200 },
-        { field: "price", headerName: "Cena", width: 150 },
-        { field: "seller_id", headerName: "Sprzedający", width: 150 },
-        { field: "buyer_id", headerName: "Kupujący", width: 150 },
-        // { field: "status_name", headerName: "Status", width: 150 },
+        { field: "title", headerName: "Tytuł", width: 250 },
+        { field: "description", headerName: "Opis", width: 300 },
+        { field: "price", headerName: "Cena", width: 120 },
+        { field: "seller_id", headerName: "Sprzedający", width: 180 },
+        { field: "buyer_id", headerName: "Kupujący", width: 180 },
+        { field: "status_name", headerName: "Status", width: 150 },
         { field: "delivery_method", headerName: "Dostawa", width: 150 },
         { field: "payment_method", headerName: "Płatność", width: 150 },
-        { field: "created_at", headerName: "Data zakupu", width: 150 },
+        { field: "created_at", headerName: "Data zakupu", width: 160 },
         {
             field: "actions",
             headerName: "Akcje",
@@ -78,14 +77,6 @@ export default function Table({ orders, statuses }) {
         hideNextButton: false,
         hidePrevButton: true,
     };
-
-    const VISIBLE_FIELDS = [
-        "title",
-        "company",
-        "director",
-        "year",
-        "cinematicUniverse",
-    ];
 
     return (
         <Box sx={{ width: "95%" }}>

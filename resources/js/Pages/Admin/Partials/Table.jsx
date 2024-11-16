@@ -69,7 +69,7 @@ export default function Table({ products, statuses }) {
         hideNextButton: false,
         hidePrevButton: true,
     };
-
+    console.log(orders);
     return (
         <Paper sx={{ width: "100%" }}>
             <DataGrid

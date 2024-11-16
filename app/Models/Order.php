@@ -26,7 +26,6 @@ class Order extends Model
     {
         return $this->belongsTo(User::class, 'buyer_id');
     }
-
     // Relationship to Listing
     public function listing()
     {
