@@ -37,7 +37,8 @@ export default function Table({ products, statuses }) {
             description: listing.description,
             price: listing.price,
             user_id: listing.user_id,
-            status_id: listing.status.name,
+            status_name: listing.status.name,
+            status_id: listing.status_id
         }));
     };
 
@@ -47,7 +48,7 @@ export default function Table({ products, statuses }) {
         { field: "description", headerName: "Opis", width: 200 },
         { field: "price", headerName: "Cena", width: 150 },
         { field: "user_id", headerName: "ID użytkownika", width: 150 },
-        { field: "status_id", headerName: "Status", width: 150 },
+        { field: "status_name", headerName: "Status", width: 150 },
         {
             field: "actions",
             headerName: "Akcje",

@@ -13,7 +13,7 @@ export default function ListingModal({ open, onClose, listing, onSave, statuses 
         description: "Opis",
         price: "Cena",
         user_id: "ID użytkownika",
-        status_id: "Status",
+        status_name: "Status",
     };
 
     const handleStatusChange = (event) => {
