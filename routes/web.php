@@ -70,10 +70,10 @@ Route::prefix('followed_listings')->group(function () {
     Route::delete('/', [ListingFollowController::class, 'destroy']);
 });
 
-
-Route::prefix('followed-users')->group(function () {
-    Route::get('/{userId}', [UserFollowController::class, 'index'])->name('followed_users.index');
-    Route::get('/check', [UserFollowController::class, 'check'])->name('followed_users.check');
+////
+Route::prefix('followed_users')->group(function () {
+    Route::get('/check', [UserFollowController::class, 'check'])->name('followed_users.check');     //nie uzywane
+    Route::get('uid/{userId}', [UserFollowController::class, 'index'])->name('followed_users.index');
     Route::post('/', [UserFollowController::class, 'store'])->name('followed_users.store');
     Route::delete('/', [UserFollowController::class, 'destroy'])->name('followed_users.destroy');
 });

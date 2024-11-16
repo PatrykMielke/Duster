@@ -7,7 +7,16 @@ import Comment from "@/Components/Comment";
 import NewComment from "@/Components/NewComment";
 import ReportCommentForm from "@/Pages/Misc/Forms/ReportCommentForm";
 import CommentForm from "../Misc/Forms/CommentForm";
-export default function Profile({ user, auth, products }) {
+
+import FollowUserButton from '@/Pages/Profile/FollowUserButton';
+
+
+export default function Profile({ user, auth, products, isFollowing }) {
+
+
+
+    ////
+
     const [comments, setComments] = useState([]);
 
     // Funkcja do załadowania komentarzy
@@ -155,22 +164,37 @@ export default function Profile({ user, auth, products }) {
                             </p>
                         </div>
                     </div>
-                    <div className="flex space-x-8 mt-4">
-                        <div>
-                            <span className="font-bold">
-                                {user.following_count}
-                            </span>
-                            <p className="text-gray-600">Obserwuje</p>
+                    <div className="flex justify-between items-center mt-4  rounded-lg">
+                        <div className="flex space-x-8">
+
+                            <div>
+                                <span className="font-bold">
+                                    {user.following_count}
+                                </span>
+                                <p className="text-gray-600">Obserwuje</p>
+                            </div>
+                            <div>
+                                <span className="font-bold">
+                                    {user.followers_count}
+                                </span>
+                                <p className="text-gray-600">Obserwujących</p>
+                            </div>
+                            <div>
+                                <span className="font-bold">{products.length}</span>
+                                <p className="text-gray-600">Ogłoszenia</p>
+                            </div>
+
                         </div>
                         <div>
-                            <span className="font-bold">
-                                {user.followers_count}
-                            </span>
-                            <p className="text-gray-600">Obserwujących</p>
-                        </div>
-                        <div>
-                            <span className="font-bold">{products.length}</span>
-                            <p className="text-gray-600">Ogłoszenia</p>
+                            {auth.user.id !== user.id && (
+
+                                <FollowUserButton
+                                    user={user}
+                                    auth={auth}
+                                    isFollowing={isFollowing}
+                                />
+                            )}
+
                         </div>
                     </div>
                 </div>
