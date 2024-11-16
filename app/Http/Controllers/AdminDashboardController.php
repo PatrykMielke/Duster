@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Inertia\Inertia;
+use App\Models\Order;
 use App\Models\Status;
 use App\Models\Listing;
 use Illuminate\Http\Request;
@@ -24,11 +25,14 @@ class AdminDashboardController extends Controller
                 $user->session->last_activity = CalculateDatesController::getLastActivity($user->session->last_activity);
             }
         });
+        $orders = Order::with(['buyer', 'listing', 'paymentMethod', 'deliveryMethod'])->get();
 
         return Inertia::render('Admin/Dashboard', [
             'products' => $listings,
             'users' => $users,
-            'statuses' => $statuses
+            'statuses' => $statuses,
+            'orders' => $orders,
+
         ]);
     }
 

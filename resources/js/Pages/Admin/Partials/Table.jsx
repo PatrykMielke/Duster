@@ -3,24 +3,18 @@ import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import ListingModal from "./Modal"; // Import the modal component
-import { router } from '@inertiajs/react';
-
-
+import { router } from "@inertiajs/react";
 
 export default function Table({ products, statuses }) {
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedListing, setSelectedListing] = useState(null);
 
-
     const handleSaveListing = (updatedListing) => {
-
-
-        router.post(route('admin.edit'), updatedListing, {
+        router.post(route("admin.edit"), updatedListing, {
             preserveState: true,
             preserveScroll: true,
         });
     };
-
 
     const handleCloseModal = () => {
         setModalOpen(false);
@@ -38,7 +32,7 @@ export default function Table({ products, statuses }) {
             price: listing.price,
             user_id: listing.user_id,
             status_name: listing.status.name,
-            status_id: listing.status_id
+            status_id: listing.status_id,
         }));
     };
 
@@ -57,7 +51,10 @@ export default function Table({ products, statuses }) {
                 <div>
                     <Button
                         color="primary"
-                        onClick={() => params.row && handleButtonClick(params.row, statuses)}
+                        onClick={() =>
+                            params.row &&
+                            handleButtonClick(params.row, statuses)
+                        }
                     >
                         Szczegóły
                     </Button>
@@ -65,7 +62,6 @@ export default function Table({ products, statuses }) {
             ),
         },
     ];
-
 
     const paginationModel = {
         page: 0,

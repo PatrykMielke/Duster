@@ -88,17 +88,28 @@ function PageContent({ pathname, props }) {
         case "/ogloszenia":
             return (
                 <DashboardSection
-                    component={<Table products={props.products} statuses={props.statuses} />}
+                    component={
+                        <Table
+                            products={props.products}
+                            statuses={props.statuses}
+                        />
+                    }
                 />
             );
         case "/zamowienia":
             return (
                 <DashboardSection
-                    component={<OrderTable zamowienia={props.orders} />}
+                    component={
+                        <OrderTable
+                            orders={props.orders}
+                            statuses={props.statuses}
+                        />
+                    }
                 />
             );
         default:
             console.log("error");
+            return <DashboardSection component={<DashboardSegment />} />;
     }
 }
 
