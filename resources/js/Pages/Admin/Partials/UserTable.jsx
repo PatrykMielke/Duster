@@ -7,7 +7,8 @@ const columns = [
     { field: "id", headerName: "ID", width: 70 },
     { field: "name", headerName: "Nazwa", width: 200 },
     { field: "email", headerName: "E-mail", width: 200 },
-    { field: "last_activity", headerName: "Aktywność", width: 150 },
+    { field: "last_activity", headerName: "Aktywność", width: 160 },
+    { field: "created_at", headerName: "Utworzono", width: 160 },
     { field: "listings", headerName: "Ogłoszenia", width: 150 },
     { field: "followed_listings", headerName: "Ulubione", width: 150 },
     { field: "followed_users", headerName: "Obserwowani", width: 170 },
@@ -54,9 +55,17 @@ const getUsers = (userList) => {
             id: user.id,
             email: user.email,
             name: user.name,
-            last_activity: new Date(
-                user.session?.last_activity,
-            ).toLocaleDateString("pl-PL", {
+            last_activity: user.last_activity
+                ? new Date(user.session?.last_activity).toLocaleDateString(
+                      "pl-PL",
+                      {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          second: "2-digit",
+                      },
+                  )
+                : "Nigdy",
+            created_at: new Date(user.created_at).toLocaleDateString("pl-PL", {
                 hour: "2-digit",
                 minute: "2-digit",
                 second: "2-digit",
@@ -70,9 +79,9 @@ const getUsers = (userList) => {
 
 const paginationModel = {
     page: 0,
-    pageSize: 5,
+    pageSize: 20,
     hideNextButton: false,
-    hidePrevButton: true,
+    hidePrevButton: false,
 };
 
 export default function DataTable({ users }) {
@@ -82,7 +91,7 @@ export default function DataTable({ users }) {
                 rows={getUsers(users)}
                 columns={columns}
                 initialState={{ pagination: { paginationModel } }}
-                pageSizeOptions={[5, 10, 20]}
+                pageSizeOptions={[10, 20, 50]}
                 checkboxSelection
                 sx={{ border: 0 }}
                 slots={{ toolbar: GridToolbar }}

@@ -65,7 +65,7 @@ export default function Table({ products, statuses }) {
 
     const paginationModel = {
         page: 0,
-        pageSize: 25,
+        pageSize: 20,
         hideNextButton: false,
         hidePrevButton: true,
     };
@@ -75,7 +75,7 @@ export default function Table({ products, statuses }) {
                 rows={getListings(products)}
                 columns={columns}
                 initialState={{ pagination: { paginationModel } }}
-                pageSizeOptions={[25, 50, 100]}
+                pageSizeOptions={[10, 20, 50]}
                 checkboxSelection
                 sx={{ border: 0 }}
                 slots={{ toolbar: GridToolbar }}

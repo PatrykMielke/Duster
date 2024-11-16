@@ -70,7 +70,7 @@ const getUsers = (userList) => {
 
 const paginationModel = {
     page: 0,
-    pageSize: 5,
+    pageSize: 20,
     hideNextButton: false,
     hidePrevButton: true,
 };
@@ -82,7 +82,7 @@ export default function DataTable({ users }) {
                 rows={getUsers(users)}
                 columns={columns}
                 initialState={{ pagination: { paginationModel } }}
-                pageSizeOptions={[5, 10, 20]}
+                pageSizeOptions={[10, 20, 50]}
                 checkboxSelection
                 sx={{ border: 0 }}
                 slots={{ toolbar: GridToolbar }}

@@ -27,8 +27,8 @@ export default function FilterBar({ onSortChange }) {
             >
                 <MenuItem value="created_at:desc">Najnowsze</MenuItem>
                 <MenuItem value="created_at:asc">Najstarsze</MenuItem>
-                <MenuItem value="price:desc">Cena od najwyższej</MenuItem>
                 <MenuItem value="price:asc">Cena od najniższej</MenuItem>
+                <MenuItem value="price:desc">Cena od najwyższej</MenuItem>
                 <MenuItem value="follow_count:desc">
                     Najwięcej obserwowanych
                 </MenuItem>
