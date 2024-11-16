@@ -128,6 +128,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/{id}', [ProfileController::class, 'show'])->name('profile.show');
         Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::get('/zamowienia', [ProfileController::class, 'orders'])->name('profile.orders');
         Route::patch('/update-name', [ProfileController::class, 'updateName'])->name('profile.updateName');
         Route::patch('/update-email', [ProfileController::class, 'updateEmail'])->name('profile.updateEmail');
         Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
