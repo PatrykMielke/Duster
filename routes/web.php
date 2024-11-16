@@ -84,7 +84,7 @@ Route::prefix('followed_users')->group(function () {
     Route::delete('/', [UserFollowController::class, 'destroy'])->name('followed_users.destroy');
 });
 
-Route::get('/wallet', [WalletController::class, 'index'])->name('wallet');
+Route::get('/portfel', [WalletController::class, 'index'])->name('wallet');
 Route::post('/portfel', [WalletController::class, 'store']);
 //// robocze
 
@@ -134,18 +134,6 @@ Route::middleware('auth')->group(function () {
 
         Route::put('/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
     });
-
-
-
-    Route::get('/settings', function () {
-        return Inertia::render('Profile/Settings');
-    })->name('settings');
-
-    // Dodawanie komentarza
-    Route::post('/comments', [CommentController::class, 'store']);
-
-    // Pobieranie komentarzy dla profilu użytkownika
-    Route::get('/comments/{profileUserId}', [CommentController::class, 'index']);
 });
 
 // API

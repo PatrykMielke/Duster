@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import ListingModal from "./Modal"; // Import the modal component
@@ -69,7 +69,6 @@ export default function Table({ products, statuses }) {
         hideNextButton: false,
         hidePrevButton: true,
     };
-    console.log(orders);
     return (
         <Paper sx={{ width: "100%" }}>
             <DataGrid
@@ -79,6 +78,12 @@ export default function Table({ products, statuses }) {
                 pageSizeOptions={[25, 50, 100]}
                 checkboxSelection
                 sx={{ border: 0 }}
+                slots={{ toolbar: GridToolbar }}
+                slotProps={{
+                    toolbar: {
+                        showQuickFilter: true,
+                    },
+                }}
             />
             <ListingModal
                 open={modalOpen}

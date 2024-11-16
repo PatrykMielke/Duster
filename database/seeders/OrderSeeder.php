@@ -21,6 +21,7 @@ class OrderSeeder extends Seeder
         $listings = Listing::where('status_id', 2)->get();
 
         foreach ($listings as $listing) {
+            $date = fake()->dateTimeBetween('-2 years', 'now');
             Order::create([
                 'buyer_id' => User::inRandomOrder()->first()->id,
 
@@ -32,7 +33,8 @@ class OrderSeeder extends Seeder
                 'city' => fake()->city(),
                 'country' => fake()->country(),
                 'apartment' => fake()->optional()->buildingNumber(),
-
+                'created_at' => $date,
+                'updated_at' => $date,
             ]);
         }
 

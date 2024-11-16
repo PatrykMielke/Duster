@@ -39,7 +39,6 @@ export default function Table({ orders, statuses }) {
             created_at: new Date(order.created_at).toLocaleString(),
         }));
     };
-    console.log(orders);
     const columns = [
         { field: "id", headerName: "ID", width: 100 },
         { field: "title", headerName: "Tytuł", width: 250 },

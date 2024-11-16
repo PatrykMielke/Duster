@@ -20,12 +20,15 @@ class ListingSeeder extends Seeder
 
             // Tworzymy ogłoszenia dla danego użytkownika
             foreach (range(1, $numberOfListings) as $i)
+                $date = fake()->dateTimeBetween('-2 years', 'now');
                 Listing::create([
                     'title' => fake()->sentence(1),
                     'description' => fake()->paragraph(5),
                     'price' => rand(10, 400),
                     'user_id' => $userId,
                     'status_id' => Status::inRandomOrder()->first()->id,
+                    'created_at' => $date,
+                    'updated_at' => $date,
                 ]);
         }
     }

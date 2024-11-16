@@ -84,7 +84,11 @@ function PageContent({ pathname, props }) {
                 />
             );
         case "/skargi":
-            return <DashboardSection component={<ReportTable />} />;
+            return (
+                <DashboardSection
+                    component={<ReportTable users={props.users} />}
+                />
+            );
         case "/ogloszenia":
             return (
                 <DashboardSection
@@ -99,12 +103,7 @@ function PageContent({ pathname, props }) {
         case "/zamowienia":
             return (
                 <DashboardSection
-                    component={
-                        <OrderTable
-                            orders={props.orders}
-                            statuses={props.statuses}
-                        />
-                    }
+                    component={<OrderTable orders={props.orders} />}
                 />
             );
         default:

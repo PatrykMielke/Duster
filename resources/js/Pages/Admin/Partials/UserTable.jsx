@@ -1,6 +1,7 @@
 import * as React from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
 
 const columns = [
     { field: "id", headerName: "ID", width: 70 },
@@ -13,6 +14,23 @@ const columns = [
     { field: "reviews", headerName: "Opinie", width: 150 },
     { field: "reports", headerName: "Zgłoszenia", width: 150 },
     { field: "role", headerName: "Rola", width: 150 },
+    {
+        field: "actions",
+        headerName: "Akcje",
+        width: 150,
+        renderCell: (params) => (
+            <div>
+                <Button
+                    color="primary"
+                    onClick={() =>
+                        params.row && handleButtonClick(params.row, statuses)
+                    }
+                >
+                    Szczegóły
+                </Button>
+            </div>
+        ),
+    },
     /* {
         field: "age",
         headerName: "Age",
@@ -67,6 +85,12 @@ export default function DataTable({ users }) {
                 pageSizeOptions={[5, 10, 20]}
                 checkboxSelection
                 sx={{ border: 0 }}
+                slots={{ toolbar: GridToolbar }}
+                slotProps={{
+                    toolbar: {
+                        showQuickFilter: true,
+                    },
+                }}
             />
         </Paper>
     );
