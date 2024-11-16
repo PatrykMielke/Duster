@@ -3,7 +3,6 @@ import Listing from "@/Pages/Listing/Partials/Listing";
 import Layout from "@/Layouts/Layout";
 import React, { useState, useEffect } from "react";
 import FilterBar from "@/Components/FilterBar";
-
 export default function Listings({ products, category }) {
     // State to hold the sorted products
     const [sortedProducts, setSortedProducts] = useState(products);

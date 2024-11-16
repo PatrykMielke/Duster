@@ -92,7 +92,11 @@ function PageContent({ pathname, props }) {
                 />
             );
         case "/zamowienia":
-            return <DashboardSection component={<OrderTable />} />;
+            return (
+                <DashboardSection
+                    component={<OrderTable zamowienia={props.orders} />}
+                />
+            );
         default:
             console.log("error");
     }

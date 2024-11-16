@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Schema;
 use App\Http\Controllers\ListingFollow;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\WalletController;
@@ -28,7 +29,7 @@ Route::get('/kategoria/{id}', [ListingController::class, 'showByCategory'])->nam
 
 
 //ADMIN
-Route::get('/admin', [ListingController::class, 'adminDashboard'])->name('admin');
+Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
 //Edycja ogloszen z widoku admina
 Route::patch('/api/listings/{id}', [ListingController::class, 'updateAdmin']);

@@ -37,18 +37,18 @@ class DatabaseSeeder extends Seeder
         {
                 //Schema::disableForeignKeyConstraints();
 
-                /* Brand::truncate();
-                Color::truncate();
-                Status::truncate();
-                Category::truncate();
-                Material::truncate();
-                Condition::truncate();
-                PaymentMethods::truncate();
-                DeliveryMethods::truncate();
-                Size::truncate();
-                Sex::truncate();
-                Role::truncate();
- */
+                // Brand::truncate();
+                // Color::truncate();
+                // Status::truncate();
+                // Category::truncate();
+                // Material::truncate();
+                // Condition::truncate();
+                // PaymentMethods::truncate();
+                // DeliveryMethods::truncate();
+                // Size::truncate();
+                // Sex::truncate();
+                // Role::truncate();
+
                 //Schema::enableForeignKeyConstraints();
 
                 $this->call(BrandSeeder::class);
