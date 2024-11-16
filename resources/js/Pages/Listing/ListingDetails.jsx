@@ -1,8 +1,6 @@
 "use client";
 import ToggleFavoriteButton from "./Partials/FollowButton";
 import { useState } from "react";
-import { StarIcon } from "@heroicons/react/20/solid";
-import { Radio, RadioGroup } from "@headlessui/react";
 import Layout from "@/Layouts/Layout";
 import Carousel from "@/Components/Carousel";
 import ToggleButton from "./Partials/ReportButton";

@@ -125,15 +125,15 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('profil')->group(function () {
 
-        Route::get('/{id}', [ProfileController::class, 'show'])->name('profile.show');
         Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::get('/zamowienia', [ProfileController::class, 'orders'])->name('profile.orders');
+        Route::get('/{id}', [ProfileController::class, 'show'])->where('id', '[0-9]+')->name('profile.show');
         Route::patch('/update-name', [ProfileController::class, 'updateName'])->name('profile.updateName');
         Route::patch('/update-email', [ProfileController::class, 'updateEmail'])->name('profile.updateEmail');
         Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
         Route::put('/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
     });
+    Route::get('/zamowienia', [ProfileController::class, 'userOrders'])->name('profile.userOrders');
 });
 
 // API

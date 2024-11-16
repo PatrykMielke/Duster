@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Layout from "@/Layouts/Layout";
-import FilterBar from "@/Components/FilterBar";
-import Listing from "@/Pages/Listing/Partials/Listing";
 import Rating from "@mui/material/Rating";
 import Comment from "@/Components/Comment";
 import NewComment from "@/Components/NewComment";

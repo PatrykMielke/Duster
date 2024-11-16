@@ -1,4 +1,3 @@
-import Layout from "@/Layouts/Layout";
 import React, { useState, useEffect } from "react";
 import FilterBar from "@/Components/FilterBar";
 import Listing from "@/Pages/Listing/Partials/Listing";
@@ -8,7 +7,6 @@ export default function Listings({ products }) {
     const [sortedProducts, setSortedProducts] = useState(products);
     const [sortCriteria, setSortCriteria] = useState("created_at");
     const [sortOrder, setSortOrder] = useState("desc");
-    const [isFollowed, setIsFollowed] = useState(false);
     // Step 2: Sorting function
     const sortProducts = (criteria, order) => {
         const sorted = [...products].sort((a, b) => {
@@ -36,7 +34,7 @@ export default function Listings({ products }) {
         <>
             <div className="grid grid-cols-2 p-4 border-b border-gray-200">
                 <div>
-                    <span class="text-3xl font-semibold">Ogłoszenia</span>
+                    <span className="text-3xl font-semibold">Ogłoszenia</span>
                 </div>
 
                 <div className="flex justify-end items-end">
