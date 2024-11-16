@@ -58,7 +58,6 @@ const paginationModel = {
 };
 
 export default function DataTable({ users }) {
-    console.log(getUsers(users));
     return (
         <Paper sx={{ width: "100%" }}>
             <DataGrid

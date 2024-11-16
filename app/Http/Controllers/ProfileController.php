@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Auth;
 use App\Models\User;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Comment;
 use App\Models\Listing;
+use App\Models\FollowedUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -30,14 +32,15 @@ class ProfileController extends Controller
             'status' => session('status'),
         ]);
     }
-    public function show($id){
+    public function show($id)
+    {
         // WSZYSTKIE OGLOSZENIA
-        if(!$user = User::withCount(['followers', 'following'])->find($id)){
+        if (!$user = User::withCount(['followers', 'following'])->find($id)) {
             return redirect()->route('index');
         }
 
         // Pobierz średnią ocenę dla komentarzy użytkownika (średnia z jego komentarzy)
-        $averageRating =Comment::where('profile_user_id', $user->id)
+        $averageRating = Comment::where('profile_user_id', $user->id)
             ->avg('rating'); // Obliczamy średnią ocenę
         $ratingCount = Comment::where('profile_user_id', $user->id)->count('rating');
 
@@ -52,9 +55,16 @@ class ProfileController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
+        $isFollowing = false;
+        if (auth()->check()) {
+            $isFollowing = FollowedUser::where('user_id', auth()->id())
+                ->where('followed_user_id', (int) $id)
+                ->exists();
+        }
         return Inertia::render('Profile/Profile', [
             'user' => $user,
-            'products' => $listings
+            'products' => $listings,
+            'isFollowing' => $isFollowing,
         ]);
     }
     /**
@@ -111,5 +121,4 @@ class ProfileController extends Controller
         $user->update(['password' => Hash::make($request->password)]);
         return Redirect::route('profile.edit');
     }
-
 }

@@ -1,155 +1,96 @@
-// resources/js/Pages/Listing/Listings.jsx
-import ApplicationLogo from "@/Components/ApplicationLogo";
-import { Link } from "@inertiajs/react";
-
 import React, { useState } from "react";
+import { DataGrid } from "@mui/x-data-grid";
+import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
+import ListingModal from "./Modal"; // Import the modal component
+import { router } from '@inertiajs/react';
 
-function Table({ products, statuses }) {
-    const [sortConfig, setSortConfig] = useState({
-        key: null,
-        direction: "asc",
-    });
 
-    // Funkcja do uzyskiwania zagnieżdżonych wartości z obiektu
-    const getNestedValue = (obj, path) => {
-        return path.split(".").reduce((acc, part) => acc && acc[part], obj);
+
+export default function Table({ products, statuses }) {
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedListing, setSelectedListing] = useState(null);
+
+
+    const handleSaveListing = (updatedListing) => {
+
+
+        router.post(route('admin.edit'), updatedListing, {
+            preserveState: true,
+            preserveScroll: true,
+        });
     };
 
-    const sortedProducts = React.useMemo(() => {
-        if (sortConfig.key) {
-            return [...products].sort((a, b) => {
-                const aValue = getNestedValue(a, sortConfig.key);
-                const bValue = getNestedValue(b, sortConfig.key);
 
-                if (typeof aValue === "string") {
-                    return (
-                        aValue.localeCompare(bValue) *
-                        (sortConfig.direction === "asc" ? 1 : -1)
-                    );
-                } else {
-                    return (
-                        (aValue - bValue) *
-                        (sortConfig.direction === "asc" ? 1 : -1)
-                    );
-                }
-            });
-        }
-        return products;
-    }, [products, sortConfig]);
+    const handleCloseModal = () => {
+        setModalOpen(false);
+        setSelectedListing(null);
+    };
+    const handleButtonClick = (listing) => {
+        setSelectedListing(listing);
+        setModalOpen(true);
+    };
+    const getListings = (listingList) => {
+        return listingList.map((listing) => ({
+            id: listing.id,
+            title: listing.title,
+            description: listing.description,
+            price: listing.price,
+            user_id: listing.user_id,
+            status_name: listing.status.name,
+            status_id: listing.status_id
+        }));
+    };
 
-    const requestSort = (key) => {
-        let direction = "asc";
-        if (sortConfig.key === key && sortConfig.direction === "asc") {
-            direction = "desc";
-        }
-        setSortConfig({ key, direction });
+    const columns = [
+        { field: "id", headerName: "ID", width: 100 },
+        { field: "title", headerName: "Tytuł", width: 200 },
+        { field: "description", headerName: "Opis", width: 200 },
+        { field: "price", headerName: "Cena", width: 150 },
+        { field: "user_id", headerName: "ID użytkownika", width: 150 },
+        { field: "status_name", headerName: "Status", width: 150 },
+        {
+            field: "actions",
+            headerName: "Akcje",
+            width: 150,
+            renderCell: (params) => (
+                <div>
+                    <Button
+                        color="primary"
+                        onClick={() => params.row && handleButtonClick(params.row, statuses)}
+                    >
+                        Szczegóły
+                    </Button>
+                </div>
+            ),
+        },
+    ];
+
+
+    const paginationModel = {
+        page: 0,
+        pageSize: 25,
+        hideNextButton: false,
+        hidePrevButton: true,
     };
 
     return (
-        <div className="container mx-auto p-4">
-            <h2 className="text-2xl font-semibold mb-4">Ogłoszenia</h2>
-            <div className="overflow-x-auto">
-                <table className="min-w-full bg-white border border-gray-200">
-                    <thead>
-                        <tr>
-                            <th
-                                className="py-2 px-4 border-b font-semibold text-gray-600 cursor-pointer"
-                                onClick={() => requestSort("id")}
-                            >
-                                ID{" "}
-                                {sortConfig.key === "id"
-                                    ? sortConfig.direction === "asc"
-                                        ? "↑"
-                                        : "↓"
-                                    : ""}
-                            </th>
-                            <th
-                                className="py-2 px-4 border-b font-semibold text-gray-600 cursor-pointer"
-                                onClick={() => requestSort("title")}
-                            >
-                                Tytuł{" "}
-                                {sortConfig.key === "title"
-                                    ? sortConfig.direction === "asc"
-                                        ? "↑"
-                                        : "↓"
-                                    : ""}
-                            </th>
-                            <th
-                                className="py-2 px-4 border-b font-semibold text-gray-600 cursor-pointer"
-                                onClick={() => requestSort("price")}
-                            >
-                                Cena{" "}
-                                {sortConfig.key === "price"
-                                    ? sortConfig.direction === "asc"
-                                        ? "↑"
-                                        : "↓"
-                                    : ""}
-                            </th>
-                            <th
-                                className="py-2 px-4 border-b font-semibold text-gray-600 cursor-pointer"
-                                onClick={() => requestSort("created_at")}
-                            >
-                                Data utworzenia{" "}
-                                {sortConfig.key === "created_at"
-                                    ? sortConfig.direction === "asc"
-                                        ? "↑"
-                                        : "↓"
-                                    : ""}
-                            </th>
-                            <th
-                                className="py-2 px-4 border-b font-semibold text-gray-600 cursor-pointer"
-                                onClick={() => requestSort("status.name")}
-                            >
-                                Status{" "}
-                                {sortConfig.key === "status.name"
-                                    ? sortConfig.direction === "asc"
-                                        ? "↑"
-                                        : "↓"
-                                    : ""}
-                            </th>
-                            <th className="py-2 px-4 border-b font-semibold text-gray-600">
-                                Akcje
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {sortedProducts.map((listing) => (
-                            <tr key={listing.id} className="hover:bg-gray-100">
-                                <td className="py-2 px-4 border-b text-gray-700">
-                                    {listing.id}
-                                </td>
-                                <td className="py-2 px-4 border-b text-gray-700">
-                                    {listing.title}
-                                </td>
-                                <td className="py-2 px-4 border-b text-gray-700">
-                                    {listing.price} zł
-                                </td>
-                                <td className="py-2 px-4 border-b text-gray-700">
-                                    {new Date(
-                                        listing.created_at,
-                                    ).toLocaleDateString()}
-                                </td>
-                                <td className="py-2 px-4 border-b text-gray-700">
-                                    {listing.status.name}
-                                </td>
-                                <td className="py-2 px-4 border-b text-gray-700">
-                                    {/* tutaj */}
-                                    <Link
-                                        href={route(
-                                            "listings.edit",
-                                            listing.id,
-                                        )}
-                                    >
-                                        Edytuj
-                                    </Link>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        <Paper sx={{ width: "100%" }}>
+            <DataGrid
+                rows={getListings(products)}
+                columns={columns}
+                initialState={{ pagination: { paginationModel } }}
+                pageSizeOptions={[25, 50, 100]}
+                checkboxSelection
+                sx={{ border: 0 }}
+            />
+            <ListingModal
+                open={modalOpen}
+                onClose={handleCloseModal}
+                listing={selectedListing}
+                statuses={statuses}
+                onSave={handleSaveListing}
+            />
+        </Paper>
     );
 }
-
-export default Table;

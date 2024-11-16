@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminDashboardController;
 use App\Models\Sex;
 use Inertia\Inertia;
 use App\Models\Order;
@@ -29,8 +30,12 @@ Route::get('/kategoria/{id}', [ListingController::class, 'showByCategory'])->nam
 
 
 //ADMIN
-Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+Route::prefix('admin')->group(function () {
 
+
+    Route::get('/', [AdminDashboardController::class, 'index'])->name('admin');
+    Route::post('/', [AdminDashboardController::class, 'edit'])->name('admin.edit');
+});
 //Edycja ogloszen z widoku admina
 Route::patch('/api/listings/{id}', [ListingController::class, 'updateAdmin']);
 
@@ -71,10 +76,10 @@ Route::prefix('followed_listings')->group(function () {
     Route::delete('/', [ListingFollowController::class, 'destroy']);
 });
 
-
-Route::prefix('followed-users')->group(function () {
-    Route::get('/{userId}', [UserFollowController::class, 'index'])->name('followed_users.index');
-    Route::get('/check', [UserFollowController::class, 'check'])->name('followed_users.check');
+////
+Route::prefix('followed_users')->group(function () {
+    Route::get('/check', [UserFollowController::class, 'check'])->name('followed_users.check');     //nie uzywane
+    Route::get('uid/{userId}', [UserFollowController::class, 'index'])->name('followed_users.index');
     Route::post('/', [UserFollowController::class, 'store'])->name('followed_users.store');
     Route::delete('/', [UserFollowController::class, 'destroy'])->name('followed_users.destroy');
 });
