@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminDashboardController;
 use App\Models\Sex;
 use Inertia\Inertia;
 use App\Models\Order;
@@ -28,8 +29,12 @@ Route::get('/kategoria/{id}', [ListingController::class, 'showByCategory'])->nam
 
 
 //ADMIN
-Route::get('/admin', [ListingController::class, 'adminDashboard'])->name('admin');
+Route::prefix('admin')->group(function () {
 
+
+    Route::get('/', [AdminDashboardController::class, 'index'])->name('admin');
+    Route::post('/', [AdminDashboardController::class, 'edit'])->name('admin.edit');
+});
 //Edycja ogloszen z widoku admina
 Route::patch('/api/listings/{id}', [ListingController::class, 'updateAdmin']);
 

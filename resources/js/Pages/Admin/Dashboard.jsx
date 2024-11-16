@@ -88,7 +88,7 @@ function PageContent({ pathname, props }) {
         case "/ogloszenia":
             return (
                 <DashboardSection
-                    component={<Table products={props.products} />}
+                    component={<Table products={props.products} statuses={props.statuses} />}
                 />
             );
         case "/zamowienia":

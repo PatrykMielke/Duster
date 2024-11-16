@@ -32,22 +32,18 @@ class ListingController extends Controller
      * Display a listing of the resource.
      */ public function index(Request $request)
     {
-        // Pobieramy zapytanie tekstowe do wyszukiwania
         $query = $request->input('query');
-        // Tworzymy podstawowe zapytanie z filtrem `status_id`
+
         $listingsQuery = Listing::with(['user', 'galleries'])
             ->orderBy('created_at', 'desc')
             ->where('status_id', 1);
 
-        // Dodajemy warunek przeszukujący jedynie pole `title`, jeśli podano zapytanie
         if ($query) {
             $listingsQuery->where('title', 'like', "%{$query}%");
         }
 
-        // Pobieramy listingi z uwzględnieniem filtrów
         $listings = $listingsQuery->get();
 
-        // Renderowanie widoku z listingami
         return Inertia::render('Listing/Listings', [
             'products' => $listings,
             'filters' => [
@@ -76,26 +72,7 @@ class ListingController extends Controller
         ]);
     }
 
-    public function adminDashboard()
-    {
-        // WSZYSTKIE OGLOSZENIA
-        $listings = Listing::with(['user', 'galleries', 'status'])->orderBy('created_at', 'desc')->get();
 
-        //
-        $users = User::with(['role', 'session'])->get();
-
-        $users->each(function ($user) {
-            if (isset($user->session->last_activity)) {
-                $user->session->last_activity = CalculateDatesController::getLastActivity($user->session->last_activity);
-            }
-        });
-
-        //dd($users);
-        return Inertia::render('Admin/Dashboard', [
-            'products' => $listings,
-            'users' => $users,
-        ]);
-    }
     /**
      * Show the form for creating a new resource.
      */

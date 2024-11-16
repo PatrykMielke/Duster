@@ -12,11 +12,6 @@ import FollowUserButton from '@/Pages/Profile/FollowUserButton';
 
 
 export default function Profile({ user, auth, products, isFollowing }) {
-
-
-
-    ////
-
     const [comments, setComments] = useState([]);
 
     // Funkcja do załadowania komentarzy
@@ -69,61 +64,6 @@ export default function Profile({ user, auth, products, isFollowing }) {
             return 0;
         });
         setSortedProducts(sorted);
-    };
-
-    useEffect(() => {
-        if (!auth?.user?.id) return;
-
-        const checkIfFollowed = async () => {
-            try {
-                const response = await axios.get("followed-users/check", {
-                    params: {
-                        user_id: auth.user.id,
-                        followed_user_id: user.id,
-                    },
-                });
-                if (response.data.isFollowed) {
-                    setIsFollowed(true);
-                }
-            } catch (error) {
-                console.error("Bład podczas sprawdzania obserwacji:", error);
-            }
-        };
-
-        checkIfFollowed();
-    }, [auth?.user?.id, user.id]);
-
-    const submit = async (e) => {
-        e.preventDefault();
-
-        if (!auth?.user?.id) {
-            return;
-        }
-
-        const formData = {
-            user_id: auth.user.id,
-            followed_user_id: user.id,
-        };
-
-        try {
-            if (isFollowed) {
-                await axios.delete("followed_users.destroy", {
-                    data: formData,
-                });
-                setIsFollowed(false);
-                console.log("Uzytkownik usunięty z obserwowanych.");
-            } else {
-                await axios.post("followed_users.store", formData);
-                setIsFollowed(true);
-                console.log("Uzytkownik dodany do obserwowanych.");
-            }
-        } catch (error) {
-            console.error("Bład podczas aktualizacji obserwacji:", error);
-        }
-
-        if (!auth?.user?.id) {
-            return null;
-        }
     };
 
     // Step 3: Use `useEffect` to sort products when sort criteria or order changes
