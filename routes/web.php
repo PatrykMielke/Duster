@@ -36,7 +36,6 @@ Route::prefix('admin')->group(function () {
     Route::post('/', [AdminDashboardController::class, 'edit'])->name('admin.edit');
 });
 //Edycja ogloszen z widoku admina
-Route::patch('/api/listings/{id}', [ListingController::class, 'updateAdmin']);
 
 
 /// Wszystkie ogloszenia
@@ -69,8 +68,8 @@ Route::get('/ogloszenia/{id}', [ListingController::class, 'show'])->name('listin
 
 // obserwowanie ogloszen
 Route::prefix('followed_listings')->group(function () {
-    Route::get('/{userId}', [ListingFollowController::class, 'index']);
     Route::get('/check', [ListingFollowController::class, 'check']);
+    Route::get('/{userId}', [ListingFollowController::class, 'index']);
     Route::post('/', [ListingFollowController::class, 'store']);
     Route::delete('/', [ListingFollowController::class, 'destroy']);
 });
