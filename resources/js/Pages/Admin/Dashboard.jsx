@@ -84,17 +84,31 @@ function PageContent({ pathname, props }) {
                 />
             );
         case "/skargi":
-            return <DashboardSection component={<ReportTable />} />;
+            return (
+                <DashboardSection
+                    component={<ReportTable users={props.users} />}
+                />
+            );
         case "/ogloszenia":
             return (
                 <DashboardSection
-                    component={<Table products={props.products} statuses={props.statuses} />}
+                    component={
+                        <Table
+                            products={props.products}
+                            statuses={props.statuses}
+                        />
+                    }
                 />
             );
         case "/zamowienia":
-            return <DashboardSection component={<OrderTable />} />;
+            return (
+                <DashboardSection
+                    component={<OrderTable orders={props.orders} />}
+                />
+            );
         default:
             console.log("error");
+            return <DashboardSection component={<DashboardSegment />} />;
     }
 }
 

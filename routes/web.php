@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Schema;
 use App\Http\Controllers\ListingFollow;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\WalletController;
@@ -82,7 +83,7 @@ Route::prefix('followed_users')->group(function () {
     Route::delete('/', [UserFollowController::class, 'destroy'])->name('followed_users.destroy');
 });
 
-Route::get('/wallet', [WalletController::class, 'index'])->name('wallet');
+Route::get('/portfel', [WalletController::class, 'index'])->name('wallet');
 Route::post('/portfel', [WalletController::class, 'store']);
 //// robocze
 
@@ -126,24 +127,13 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/{id}', [ProfileController::class, 'show'])->name('profile.show');
         Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::get('/zamowienia', [ProfileController::class, 'orders'])->name('profile.orders');
         Route::patch('/update-name', [ProfileController::class, 'updateName'])->name('profile.updateName');
         Route::patch('/update-email', [ProfileController::class, 'updateEmail'])->name('profile.updateEmail');
         Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
         Route::put('/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
     });
-
-
-
-    Route::get('/settings', function () {
-        return Inertia::render('Profile/Settings');
-    })->name('settings');
-
-    // Dodawanie komentarza
-    Route::post('/comments', [CommentController::class, 'store']);
-
-    // Pobieranie komentarzy dla profilu użytkownika
-    Route::get('/comments/{profileUserId}', [CommentController::class, 'index']);
 });
 
 // API

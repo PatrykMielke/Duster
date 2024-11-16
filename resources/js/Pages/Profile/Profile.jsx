@@ -7,9 +7,8 @@ import Comment from "@/Components/Comment";
 import NewComment from "@/Components/NewComment";
 import ReportCommentForm from "@/Pages/Misc/Forms/ReportCommentForm";
 import CommentForm from "../Misc/Forms/CommentForm";
-
-import FollowUserButton from '@/Pages/Profile/FollowUserButton';
-
+import Listings from "@/Components/Listings";
+import FollowUserButton from "@/Pages/Profile/FollowUserButton";
 
 export default function Profile({ user, auth, products, isFollowing }) {
     const [comments, setComments] = useState([]);
@@ -42,34 +41,6 @@ export default function Profile({ user, auth, products, isFollowing }) {
     const handleReportClose = () => {
         setOpen(false);
     };
-    // State to hold the sorted products
-    const [sortedProducts, setSortedProducts] = useState(products);
-    const [sortCriteria, setSortCriteria] = useState("created_at");
-    const [sortOrder, setSortOrder] = useState("desc");
-    const [isFollowed, setIsFollowed] = useState(false);
-    // Step 2: Sorting function
-    const sortProducts = (criteria, order) => {
-        const sorted = [...products].sort((a, b) => {
-            if (criteria === "price") {
-                return order === "asc" ? a.price - b.price : b.price - a.price;
-            } else if (criteria === "created_at") {
-                return order === "asc"
-                    ? new Date(a.created_at) - new Date(b.created_at)
-                    : new Date(b.created_at) - new Date(a.created_at);
-            } else if (criteria === "favorites") {
-                return order === "asc"
-                    ? a.favorites - b.favorites
-                    : b.favorites - a.favorites;
-            }
-            return 0;
-        });
-        setSortedProducts(sorted);
-    };
-
-    // Step 3: Use `useEffect` to sort products when sort criteria or order changes
-    useEffect(() => {
-        sortProducts(sortCriteria, sortOrder);
-    }, [sortCriteria, sortOrder, products]);
 
     const handleDeleteComment = (commentId) => {
         setComments((prevComments) =>
@@ -106,7 +77,6 @@ export default function Profile({ user, auth, products, isFollowing }) {
                     </div>
                     <div className="flex justify-between items-center mt-4  rounded-lg">
                         <div className="flex space-x-8">
-
                             <div>
                                 <span className="font-bold">
                                     {user.following_count}
@@ -120,56 +90,25 @@ export default function Profile({ user, auth, products, isFollowing }) {
                                 <p className="text-gray-600">Obserwujących</p>
                             </div>
                             <div>
-                                <span className="font-bold">{products.length}</span>
+                                <span className="font-bold">
+                                    {products.length}
+                                </span>
                                 <p className="text-gray-600">Ogłoszenia</p>
                             </div>
-
                         </div>
                         <div>
                             {auth.user.id !== user.id && (
-
                                 <FollowUserButton
                                     user={user}
                                     auth={auth}
                                     isFollowing={isFollowing}
                                 />
                             )}
-
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="grid grid-cols-2 p-4 border-b border-gray-200">
-                <div>
-                    <span class="text-3xl font-semibold">Ogłoszenia</span>
-                </div>
-
-                <div className="flex justify-end items-end">
-                    <span className="text-blue-500 cursor-pointer">
-                        <FilterBar
-                            onSortChange={(criteria, order) => {
-                                setSortCriteria(criteria);
-                                setSortOrder(order);
-                            }}
-                        />
-                    </span>
-                </div>
-            </div>
-            <div className="self-end ">
-                {/* Sekcja z zakładkami */}
-
-                <div className="bg-white rounded-[2rem] p-4">
-                    <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6  lg:max-w-7xl lg:px-8">
-                        <h2 className="text-2xl font-bold tracking-tight text-gray-900"></h2>
-
-                        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                            {sortedProducts.map((product) => (
-                                <Listing key={product.id} product={product} />
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Listings products={products} />
             <div className="grid grid-cols-2 p-4 border-b border-gray-200">
                 <div>
                     <span className="text-3xl font-semibold">Komentarze</span>

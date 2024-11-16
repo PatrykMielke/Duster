@@ -53,8 +53,6 @@ class ListingFollowController extends Controller
         return response()->json(['isFavorite' => $exists]);
     }
 
-
-
     public function destroy(Request $request)
     {
         $validatedData = $request->validate([

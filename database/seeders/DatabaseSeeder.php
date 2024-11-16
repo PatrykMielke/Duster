@@ -37,18 +37,18 @@ class DatabaseSeeder extends Seeder
         {
                 //Schema::disableForeignKeyConstraints();
 
-                /* Brand::truncate();
-                Color::truncate();
-                Status::truncate();
-                Category::truncate();
-                Material::truncate();
-                Condition::truncate();
-                PaymentMethods::truncate();
-                DeliveryMethods::truncate();
-                Size::truncate();
-                Sex::truncate();
-                Role::truncate();
- */
+                // Brand::truncate();
+                // Color::truncate();
+                // Status::truncate();
+                // Category::truncate();
+                // Material::truncate();
+                // Condition::truncate();
+                // PaymentMethods::truncate();
+                // DeliveryMethods::truncate();
+                // Size::truncate();
+                // Sex::truncate();
+                // Role::truncate();
+
                 //Schema::enableForeignKeyConstraints();
 
                 $this->call(BrandSeeder::class);
@@ -59,7 +59,6 @@ class DatabaseSeeder extends Seeder
                 $this->call(MaterialSeeder::class);
                 $this->call(SizeSeeder::class);
                 $this->call(RoleSeeder::class);
-                User::factory(100)->create();
                 User::create([
                         'name' => 'admin',
                         'email' => 'admin@a.com',
@@ -81,6 +80,7 @@ class DatabaseSeeder extends Seeder
                         'is_active' => true,
                         'avatar' => '/avatars/bateman.jpg'
                 ]);
+                User::factory(98)->create();
 
                 $this->call(PaymentMethodsSeeder::class);
                 $this->call(StatusSeeder::class);

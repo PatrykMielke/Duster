@@ -70,6 +70,10 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
+    public function orders(){
+        $orders = Order::with(['listing','listing.user', 'paymentMethod', 'deliveryMethod'])->get();
+        return Inertia::render('Profile/orders', ['orders' => $orders]);
+    }
     public function updateName(NameUpdateRequest $request): RedirectResponse
     {
 

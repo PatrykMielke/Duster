@@ -54,7 +54,6 @@ class CategorySeeder extends Seeder
             "Sukienki"
         ];
 
-        // Kategoria: Obuwie
         $obuwie_meskie = [
             "Kapcie",
             "Trampki",
@@ -81,7 +80,6 @@ class CategorySeeder extends Seeder
             "Baleriny"
         ];
 
-        // Kategoria: Akcesoria
         $akcesoria_meskie = [
             "Zegarki",
             "Bransoletki",
@@ -108,8 +106,6 @@ class CategorySeeder extends Seeder
             "Szaliki",
             "Rękawiczki"
         ];
-
-
 
         $sexID = array();
         foreach ($categories1 as $category) {
