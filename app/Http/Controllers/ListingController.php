@@ -53,32 +53,32 @@ class ListingController extends Controller
     }
 
     public function showByCategory($categoryId)
-{
-    // Jeśli nie ma produktów o takiej kategorii
-    $listings = Listing::whereHas('details', function ($query) use ($categoryId) {
-        $query->where('category_id', $categoryId);
-    })
-    ->with(['user', 'galleries', 'details.category', 'details'])  // Eager load the relationships
-    ->get();
+    {
+        // Jeśli nie ma produktów o takiej kategorii
+        $listings = Listing::whereHas('details', function ($query) use ($categoryId) {
+            $query->where('category_id', $categoryId);
+        })
+            ->with(['user', 'galleries', 'details.category', 'details'])  // Eager load the relationships
+            ->get();
 
-    // Pobierz kategorię na podstawie ID
-$category = Category::find($categoryId);
+        // Pobierz kategorię na podstawie ID
+        $category = Category::find($categoryId);
 
-    // Sprawdź, czy kategoria istnieje
-    if (!$category) {
-        return redirect()->route('index');
+        // Sprawdź, czy kategoria istnieje
+        if (!$category) {
+            return redirect()->route('index');
+        }
+
+        // Pobierz breadcrumbs dla kategorii
+        $breadcrumbs = $category->getBreadcrumbs($categoryId);
+
+        // Renderowanie widoku z listingami
+        return Inertia::render('Listing/Listings', [
+            'products' => $listings,
+            'category' => $category->name,
+            'breadcrumbs' => $breadcrumbs,  // Przekaż breadcrumbs do widoku
+        ]);
     }
-
-    // Pobierz breadcrumbs dla kategorii
-    $breadcrumbs = $category->getBreadcrumbs($categoryId);
-
-    // Renderowanie widoku z listingami
-    return Inertia::render('Listing/Listings', [
-        'products' => $listings,
-        'category' => $category->name,
-        'breadcrumbs' => $breadcrumbs,  // Przekaż breadcrumbs do widoku
-    ]);
-}
 
 
 
@@ -178,7 +178,6 @@ $category = Category::find($categoryId);
      */
     public function show($id)
     {
-        dd($id);
         $listing = Listing::with([
             'user',
             'galleries',
