@@ -8,7 +8,7 @@ import MultiSelectDropdown from "./Partials/MultiSelectDropdown";
 import SingleSelectDropdown from "./Partials/SingleSelectDropdown";
 
 
-const Edit = ({ listing, users = [], statuses = [], conditions = [], items = [], colors = [], sizes = [], brands = [], materials = [] }) => {
+const Edit = ({ listing, users = [], statuses = [], conditions = [], colors = [], sizes = [], brands = [], materials = [], categories = [] }) => {
     const { data, setData, put, processing, errors } = useForm({
         title: listing.title,
         description: listing.description,
@@ -21,6 +21,7 @@ const Edit = ({ listing, users = [], statuses = [], conditions = [], items = [],
         size_id: listing.details?.size_id,
         brand_id: listing.details?.brand_id,
         material_ids: listing.details?.detail_material?.map(material => material.material_id) || [],
+        category_id: listing.details?.category_id
     });
 
     const [existingImages, setExistingImages] = useState(listing.galleries || []);
@@ -49,7 +50,7 @@ const Edit = ({ listing, users = [], statuses = [], conditions = [], items = [],
         setExistingImages(existingImages.filter(image => image.id !== imageId));
         setImagesToDelete([...imagesToDelete, imageId]);
     };
-
+    console.log(data);
     return (
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -120,6 +121,22 @@ const Edit = ({ listing, users = [], statuses = [], conditions = [], items = [],
                         errorMessage={errors.condition_id}
                     />
 
+                    {/* Sex Selection */}
+                    <SingleSelectDropdown
+                        label="Przedmiot"
+                        options={items}
+                        selectedOption={data.item_id}
+                        onChange={(selectedId) => setData("item_id", selectedId)}
+                        errorMessage={errors.item_id}
+                    />
+                    {/* Category Selection */}
+                    <SingleSelectDropdown
+                        label="Przedmiot"
+                        options={items}
+                        selectedOption={data.item_id}
+                        onChange={(selectedId) => setData("item_id", selectedId)}
+                        errorMessage={errors.item_id}
+                    />
                     {/* Item Selection */}
                     <SingleSelectDropdown
                         label="Przedmiot"

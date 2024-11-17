@@ -62,8 +62,6 @@ Route::middleware('auth')->group(function () {
 
 
 ///
-Route::get('/ogloszenia', [ListingController::class, 'index'])->name('listings');
-Route::get('/ogloszenia/{id}', [ListingController::class, 'show'])->name('listing');
 
 
 

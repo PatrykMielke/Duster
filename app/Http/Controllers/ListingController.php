@@ -86,7 +86,6 @@ class ListingController extends Controller
         $brands = Brand::all();
         $materials = Material::all();
         $conditions = Condition::all();
-        $items = Item::all();
 
         return Inertia::render('Listing/Create', [
             'statuses' => $statuses,
@@ -95,7 +94,6 @@ class ListingController extends Controller
             'brands' => $brands,
             'materials' => $materials,
             'conditions' => $conditions,
-            'items' => $items,
         ]);
     }
 
@@ -172,7 +170,7 @@ class ListingController extends Controller
      */
     public function show($id)
     {
-
+        dd($id);
         $listing = Listing::with([
             'user',
             'galleries',
@@ -204,39 +202,44 @@ class ListingController extends Controller
         ]);
     }
 
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Show the form for editing the specified resource.
      */
 
     public function edit($id): Response | RedirectResponse
     {
-        if (Auth::check() && Auth::user()->id != $id) {
-            // Zwróć błąd 403 zamiast przekierowania
-            abort(403, 'Unauthorized action.');
-        }
+
+        // if (Auth::check() && Auth::user()->id != $id) {
+        //     // Zwróć błąd 403 zamiast przekierowania
+        //     abort(403, 'Unauthorized action.');
+        // }
 
         // Jeśli użytkownik jest uprawniony do edycji
-        $listing = Listing::with(['details', 'details.detailColor', 'details.detailMaterial'])->findOrFail($id);
+        $listing = Listing::with(['details', 'details.category', 'details.size', 'details.brand', 'details.condition', 'details.detailColor', 'details.detailMaterial'])->findOrFail($id);
 
-        $users = User::all();
         $statuses = Status::all();
         $conditions = Condition::all();
-        $items = Item::all();
-        $colors = Color::all();
-        $sizes = Size::all();
-        $brands = Brand::all();
-        $materials = Material::all();
+        $colors = Color::orderBy('name')->get();
+        $sizes = Size::orderBy('name')->get();
+        $brands = Brand::orderBy('name')->get();
+        $materials = Material::orderBy('name')->get();
+        $categories = Category::orderBy('name')->get();
 
         return Inertia::render('Listing/Edit', [
             'listing' => $listing,
-            'users' => $users,
             'statuses' => $statuses,
             'conditions' => $conditions,
-            'items' => $items,
             'colors' => $colors,
             'sizes' => $sizes,
             'brands' => $brands,
             'materials' => $materials,
+            'categories' => $categories
         ]);
     }
 
@@ -283,6 +286,11 @@ class ListingController extends Controller
 
         return redirect()->route('HomePage')->with('success', 'Ogłoszenie zaktualizowane pomyślnie.');
     }
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Remove the specified resource from storage.
