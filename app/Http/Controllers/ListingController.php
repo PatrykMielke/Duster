@@ -186,7 +186,7 @@ class ListingController extends Controller
 
         $category = new Category();
         $breadcrumbs = $category->getBreadcrumbs($listing->details->category_id);
-
+        $listing->breadcrumbs = $breadcrumbs;
         // Pobierz użytkownika powiązanego z ogłoszeniem
         $user = $listing->user;
 

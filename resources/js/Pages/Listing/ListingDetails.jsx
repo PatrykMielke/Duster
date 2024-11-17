@@ -38,7 +38,7 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                                     role="list"
                                     className="flex items-end space-x-2"
                                 >
-                                    {product.breadcrumbs.map((breadcrumb) => (
+                                    {listing.breadcrumbs.map((breadcrumb) => (
                                         <li key={breadcrumb.id}>
                                             <div className="flex items-center">
                                                 <a
@@ -62,7 +62,7 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                                     ))}
                                     <li className="text-sm">
                                         <a
-                                            href={product.href}
+                                            href={listing.href}
                                             aria-current="page"
                                             className="font-medium text-gray-500 hover:text-gray-600"
                                         >
@@ -270,12 +270,6 @@ export default function Example({ listing, uniqueUserCount, auth }) {
         </Layout>
     );
 }
-const product = {
-    breadcrumbs: [
-        { id: 1, name: "Men", href: "#" },
-        { id: 2, name: "Clothing", href: "#" },
-    ],
-};
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
