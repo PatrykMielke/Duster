@@ -5,20 +5,29 @@ import { PlusIcon } from '@heroicons/react/24/solid';
 import Layout from '@/Layouts/Layout';
 import SnackbarNotification from '@/components/SnackbarNotification'; // Import the Snackbar component
 
-export default function Wallet({ auth, wallet, message }) {
+export default function Wallet({ auth, wallet, message, severity }) {
     const [currentBalance, setCurrentBalance] = useState(0);
-    const [snackbarOpen, setSnackbarOpen] = useState(false); // State to control snackbar visibility
-    const [snackbarMessage, setSnackbarMessage] = useState(); // State to store the message for the snackbar
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState();
+    const [snackbarSeverity, setSnackbarSeverity] = useState(severity);
     const { errors } = usePage().props;
     const [isLoading, setIsLoading] = useState(false);
     const user_id = auth?.user?.id;
 
-    // Set balance when the wallet data is available
     useEffect(() => {
         if (wallet && wallet.balance !== undefined) {
             setCurrentBalance(wallet.balance);
         }
     }, [wallet]);
+
+
+    useEffect(() => {
+        if (message) {
+            setSnackbarMessage(message);
+            setSnackbarSeverity(severity);
+            setSnackbarOpen(true);
+        }
+    }, [message, severity]);
 
     // Add balance to the wallet
     const addBalance = (amount) => {
@@ -30,9 +39,11 @@ export default function Wallet({ auth, wallet, message }) {
             preserveScroll: true,
             onFinish: () => {
                 setIsLoading(false);
-                // Display the snackbar message after the operation completes
-                setSnackbarMessage(message);  // Backend message is passed as a prop
-                setSnackbarOpen(true);        // Show snackbar
+                if (message) {
+                    setSnackbarMessage(message);
+                    setSnackbarSeverity(severity);
+                    setSnackbarOpen(true);
+                }
             }
         });
     };
@@ -84,6 +95,7 @@ export default function Wallet({ auth, wallet, message }) {
             <SnackbarNotification
                 open={snackbarOpen}
                 message={snackbarMessage}  // Pass the message from the backend
+                severity={snackbarSeverity}
                 handleClose={handleSnackbarClose}  // Function to close snackbar
             />
         </Layout>

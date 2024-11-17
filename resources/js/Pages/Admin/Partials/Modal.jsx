@@ -1,60 +1,124 @@
-import React, { useState } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import React, { useState, useEffect } from "react";
+import {
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Button,
+    Typography,
+    FormControl,
+    Select,
+    MenuItem,
+    InputLabel,
+    FormControlLabel,
+    Switch,
+    TextField,
+} from "@mui/material";
 
-export default function ListingModal({ open, onClose, listing, onSave, statuses }) {
-    if (!listing) return null;
+export default function Modal({
+    open,
+    onClose,
+    data,
+    fields,
+    onSave,
+    title,
+}) {
+    const [editedData, setEditedData] = useState(data || {});
+    useEffect(() => {
+        setEditedData(data || {});
+    }, [data]);
 
-    const [editedListing, setEditedListing] = useState(listing);
-
-    // Mapa kluczy do nazw w języku polskim
-    const fieldNames = {
-        id: "ID",
-        title: "Tytuł",
-        description: "Opis",
-        price: "Cena",
-        user_id: "ID użytkownika",
-        status_name: "Status",
-    };
-
-    const handleStatusChange = (event) => {
-        setEditedListing({ ...editedListing, status_id: event.target.value });
+    const handleFieldChange = (field, value) => {
+        setEditedData((prev) => ({ ...prev, [field]: value }));
     };
 
     const handleSave = () => {
-        onSave({ id: listing.id, status_id: editedListing.status_id });
+        onSave(editedData);
         onClose();
     };
-
-    const listingKeys = Object.keys(editedListing);
-
     return (
         <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-            <DialogTitle>Edytuj Listing</DialogTitle>
+            <DialogTitle>{title}</DialogTitle>
             <DialogContent>
-                {listingKeys.map((key) => {
-                    if (key === 'status_id') {
-                        return (
-                            <FormControl fullWidth key={key} margin="normal">
-                                <InputLabel>{fieldNames[key]}</InputLabel>
-                                <Select
-                                    value={editedListing[key]}
-                                    onChange={handleStatusChange}
-                                    label={fieldNames[key]}
-                                >
-                                    {statuses.map((status) => (
-                                        <MenuItem key={status.id} value={status.id}>
-                                            {status.name}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        );
+                {fields.map((field) => {
+                    const { key, label, type, options, disabled } = field;
+                    switch (type) {
+                        case "select":
+                            return (
+                                <FormControl fullWidth key={key} margin="normal">
+                                    <InputLabel>{label}</InputLabel>
+                                    <Select
+                                        value={editedData[key] || ''}
+                                        onChange={(e) => handleFieldChange(key, e.target.value)}
+                                        label={label}
+                                    >
+                                        {options.map((option) => (
+                                            <MenuItem key={option.id} value={option.id}>
+                                                {option.name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            );
+
+                        case "switch":
+                            return (
+                                <FormControlLabel
+                                    key={key}
+                                    control={
+                                        <Switch
+                                            checked={editedData[key] || false}
+                                            onChange={(e) =>
+                                                handleFieldChange(key, e.target.checked)
+                                            }
+                                        />
+                                    }
+                                    label={label}
+                                />
+                            );
+
+                        case "text":
+                            return (
+                                <TextField
+                                    key={key}
+                                    fullWidth
+                                    margin="normal"
+                                    label={label}
+                                    value={editedData[key] || ""}
+                                    onChange={(e) =>
+                                        handleFieldChange(key, e.target.value)
+                                    }
+                                    disabled={disabled}
+                                />
+                            );
+                        case "textarea":
+                            return (
+                                <TextField
+                                    key={key}
+                                    fullWidth
+                                    margin="normal"
+                                    label={label}
+                                    value={editedData[key] || ""}
+                                    onChange={(e) => handleFieldChange(key, e.target.value)}
+                                    multiline
+                                    rows={10}
+                                    disabled={disabled}
+
+                                />
+                            );
+                        case "static":
+                        default:
+                            return (
+                                <TextField
+                                    key={key}
+                                    fullWidth
+                                    margin="normal"
+                                    label={label}
+                                    value={editedData[key] || ""}
+                                    disabled
+                                />
+                            );
                     }
-                    return (
-                        <Typography variant="body1" gutterBottom key={key}>
-                            <strong>{fieldNames[key] || key}:</strong> {editedListing[key]}
-                        </Typography>
-                    );
                 })}
             </DialogContent>
             <DialogActions>

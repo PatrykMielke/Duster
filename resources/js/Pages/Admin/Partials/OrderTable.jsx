@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import ListingModal from "./Modal";
 import { router } from "@inertiajs/react";
 import { idID } from "@mui/material/locale";
 

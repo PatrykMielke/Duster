@@ -51,12 +51,20 @@ class WalletController extends Controller
                 'Profile/Wallet',
                 [
                     'message' => 'Płatność przebiegła pomyślnie.',
+                    'severity' => 'success',
                     'wallet' => $wallet
                 ]
             );
         } else {
             // Jeśli portfel nie istnieje
-            return response()->json(['error' => 'Portfel użytkownika nie istnieje.'], 404);
+            return Inertia::render(
+                'Profile/Wallet',
+                [
+                    'message' => 'Wystąpił błąd, spróbuj ponownie.',
+                    'severity' => 'error',
+                    'wallet' => $wallet
+                ]
+            );
         }
     }
     /**

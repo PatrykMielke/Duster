@@ -2,28 +2,12 @@ import React, { useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
-import ListingModal from "./Modal"; // Import the modal component
 import { router } from "@inertiajs/react";
-
+import Modal from "@/Pages/Admin/Partials/Modal";
+import { disableTime } from "rsuite/esm/internals/utils/date";
+import { DisabledByDefault } from "@mui/icons-material";
 export default function Table({ products, statuses }) {
-    const [modalOpen, setModalOpen] = useState(false);
-    const [selectedListing, setSelectedListing] = useState(null);
 
-    const handleSaveListing = (updatedListing) => {
-        router.post(route("admin.edit"), updatedListing, {
-            preserveState: true,
-            preserveScroll: true,
-        });
-    };
-
-    const handleCloseModal = () => {
-        setModalOpen(false);
-        setSelectedListing(null);
-    };
-    const handleButtonClick = (listing) => {
-        setSelectedListing(listing);
-        setModalOpen(true);
-    };
     const getListings = (listingList) => {
         return listingList.map((listing) => ({
             id: listing.id,
@@ -31,7 +15,7 @@ export default function Table({ products, statuses }) {
             description: listing.description,
             price: listing.price,
             user_id: listing.user_id,
-            status_name: listing.status.name,
+            status: listing.status.name,
             status_id: listing.status_id,
         }));
     };
@@ -42,7 +26,7 @@ export default function Table({ products, statuses }) {
         { field: "description", headerName: "Opis", width: 200 },
         { field: "price", headerName: "Cena", width: 150 },
         { field: "user_id", headerName: "ID użytkownika", width: 150 },
-        { field: "status_name", headerName: "Status", width: 150 },
+        { field: "status", headerName: "Status", width: 150 },
         {
             field: "actions",
             headerName: "Akcje",
@@ -69,6 +53,39 @@ export default function Table({ products, statuses }) {
         hideNextButton: false,
         hidePrevButton: true,
     };
+
+
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedListing, setSelectedListing] = useState(null);
+
+    const handleSaveListing = (updatedListing) => {
+        router.post(route("admin.listingedit"), updatedListing, {
+            preserveState: true,
+            preserveScroll: true,
+        });
+    };
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+        setSelectedListing(null);
+    };
+    const handleButtonClick = (listing) => {
+        setSelectedListing(listing);
+        setModalOpen(true);
+    };
+
+    const modalFields = [
+        { key: "id", label: "ID", type: "static" },
+        { key: "user_id", label: "ID użytkownika", type: "static" },
+        { key: "title", label: "Tytuł", type: "static" },
+        { key: "description", label: "Opis", type: "textarea", disabled: true },
+        { key: "price", label: "Cena", type: "static" },
+        { key: "status_id", label: "Status", type: "select", options: statuses },
+    ];
+
+
+
+
     return (
         <Paper sx={{ width: "100%" }}>
             <DataGrid
@@ -85,13 +102,17 @@ export default function Table({ products, statuses }) {
                     },
                 }}
             />
-            <ListingModal
+
+
+            <Modal
                 open={modalOpen}
                 onClose={handleCloseModal}
-                listing={selectedListing}
-                statuses={statuses}
+                data={selectedListing}
+                fields={modalFields}
                 onSave={handleSaveListing}
+                title="Szczegóły ogłoszenia"
             />
+
         </Paper>
     );
 }

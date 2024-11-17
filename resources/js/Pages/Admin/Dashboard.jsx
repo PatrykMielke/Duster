@@ -80,7 +80,7 @@ function PageContent({ pathname, props }) {
         case "/uzytkownicy":
             return (
                 <DashboardSection
-                    component={<UserTable users={props.users} />}
+                    component={<UserTable users={props.users} roles={props.roles} />}
                 />
             );
         case "/skargi":

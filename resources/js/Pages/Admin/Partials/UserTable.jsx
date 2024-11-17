@@ -1,7 +1,9 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
+import Modal from "@/Pages/Admin/Partials/Modal";
+import { router } from "@inertiajs/react";
 
 const columns = [
     { field: "id", headerName: "ID", width: 70 },
@@ -20,32 +22,14 @@ const columns = [
         headerName: "Akcje",
         width: 150,
         renderCell: (params) => (
-            <div>
-                <Button
-                    color="primary"
-                    onClick={() =>
-                        params.row && handleButtonClick(params.row, statuses)
-                    }
-                >
-                    Szczegóły
-                </Button>
-            </div>
+            <Button
+                color="primary"
+                onClick={() => params.row && params.row.handleDetailsClick(params.row)}
+            >
+                Szczegóły
+            </Button>
         ),
     },
-    /* {
-        field: "age",
-        headerName: "Age",
-        type: "number",
-        width: 90,
-    }, */
-    /* {
-        field: "fullName",
-        headerName: "Full name",
-        description: "This column has a value getter and is not sortable.",
-        sortable: false,
-        width: 160,
-        valueGetter: (value, row) => `${row.name || ""} ${row.email || ""}`,
-    }, */
 ];
 
 const getUsers = (userList) => {
@@ -57,13 +41,13 @@ const getUsers = (userList) => {
             name: user.name,
             last_activity: user.last_activity
                 ? new Date(user.session?.last_activity).toLocaleDateString(
-                      "pl-PL",
-                      {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                          second: "2-digit",
-                      },
-                  )
+                    "pl-PL",
+                    {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                    }
+                )
                 : "Nigdy",
             created_at: new Date(user.created_at).toLocaleDateString("pl-PL", {
                 hour: "2-digit",
@@ -71,6 +55,9 @@ const getUsers = (userList) => {
                 second: "2-digit",
             }),
             role: user.role.name,
+            role_id: user.role.id,
+            is_active: user.is_active,
+
         };
         lista.push(user);
     });
@@ -84,11 +71,43 @@ const paginationModel = {
     hidePrevButton: false,
 };
 
-export default function DataTable({ users }) {
+export default function DataTable({ users, roles }) {
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [isModalOpen, setModalOpen] = useState(false);
+    const handleDetailsClick = (user) => {
+        setSelectedUser(user);
+        setModalOpen(true);
+    };
+    const handleCloseModal = () => {
+        setModalOpen(false);
+        setSelectedUser(null);
+    };
+
+    const handleSaveModal = (updatedUser) => {
+        router.post(route("admin.useredit"), updatedUser, {
+            preserveState: true,
+            preserveScroll: true,
+        });
+    };
+
+    const detailFields =
+        [
+            { key: "id", label: "ID", type: "static" },
+            { key: "name", label: "Nazwa", type: "static" },
+            { key: "email", label: "E-mail", type: "static" },
+            { key: "last_activity", label: "Aktywność", type: "static" },
+            { key: "created_at", label: "Utworzono", type: "static" },
+            { key: "role_id", label: "Rola", type: "select", options: roles },
+            { key: "is_active", label: "Aktywny", type: "switch" },
+        ];
+
     return (
         <Paper sx={{ width: "100%" }}>
             <DataGrid
-                rows={getUsers(users)}
+                rows={getUsers(users).map((user) => ({
+                    ...user,
+                    handleDetailsClick,
+                }))}
                 columns={columns}
                 initialState={{ pagination: { paginationModel } }}
                 pageSizeOptions={[10, 20, 50]}
@@ -101,6 +120,16 @@ export default function DataTable({ users }) {
                     },
                 }}
             />
+            {isModalOpen && (
+                <Modal
+                    open={isModalOpen}
+                    onClose={handleCloseModal}
+                    data={selectedUser}
+                    fields={detailFields}
+                    onSave={handleSaveModal}
+                    title="Szczegóły użytkownika"
+                />
+            )}
         </Paper>
     );
 }
