@@ -226,6 +226,7 @@ class ListingController extends Controller
 
         // Jeśli użytkownik jest uprawniony do edycji
         $listing = Listing::with(['details', 'details.category', 'details.size', 'details.brand', 'details.condition', 'details.detailColor', 'details.detailMaterial'])->findOrFail($id);
+        $category_id = $listing->details->category_id;
 
         $statuses = Status::all();
         $conditions = Condition::all();
@@ -233,7 +234,16 @@ class ListingController extends Controller
         $sizes = Size::orderBy('name')->get();
         $brands = Brand::orderBy('name')->get();
         $materials = Material::orderBy('name')->get();
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::all();
+
+        $cat = new CategoryController();
+        $categories_hierarchy = $cat->getCategories();
+
+
+
+        // $categories = $this->getCategories();
+        $cat = new Category();
+        $breadcrumbs = $cat->getBreadcrumbs($listing->details->category_id);
 
         return Inertia::render('Listing/Edit', [
             'listing' => $listing,
@@ -243,6 +253,8 @@ class ListingController extends Controller
             'sizes' => $sizes,
             'brands' => $brands,
             'materials' => $materials,
+            'categories_hierarchy' => $categories_hierarchy,
+            'breadcrumbs' => $breadcrumbs,
             'categories' => $categories
         ]);
     }
@@ -295,6 +307,68 @@ class ListingController extends Controller
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+    public function getCategories()
+    {
+        $topCategories = Category::whereNull('parent_id')->with('children.children')->get();
+
+        // Zwracamy wynik w nowej strukturze
+        return $this->buildStructuredNavigation($topCategories);
+    }
+
+    private function buildStructuredNavigation($categories)
+    {
+        $plec = [];
+        $kategoria = [];
+        $przedmiot = [];
+
+        foreach ($categories as $category) {
+            // Dodajemy kategorię najwyższego poziomu do "plec"
+            $plec[] = [
+                'id' => $category->id,
+                'name' => $category->name,
+            ];
+
+            foreach ($category->children as $section) {
+                // Dodajemy sekcję do "kategoria"
+                $kategoria[] = [
+                    'id' => $section->id,
+                    'name' => $section->name,
+                    'parent_id' => $category->id,
+                ];
+
+                foreach ($section->children as $item) {
+                    // Dodajemy przedmiot do "przedmiot"
+                    $przedmiot[] = [
+                        'id' => $item->id,
+                        'name' => $item->name,
+                        'parent_id' => $section->id,
+                        'href' => route('showByCategory', ['id' => $item->id]),
+                    ];
+                }
+            }
+        }
+        // Zwracamy obiekt z trzema tablicami
+        return (object) [
+            'sexes' => $plec,
+            'categories' => $kategoria,
+            'items' => $przedmiot,
+        ];
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Remove the specified resource from storage.

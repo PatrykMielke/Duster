@@ -38,12 +38,14 @@ class CategoryController extends Controller
                 // Loop through second-level children (items in each section)
                 foreach ($section->children as $item) {
                     $items[] = [
+                        'category_id' => $item->id,
                         'name' => $item->name,
                         'href' => route('showByCategory', ['id' => $item->id]), // Or you could store a URL in the database for each item
                     ];
                 }
 
                 $sections[] = [
+                    'category_id' => $item->id,
                     'id' => strtolower($section->name), // Unique section ID
                     'name' => $section->name,
                     'items' => $items,
@@ -51,6 +53,7 @@ class CategoryController extends Controller
             }
 
             $result[] = [
+                'category_id' => $category->id,
                 'id' => strtolower($category->name),
                 'name' => $category->name,
                 'sections' => $sections,

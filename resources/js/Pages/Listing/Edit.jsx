@@ -4,11 +4,11 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import { Head, useForm } from "@inertiajs/react";
 import { useState } from "react";
-import MultiSelectDropdown from "./Partials/MultiSelectDropdown";
-import SingleSelectDropdown from "./Partials/SingleSelectDropdown";
+import MultiSelectDropdown from "@/Pages/Listing/Partials/MultiSelectDropdown";
+import SingleSelectDropdown from "@/Pages/Listing/Partials/SingleSelectDropdown";
+import CategorySelector from "@/Pages/Listing/CategorySelect"; // Import CategorySelector
 
-
-const Edit = ({ listing, users = [], statuses = [], conditions = [], colors = [], sizes = [], brands = [], materials = [], categories = [] }) => {
+const Edit = ({ listing, users = [], statuses = [], conditions = [], colors = [], items = [], sizes = [], brands = [], materials = [], categories_hierarchy, breadcrumbs }) => {
     const { data, setData, put, processing, errors } = useForm({
         title: listing.title,
         description: listing.description,
@@ -23,7 +23,6 @@ const Edit = ({ listing, users = [], statuses = [], conditions = [], colors = []
         material_ids: listing.details?.detail_material?.map(material => material.material_id) || [],
         category_id: listing.details?.category_id
     });
-
     const [existingImages, setExistingImages] = useState(listing.galleries || []);
     const [imagesToDelete, setImagesToDelete] = useState([]);
 
@@ -50,7 +49,7 @@ const Edit = ({ listing, users = [], statuses = [], conditions = [], colors = []
         setExistingImages(existingImages.filter(image => image.id !== imageId));
         setImagesToDelete([...imagesToDelete, imageId]);
     };
-    console.log(data);
+
     return (
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -100,8 +99,6 @@ const Edit = ({ listing, users = [], statuses = [], conditions = [], colors = []
                         <InputError message={errors.price} className="mt-2" />
                     </div>
 
-
-
                     {/* Status Selection */}
                     <SingleSelectDropdown
                         label="Status"
@@ -111,7 +108,6 @@ const Edit = ({ listing, users = [], statuses = [], conditions = [], colors = []
                         errorMessage={errors.status_id}
                     />
 
-
                     {/* Condition Selection */}
                     <SingleSelectDropdown
                         label="Stan"
@@ -119,31 +115,6 @@ const Edit = ({ listing, users = [], statuses = [], conditions = [], colors = []
                         selectedOption={data.condition_id}
                         onChange={(selectedId) => setData("condition_id", selectedId)}
                         errorMessage={errors.condition_id}
-                    />
-
-                    {/* Sex Selection */}
-                    <SingleSelectDropdown
-                        label="Przedmiot"
-                        options={items}
-                        selectedOption={data.item_id}
-                        onChange={(selectedId) => setData("item_id", selectedId)}
-                        errorMessage={errors.item_id}
-                    />
-                    {/* Category Selection */}
-                    <SingleSelectDropdown
-                        label="Przedmiot"
-                        options={items}
-                        selectedOption={data.item_id}
-                        onChange={(selectedId) => setData("item_id", selectedId)}
-                        errorMessage={errors.item_id}
-                    />
-                    {/* Item Selection */}
-                    <SingleSelectDropdown
-                        label="Przedmiot"
-                        options={items}
-                        selectedOption={data.item_id}
-                        onChange={(selectedId) => setData("item_id", selectedId)}
-                        errorMessage={errors.item_id}
                     />
 
                     {/* Color Selection */}
@@ -180,6 +151,12 @@ const Edit = ({ listing, users = [], statuses = [], conditions = [], colors = []
                         selectedOptions={data.material_ids}
                         onChange={(selectedMaterials) => setData("material_ids", selectedMaterials)}
                         errorMessage={errors.material_ids}
+                    />
+                    <CategorySelector
+                        listing={listing}
+                        categories_hierarchy={categories_hierarchy} // Pass the categories_hierarchy prop
+                        setData={setData} // Use setData to update the category, section, and item in form state
+                        breadcrumbs={breadcrumbs}
                     />
 
                     {/* Existing Images */}

@@ -22,10 +22,9 @@ class Category extends Model
     {
         return $this->belongsTo(self::class, 'parent_id', 'id');
     }
-
-    public function items()
+    public function details()
     {
-        return $this->hasMany(Item::class);
+        return $this->hasOne(Detail::class);
     }
 
     // Rekurencyjna funkcja do tworzenia breadcrumbs
@@ -67,5 +66,4 @@ class Category extends Model
         # or
         Category::where('parent_id',0)->get()->first(); // returns first item of Collection of Category models
     */
-
 }
