@@ -1,5 +1,4 @@
 "use client";
-import Example from "../../../Components/DropDownButton";
 import CategoryItems from "./Partials/CategoryItems";
 import Login from "./Partials/Login";
 import { Bars3Icon } from "@heroicons/react/24/outline";
@@ -68,7 +67,6 @@ export default function Navbar() {
                                 <Logo />
                                 <CategoryItems navigation={navigationData} />
                                 <div className="ml-auto flex items-center">
-                                    <Example />
                                     <Searchbar />
                                     {user ? ( // Logged In view
                                         <></>
