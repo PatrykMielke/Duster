@@ -95,5 +95,6 @@ class DatabaseSeeder extends Seeder
                 $this->call(OrderSeeder::class);
                 $this->call(CommentSeeder::class);
                 $this->call(WalletSeeder::class);
+                $this->call(SessionsTableSeeder::class);
         }
 }

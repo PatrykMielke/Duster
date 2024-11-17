@@ -5,15 +5,12 @@ import Button from "@mui/material/Button";
 
 const columns = [
     { field: "id", headerName: "ID", width: 70 },
-    { field: "name", headerName: "Nazwa", width: 200 },
-    { field: "email", headerName: "E-mail", width: 200 },
-    { field: "last_activity", headerName: "Aktywność", width: 150 },
-    { field: "listings", headerName: "Ogłoszenia", width: 150 },
-    { field: "followed_listings", headerName: "Ulubione", width: 150 },
-    { field: "followed_users", headerName: "Obserwowani", width: 170 },
-    { field: "reviews", headerName: "Opinie", width: 150 },
-    { field: "reports", headerName: "Zgłoszenia", width: 150 },
-    { field: "role", headerName: "Rola", width: 150 },
+    { field: "name", headerName: "Zgłaszający", width: 200 },
+    { field: "created_at", headerName: "Zgłoszono", width: 160 },
+    { field: "solved", headerName: "Rozwiązane", width: 160 },
+    { field: "type", headerName: "Typ", width: 150 },
+    { field: "reason", headerName: "Powód", width: 150 },
+    { field: "description", headerName: "Treść", width: 750 },
     {
         field: "actions",
         headerName: "Akcje",
@@ -54,13 +51,7 @@ const getUsers = (userList) => {
             id: user.id,
             email: user.email,
             name: user.name,
-            last_activity: new Date(
-                user.session?.last_activity,
-            ).toLocaleDateString("pl-PL", {
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-            }),
+            created_at: user.created_at,
             role: user.role.name,
         };
         lista.push(user);
@@ -81,7 +72,14 @@ export default function DataTable({ users }) {
             <DataGrid
                 rows={getUsers(users)}
                 columns={columns}
-                initialState={{ pagination: { paginationModel } }}
+                initialState={{
+                    pagination: { paginationModel },
+                    columns: {
+                        columnVisibilityModel: {
+                            id: false,
+                        },
+                    },
+                }}
                 pageSizeOptions={[10, 20, 50]}
                 checkboxSelection
                 sx={{ border: 0 }}

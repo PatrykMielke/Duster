@@ -28,6 +28,29 @@ class Category extends Model
         return $this->hasMany(Item::class);
     }
 
+    // Rekurencyjna funkcja do tworzenia breadcrumbs
+    public function getBreadcrumbs($categoryId)
+    {
+        // Znajdź kategorię na podstawie id
+        $category = Category::find($categoryId);
+
+        $breadcrumbs = [];
+
+        // Rekurencyjnie zbieramy breadcrumbs
+        while ($category) {
+            $breadcrumbs[] = [
+                'id' => $category->id,
+                'name' => $category->name,
+                'href' => "/ogloszenia/{$category->id}",
+            ];
+
+            // Przejdź do kategorii nadrzędnej
+            $category = $category->parent;
+        }
+
+        // Odwróć tablicę, aby breadcrumbs były w odpowiedniej kolejności
+        return array_reverse($breadcrumbs);
+    }
     /*
 
         $category = Category::find($id);
