@@ -47,7 +47,7 @@ export default function ProfileDropdown() {
                 <Divider variant="middle" component="li" />
 
                 <Link href={route("logout")} method="post" as="button">
-                    <MenuItem>Wyloguj</MenuItem>
+                    <MenuItem sx={{ width: 105 }}>Wyloguj</MenuItem>
                 </Link>
             </Menu>
         </Dropdown>

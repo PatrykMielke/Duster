@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import FilterBar from "@/Components/FilterBar";
 import Listing from "@/Pages/Listing/Partials/Listing";
 
-export default function Listings({ products, breadcrumbs }) {
+export default function Listings({ products, breadcrumbs = [] }) {
     // State to hold the sorted products
     const [sortedProducts, setSortedProducts] = useState(products);
     const [sortCriteria, setSortCriteria] = useState("created_at");
