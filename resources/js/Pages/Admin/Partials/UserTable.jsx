@@ -60,7 +60,7 @@ const paginationModel = {
 };
 
 export default function DataTable({ users, roles }) {
-    console.log(users);
+    //console.log(users);
     const [selectedUser, setSelectedUser] = useState(null);
     const [isModalOpen, setModalOpen] = useState(false);
     const handleDetailsClick = (user) => {
@@ -97,7 +97,14 @@ export default function DataTable({ users, roles }) {
                     handleDetailsClick,
                 }))}
                 columns={columns}
-                initialState={{ pagination: { paginationModel } }}
+                initialState={{
+                    pagination: { paginationModel },
+                    columns: {
+                        columnVisibilityModel: {
+                            id: false,
+                        },
+                    },
+                }}
                 pageSizeOptions={[10, 20, 50]}
                 checkboxSelection
                 sx={{ border: 0 }}

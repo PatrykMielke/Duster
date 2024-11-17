@@ -80,7 +80,9 @@ function PageContent({ pathname, props }) {
         case "/uzytkownicy":
             return (
                 <DashboardSection
-                    component={<UserTable users={props.users} roles={props.roles} />}
+                    component={
+                        <UserTable users={props.users} roles={props.roles} />
+                    }
                 />
             );
         case "/skargi":
@@ -135,7 +137,7 @@ function DashboardLayoutBranding(props) {
             theme={demoTheme}
             window={demoWindow}
         >
-            <DashboardLayout>
+            <DashboardLayout sx={{ width: "99%" }}>
                 <PageContent pathname={router.pathname} props={props} />
             </DashboardLayout>
         </AppProvider>

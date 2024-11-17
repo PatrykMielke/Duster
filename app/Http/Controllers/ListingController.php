@@ -183,6 +183,10 @@ class ListingController extends Controller
             'details.detailMaterial.material',
         ])->findOrFail($id);
 
+
+        $category = new Category();
+        $breadcrumbs = $category->getBreadcrumbs($listing->details->category_id);
+
         // Pobierz użytkownika powiązanego z ogłoszeniem
         $user = $listing->user;
 
