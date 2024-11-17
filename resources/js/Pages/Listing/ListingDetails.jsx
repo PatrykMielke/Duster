@@ -21,7 +21,6 @@ export default function Example({ listing, uniqueUserCount, auth }) {
     const diffInMilliseconds = now - createdAt;
     const diffInHours = Math.floor(diffInMilliseconds / (1000 * 60 * 60));
 
-    //console.log(listing);
     return (
         <Layout>
             <div className="bg-white rounded-[2rem] p-4">
@@ -143,7 +142,9 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                                         <Rating
                                             defaultValue={1}
                                             precision={0.1}
-                                            value={listing.averageRating}
+                                            value={parseInt(
+                                                listing.averageRating,
+                                            )}
                                             readOnly
                                         />
                                         {/* {[0, 1, 2, 3, 4].map((rating) => (

@@ -53,25 +53,33 @@ class ListingController extends Controller
     }
 
     public function showByCategory($categoryId)
-    {
-        // jeśli nie ma produktów o takiej kategorii
-        $listings = Listing::whereHas('details', function ($query) use ($categoryId) {
-            $query->where('category_id', $categoryId);
-        })
-            ->with(['user', 'galleries', 'details.category'])  // Eager load the relationships
-            ->get();
+{
+    // Jeśli nie ma produktów o takiej kategorii
+    $listings = Listing::whereHas('details', function ($query) use ($categoryId) {
+        $query->where('category_id', $categoryId);
+    })
+    ->with(['user', 'galleries', 'details.category', 'details'])  // Eager load the relationships
+    ->get();
 
-        if (!$category = Category::find($categoryId)) {
-            return redirect()->route('index');
-        }
+    // Pobierz kategorię na podstawie ID
+$category = Category::find($categoryId);
 
-
-        // Renderowanie widoku z listingami
-        return Inertia::render('Listing/Listings', [
-            'products' => $listings,
-            'category' => $category->name
-        ]);
+    // Sprawdź, czy kategoria istnieje
+    if (!$category) {
+        return redirect()->route('index');
     }
+
+    // Pobierz breadcrumbs dla kategorii
+    $breadcrumbs = $category->getBreadcrumbs($categoryId);
+
+    // Renderowanie widoku z listingami
+    return Inertia::render('Listing/Listings', [
+        'products' => $listings,
+        'category' => $category->name,
+        'breadcrumbs' => $breadcrumbs,  // Przekaż breadcrumbs do widoku
+    ]);
+}
+
 
 
     /**
