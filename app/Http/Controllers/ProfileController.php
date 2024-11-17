@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Models\User;
 use Inertia\Inertia;
+use App\Models\Order;
 use Inertia\Response;
 use App\Models\Comment;
 use App\Models\Listing;
@@ -70,9 +71,9 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function orders(){
-        $orders = Order::with(['listing','listing.user', 'paymentMethod', 'deliveryMethod'])->get();
-        return Inertia::render('Profile/orders', ['orders' => $orders]);
+    public function userOrders(){
+        $orders = Order::with(['listing','listing.user', 'paymentMethod', 'deliveryMethod'])->where('buyer_id', auth()->user()->id)->orderBy('created_at', 'desc')->get();
+        return Inertia::render('Profile/Orders', ['orders' => $orders]);
     }
     public function updateName(NameUpdateRequest $request): RedirectResponse
     {
