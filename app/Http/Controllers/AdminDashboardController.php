@@ -54,9 +54,23 @@ class AdminDashboardController extends Controller
 
     public function useredit(Request $request)
     {
-        dd($request)->all();
         $validated = $request->validate([
-            'id' => 'required|exists:listings,id',
+            'id' => 'required|exists:users,id',
+            'role_id' => 'required|exists:roles,id',
+            'is_active' => 'required|boolean',
         ]);
+
+        $updated = User::where('id', $validated['id'])->update([
+            'role_id' => $validated['role_id'],
+            'is_active' => $validated['is_active'],
+        ]);
+
+
+        if ($validated['is_active'] == false) {
+            Listing::where('user_id', $validated['id'])->update([
+                'status_id' => 3,
+            ]);
+        }
+        return redirect()->route('admin');
     }
 }
