@@ -40,7 +40,7 @@ class Category extends Model
             $breadcrumbs[] = [
                 'id' => $category->id,
                 'name' => $category->name,
-                'href' => "/ogloszenia/{$category->id}",
+                'href' => "/kategoria/{$category->id}",
             ];
 
             // Przejdź do kategorii nadrzędnej

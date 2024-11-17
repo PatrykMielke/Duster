@@ -5,7 +5,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 
 export default function FilterBar({ onSortChange }) {
-    const [sortOption, setSortOption] = useState("");
+    const [sortOption, setSortOption] = useState("created_at:desc");
 
     const handleSortChange = (event) => {
         const [criteria, order] = event.target.value.split(":");
@@ -24,6 +24,7 @@ export default function FilterBar({ onSortChange }) {
                 value={sortOption}
                 onChange={handleSortChange}
                 label="Sortuj według"
+                defaultValue="created_at:desc"
             >
                 <MenuItem value="created_at:desc">Najnowsze</MenuItem>
                 <MenuItem value="created_at:asc">Najstarsze</MenuItem>

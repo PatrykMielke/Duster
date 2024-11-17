@@ -15,14 +15,14 @@ export default function CategoryItems(props) {
                     {navigation.categories.map((category) => (
                         <Popover key={category.name} className="flex">
                             <div className="relative flex">
-                                <PopoverButton className="relative z-10 -mb-px flex items-center border-b-2 border-transparent pt-px text-sm font-medium text-gray-700 transition-colors duration-200 ease-out hover:text-gray-800 data-[open]:border-indigo-600 data-[open]:text-indigo-600">
+                                <PopoverButton className="relative z-10 -mb-px flex items-center border-b-2 border-transparent pt-px text-lg font-medium text-gray-700 transition-colors duration-200 ease-out hover:text-gray-800 data-[open]:border-indigo-600 data-[open]:text-indigo-600">
                                     {category.name}
                                 </PopoverButton>
                             </div>
 
                             <PopoverPanel
                                 transition
-                                className="absolute inset-x-0 top-full text-sm text-gray-500 transition data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
+                                className="absolute inset-x-0 top-full text-lg text-gray-500 transition data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
                             >
                                 {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
                                 <div
@@ -36,7 +36,7 @@ export default function CategoryItems(props) {
                                             {" "}
                                             {/* NAVBAR ULOZENIE */}
                                             <div className="col-start-2 mx-auto grid grid-cols-2 gap-x-8"></div>
-                                            <div className="row-start-1 grid grid-cols-3 gap-x-8 gap-y-10 text-sm">
+                                            <div className="row-start-1 grid grid-cols-3 gap-x-8 gap-y-10 text-lg">
                                                 {category.sections.map(
                                                     (section) => (
                                                         <div key={section.name}>

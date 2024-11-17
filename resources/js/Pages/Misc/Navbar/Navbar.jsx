@@ -43,7 +43,7 @@ export default function Navbar() {
 
     return (
         <>
-            <div className="bg-white">
+            <div className="bg-white ">
                 {/* Mobile menu */}
                 <MobileCategoryList navigation={navigationData} />
                 <header className="relative bg-white">
@@ -59,7 +59,7 @@ export default function Navbar() {
                                     className="relative rounded-md bg-white p-2 text-gray-400 lg:hidden"
                                 >
                                     <span className="absolute -inset-0.5" />
-                                    <span className="sr-only">Open menu</span>
+                                    <span className="sr-only">Otwórz menu</span>
                                     <Bars3Icon
                                         aria-hidden="true"
                                         className="h-6 w-6"
@@ -68,6 +68,8 @@ export default function Navbar() {
                                 <Logo />
                                 <CategoryItems navigation={navigationData} />
                                 <div className="ml-auto flex items-center">
+                                    <Example />
+                                    <Searchbar />
                                     {user ? ( // Logged In view
                                         <></>
                                     ) : (
@@ -77,8 +79,6 @@ export default function Navbar() {
                                         </>
                                     )}
 
-                                    <Searchbar />
-                                    <Example />
                                     <ProfileDropdown />
                                 </div>
                             </div>

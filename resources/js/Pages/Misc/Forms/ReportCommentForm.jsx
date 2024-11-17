@@ -95,7 +95,7 @@ function ReportModal({ open, onClose, username, id }) {
 
                 {/* TextField for Additional Comments */}
                 <TextField
-                    label="Additional Comments"
+                    label="Opis"
                     variant="outlined"
                     fullWidth
                     multiline

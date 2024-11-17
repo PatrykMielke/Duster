@@ -65,7 +65,7 @@ export default function Profile({ user, auth, products, isFollowing }) {
                             <Rating
                                 defaultValue={1}
                                 precision={0.1}
-                                value={user.averageRating}
+                                value={parseInt(user.averageRating)}
                                 readOnly
                             />
                             <p className="ml-3 font-medium">
