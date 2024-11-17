@@ -34,8 +34,8 @@ Route::prefix('admin')->group(function () {
 
 
     Route::get('/', [AdminDashboardController::class, 'index'])->name('admin');
-    Route::post('/listing', [AdminDashboardController::class, 'edit'])->name('admin.listingedit');
-    Route::post('/user', [AdminDashboardController::class, 'useredit'])->name('admin.useredit');
+    Route::post('/listing', [AdminDashboardController::class, 'edit_listing'])->name('admin.listingedit');
+    Route::post('/user', [AdminDashboardController::class, 'edit_user'])->name('admin.useredit');
 });
 //Edycja ogloszen z widoku admina
 

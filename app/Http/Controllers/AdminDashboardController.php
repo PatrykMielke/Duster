@@ -39,7 +39,7 @@ class AdminDashboardController extends Controller
         ]);
     }
 
-    public function edit(Request $request)
+    public function edit_listing(Request $request)
     {
         $validated = $request->validate([
             'status_id' => 'required|exists:statuses,id',
@@ -52,7 +52,7 @@ class AdminDashboardController extends Controller
         return redirect()->route('admin');
     }
 
-    public function useredit(Request $request)
+    public function edit_user(Request $request)
     {
         $validated = $request->validate([
             'id' => 'required|exists:users,id',
