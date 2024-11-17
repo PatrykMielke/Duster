@@ -16,13 +16,7 @@ class Session extends Model
         'user_agent',
         'last_activity',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'last_activity' => 'datetime',
-        ];
-    }
+    public $timestamps = false;
 
     public function user()
     {

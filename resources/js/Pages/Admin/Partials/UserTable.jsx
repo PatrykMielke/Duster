@@ -10,12 +10,12 @@ const columns = [
     { field: "name", headerName: "Nazwa", width: 200 },
     { field: "email", headerName: "E-mail", width: 200 },
     { field: "last_activity", headerName: "Aktywność", width: 160 },
-    { field: "created_at", headerName: "Utworzono", width: 160 },
-    { field: "listings", headerName: "Ogłoszenia", width: 150 },
-    { field: "followed_listings", headerName: "Ulubione", width: 150 },
-    { field: "followed_users", headerName: "Obserwowani", width: 170 },
-    { field: "reviews", headerName: "Opinie", width: 150 },
-    { field: "reports", headerName: "Zgłoszenia", width: 150 },
+    //{ field: "created_at", headerName: "Utworzono", width: 160 },
+    // { field: "listings", headerName: "Ogłoszenia", width: 150 },
+    // { field: "followed_listings", headerName: "Ulubione", width: 150 },
+    // { field: "followed_users", headerName: "Obserwowani", width: 170 },
+    // { field: "reviews", headerName: "Opinie", width: 150 },
+    // { field: "reports", headerName: "Zgłoszenia", width: 150 },
     { field: "role", headerName: "Rola", width: 150 },
     {
         field: "actions",
@@ -24,7 +24,9 @@ const columns = [
         renderCell: (params) => (
             <Button
                 color="primary"
-                onClick={() => params.row && params.row.handleDetailsClick(params.row)}
+                onClick={() =>
+                    params.row && params.row.handleDetailsClick(params.row)
+                }
             >
                 Szczegóły
             </Button>
@@ -39,25 +41,11 @@ const getUsers = (userList) => {
             id: user.id,
             email: user.email,
             name: user.name,
-            last_activity: user.last_activity
-                ? new Date(user.session?.last_activity).toLocaleDateString(
-                    "pl-PL",
-                    {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        second: "2-digit",
-                    }
-                )
-                : "Nigdy",
-            created_at: new Date(user.created_at).toLocaleDateString("pl-PL", {
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-            }),
+            last_activity: user.session ? user.session?.last_activity : "Nigdy",
+            //created_at: user.created_at,
             role: user.role.name,
             role_id: user.role.id,
             is_active: user.is_active,
-
         };
         lista.push(user);
     });
@@ -72,6 +60,7 @@ const paginationModel = {
 };
 
 export default function DataTable({ users, roles }) {
+    console.log(users);
     const [selectedUser, setSelectedUser] = useState(null);
     const [isModalOpen, setModalOpen] = useState(false);
     const handleDetailsClick = (user) => {
@@ -90,16 +79,15 @@ export default function DataTable({ users, roles }) {
         });
     };
 
-    const detailFields =
-        [
-            { key: "id", label: "ID", type: "static" },
-            { key: "name", label: "Nazwa", type: "static" },
-            { key: "email", label: "E-mail", type: "static" },
-            { key: "last_activity", label: "Aktywność", type: "static" },
-            { key: "created_at", label: "Utworzono", type: "static" },
-            { key: "role_id", label: "Rola", type: "select", options: roles },
-            { key: "is_active", label: "Aktywny", type: "switch" },
-        ];
+    const detailFields = [
+        { key: "id", label: "ID", type: "static" },
+        { key: "name", label: "Nazwa", type: "static" },
+        { key: "email", label: "E-mail", type: "static" },
+        { key: "last_activity", label: "Aktywność", type: "static" },
+        { key: "created_at", label: "Utworzono", type: "static" },
+        { key: "role_id", label: "Rola", type: "select", options: roles },
+        { key: "is_active", label: "Aktywny", type: "switch" },
+    ];
 
     return (
         <Paper sx={{ width: "100%" }}>
