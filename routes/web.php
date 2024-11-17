@@ -1,11 +1,10 @@
 <?php
 
-use App\Http\Controllers\AdminDashboardController;
 use App\Models\Sex;
 use Inertia\Inertia;
 use App\Models\Order;
-
 use App\Models\Listing;
+
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -19,12 +18,12 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\UserFollowController;
 use App\Http\Controllers\ListingFollowController;
+use App\Http\Controllers\AdminDashboardController;
 
-Route::get('/', function () {
-    return Inertia::render('HomePage');
-})->name('index');
+Route::get('/', [MainPageController::class, 'index'])->name('index');
 
 Route::get('/kategoria/{id}', [ListingController::class, 'showByCategory'])->name('showByCategory');
 

@@ -9,7 +9,7 @@ export default function Layout({ children }) {
     return (
         <>
             <div className="min-h-full">
-                <header className="relative z-10 bg-white">
+                <header className="sticky top-0 z-10 bg-white">
                     <Navbar />
                 </header>
 

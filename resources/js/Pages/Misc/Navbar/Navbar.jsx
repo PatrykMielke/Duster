@@ -43,7 +43,7 @@ export default function Navbar() {
 
     return (
         <>
-            <div className="bg-white">
+            <div className="bg-white ">
                 {/* Mobile menu */}
                 <MobileCategoryList navigation={navigationData} />
                 <header className="relative bg-white">
