@@ -87,6 +87,10 @@ class ListingController extends Controller
      */
     public function create()
     {
+        if (!Auth::user()->is_active) {
+            return Redirect::route('index');
+        }
+
         $statuses = Status::orderBy('name')->get();
         $colors = Color::orderBy('name')->get();
         $sizes = Size::orderBy('name')->get();
@@ -185,6 +189,8 @@ class ListingController extends Controller
      */
     public function show($id)
     {
+
+
         $listing = Listing::with([
             'user',
             'galleries',
@@ -195,7 +201,13 @@ class ListingController extends Controller
             'details.detailMaterial.material',
         ])->findOrFail($id);
 
+        $was_visited = $listing->visits()->where('user_id', Auth::user()->id)->exists();
 
+        if (!$was_visited) {
+            $listing->visits()->create([
+                'user_id' => Auth::user()->id
+            ]);
+        }
         $category = new Category();
         $breadcrumbs = $category->getBreadcrumbs($listing->details->category_id);
         $listing->breadcrumbs = $breadcrumbs;
