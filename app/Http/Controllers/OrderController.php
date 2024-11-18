@@ -71,6 +71,7 @@ class OrderController extends Controller
             'card_name' => 'nullable|string|max:255',
             'expiration' => 'nullable|string|max:10',
             'cvc' => 'nullable|string|max:4',
+            'total' => 'required|numeric',
         ]);
 
 
@@ -97,8 +98,7 @@ class OrderController extends Controller
                 [
                     'message' => 'Nie masz wystarczających srodków na koncie.',
 
-                ],
-                status: 400
+                ]
             );
         }
         $buyerWallet->decrement('balance', $listing->price);

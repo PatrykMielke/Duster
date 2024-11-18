@@ -1,5 +1,5 @@
 import Layout from "@/Layouts/Layout";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProgressBar from './Partials/CheckoutProgress';
 import { useForm } from "@inertiajs/react";
 
@@ -17,15 +17,16 @@ export default function CheckoutForm({ listing, auth, deliveryMethods, paymentMe
         state: "",
         postal_code: "",
         phone: "",
-        delivery_method: 2,
-        payment_method: 2,
+        delivery_method: "",
+        payment_method: "",
         card_number: "",
         card_name: "",
         expiration: "",
         cvc: "",
         listing_id: listing.id,
         user_id: listing.user_id,
-        buyer_id: auth.user.id
+        buyer_id: auth.user.id,
+        total: "",
 
     });
 
@@ -57,7 +58,7 @@ export default function CheckoutForm({ listing, auth, deliveryMethods, paymentMe
         formData.append('listing_id', listing.id);
         formData.append('user_id', listing.user_id);
         formData.append('buyer_id', auth.user.id);
-
+        formData.append('total', data.total);
 
         post(route("orders.store"), {
             data: formData,
@@ -78,6 +79,17 @@ export default function CheckoutForm({ listing, auth, deliveryMethods, paymentMe
             setCurrentStep(stepId);
         }
     };
+    let deliveryMethodPrice = data.delivery_method ? deliveryMethods.find((method) => method.id === data.delivery_method).price : "0.00 zł";
+
+    useEffect(() => {
+        let deliveryMethodPrice = data.delivery_method
+            ? deliveryMethods.find((method) => method.id === data.delivery_method)?.price || 0
+            : 0;
+
+        let totalPrice = (parseFloat(listing.price) + parseFloat(deliveryMethodPrice)).toFixed(2);
+
+        setData("total", totalPrice);
+    }, [data.delivery_method, listing.price, deliveryMethods]);
 
     return (
         <Layout>
@@ -147,7 +159,7 @@ export default function CheckoutForm({ listing, auth, deliveryMethods, paymentMe
 
 
 
-
+                            {/* Sposób dostawy */}
                             <div className="max-w-6xl mx-auto p-4 bg-zinc-100 rounded-lg shadow-lg font-sans">
                                 <h2 className="text-xl font-semibold text-gray-700 mb-4">Sposób dostawy</h2>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -174,7 +186,7 @@ export default function CheckoutForm({ listing, auth, deliveryMethods, paymentMe
                             </div>
 
 
-                            {/* Sekcja Formularza */}
+                            {/* Sposób płatności */}
                             <div className="space-y-8">
 
 
@@ -206,6 +218,7 @@ export default function CheckoutForm({ listing, auth, deliveryMethods, paymentMe
 
                         </div>
 
+                        {/* Podsumowanie */}
                         <div className="bg-gray-200 p-6 rounded-lg shadow-md ">
                             <h2 className="text-xl font-semibold text-gray-700 mb-4">Podsumowanie</h2>
 
@@ -216,7 +229,7 @@ export default function CheckoutForm({ listing, auth, deliveryMethods, paymentMe
                                         <p className="font-medium text-gray-700">{listing.title}</p>
                                         <p className="text-sm text-gray-500">Sprzedawca: {listing.user.name}</p>
                                     </div>
-                                    <p className="font-medium text-gray-700">{listing.price}</p>
+                                    <p className="font-medium text-gray-700">{listing.price} zł</p>
 
                                 </div>
                             </div>
@@ -224,26 +237,22 @@ export default function CheckoutForm({ listing, auth, deliveryMethods, paymentMe
                             {/* Koszty */}
                             <div className="mt-8 space-y-2">
                                 <div className="flex justify-between text-gray-700">
-                                    <p>Subtotal</p>
-                                    <p>{listing.price}</p>
-                                </div>
-                                <div className="flex justify-between text-gray-700">
-                                    <p>Shipping</p>
+                                    <p>Dostawa</p>
+                                    {deliveryMethodPrice} zł
                                 </div>
 
                                 <div className="flex justify-between font-semibold text-gray-800 border-t pt-4">
                                     <p>Total</p>
+                                    {data.total} zł
                                 </div>
                             </div>
 
                             {/* Przycisk Potwierdzenia */}
-                            {/* TO MA NIE BYC SUBMIT */}
                             {currentStep < 3 ? (
                                 <button className='w-full mt-6 bg-indigo-600 text-center text-white font-medium py-3 rounded-md hover:bg-indigo-700 transition-colors'
                                     type="button"
                                     onClick={() => setCurrentStep(currentStep + 1)}>Przejdź do płatności</button>
                             ) : (
-                                // tylko tu ma byc submit
                                 <button
                                     className='block w-full mt-6 bg-indigo-600 text-center text-white font-medium py-3 rounded-md hover:bg-indigo-700 transition-colors'
                                     type="submit"
@@ -253,7 +262,7 @@ export default function CheckoutForm({ listing, auth, deliveryMethods, paymentMe
                         </div>
                     </div>
                 </form>
-            </div>
+            </div >
         </Layout >
     );
 };

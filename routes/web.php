@@ -116,9 +116,6 @@ Route::get('/ProductDetails', function () {
 
 
 
-
-Route::post('/zamowienia', [OrderController::class, 'store'])->name('orders.store');
-
 Route::middleware('auth')->group(function () {
 
     Route::prefix('profil')->group(function () {
