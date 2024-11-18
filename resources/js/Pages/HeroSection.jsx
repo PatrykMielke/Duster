@@ -1,3 +1,5 @@
+import { Link } from "@inertiajs/react";
+
 export default function HeroSection() {
     return (
         <section
@@ -11,12 +13,12 @@ export default function HeroSection() {
                             Ciuchy kurzą się w szafie?
                         </h1>
 
-                        <a
-                            href="#explore"
-                            class="bg-pink-500 hover:bg-blue-600 text-white py-3 px-8 border-slate-800 rounded-lg text-xl font-semibold"
-                        >
-                            Sprzedaj je na Dusterze!
-                        </a>
+
+                        <Link href={route("listings.create")}
+                            className="bg-pink-500 hover:bg-blue-600 text-white py-3 px-8 border-slate-800 rounded-lg text-xl font-semibold"
+
+                        >Sprzedaj je na Dusterze!
+                        </Link>
                     </div>
                 </div>
             </div>
