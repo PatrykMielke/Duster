@@ -6,7 +6,7 @@ export default function Listing({ product }) {
         product.galleries.length > 0
             ? product.galleries[0].image
             : "storage/images/1.webp"; // Provide a default image URL if no images are available
-
+    console.log(product);
     return (
         <div key={product.id} className="group relative">
             <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
@@ -17,7 +17,7 @@ export default function Listing({ product }) {
             </div>
             <div className="mt-4 flex justify-between">
                 <div>
-                    <h3 className="text-sm text-gray-700">
+                    <h3 className="text-lg text-gray-700">
                         <a href={route("listing", product.id)}>
                             <span
                                 aria-hidden="true"
@@ -27,12 +27,20 @@ export default function Listing({ product }) {
                         </a>
                     </h3>
                     <p className="mt-1 text-sm text-gray-500">
+                        {product.follow_count} polubień
+                    </p>
+                    <p className="mt-1 text-sm text-gray-500">
+                        {product.visits_count} wyświetleń
+                    </p>
+                </div>
+                <div>
+                    <p className="text-lg text-right font-medium text-gray-900">
+                        {product.price}zł
+                    </p>
+                    <p className="text-sm  text-right text-gray-500">
                         {new Date(product.created_at).toLocaleDateString()}
                     </p>
                 </div>
-                <p className="text-sm font-medium text-gray-900">
-                    {product.price}
-                </p>
             </div>
         </div>
     );

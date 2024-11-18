@@ -16,10 +16,14 @@ export default function Listings({ products, breadcrumbs = [] }) {
                 return order === "asc"
                     ? new Date(a.created_at) - new Date(b.created_at)
                     : new Date(b.created_at) - new Date(a.created_at);
-            } else if (criteria === "favorites") {
+            } else if (criteria === "visits_count") {
                 return order === "asc"
-                    ? a.favorites - b.favorites
-                    : b.favorites - a.favorites;
+                    ? a.visits_count - b.visits_count
+                    : b.visits_count - a.visits_count;
+            } else if (criteria === "follow_count") {
+                return order === "asc"
+                    ? a.follow_count - b.follow_count
+                    : b.follow_count - a.follow_count;
             }
             return 0;
         });

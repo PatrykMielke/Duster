@@ -59,6 +59,9 @@ class DatabaseSeeder extends Seeder
                 $this->call(MaterialSeeder::class);
                 $this->call(SizeSeeder::class);
                 $this->call(RoleSeeder::class);
+                $this->call(PaymentMethodsSeeder::class);
+                $this->call(StatusSeeder::class);
+
                 User::create([
                         'name' => 'admin',
                         'email' => 'admin@a.com',
@@ -82,8 +85,8 @@ class DatabaseSeeder extends Seeder
                 ]);
                 User::factory(98)->create();
 
-                $this->call(PaymentMethodsSeeder::class);
-                $this->call(StatusSeeder::class);
+
+
                 $this->call(ListingSeeder::class);
                 $this->call(VisitSeeder::class);
                 $this->call(DetailSeeder::class);
