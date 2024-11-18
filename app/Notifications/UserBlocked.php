@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class UserBlocked extends Notification
+class UserBlocked extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -27,7 +27,7 @@ class UserBlocked extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -40,6 +40,15 @@ class UserBlocked extends Notification
             ->line("Witaj, {$this->name}.")
             ->line("Twoje konto o adresie email {$this->email} zostało zablokowane.")
             ->line('Dziękujemy za zrozumienie.');
+    }
+
+    public function toDatabase(object $notifiable)
+    {
+        return [
+            'message' => 'Twoje konto zostało zablokowane.',
+            'reason' => 'Naruszenie zasad regulaminu.',
+            'blocked_at' => now(),
+        ];
     }
 
     /**
