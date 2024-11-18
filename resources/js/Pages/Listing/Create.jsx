@@ -5,26 +5,27 @@ import TextInput from "@/Components/TextInput";
 import Layout from "@/Layouts/Layout";
 import { Head, useForm } from "@inertiajs/react";
 import { useState } from "react";
-import MultiSelectDropdown from "./Partials/MultiSelectDropdown";
-import SingleSelectDropdown from "./Partials/SingleSelectDropdown";
+import MultiSelectDropdown from "@/Pages/Listing/Partials/MultiSelectDropdown";
+import SingleSelectDropdown from "@/Pages/Listing/Partials/SingleSelectDropdown";
+import CategorySelector from "@/Pages/Listing/CategorySelect";
 
 
-export default function CreateListing({ statuses, colors, sizes, brands, materials, conditions, items, auth }) {
+export default function CreateListing({ colors, sizes, brands, materials, conditions, auth, categories_hierarchy }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         title: "",
         description: "",
         price: "",
-        user_id: auth.user.id, // Use authenticated user ID directly
-        status_id: statuses[0]?.id || "",
+        user_id: auth.user.id,
         condition_id: "",
-        item_id: "",
         color_ids: [],
         size_id: "",
         brand_id: "",
         material_ids: [],
-        images: []
+        images: [],
+        category_id: "",
     });
     const [imagePreviews, setImagePreviews] = useState([]);
+
 
     const submit = (e) => {
         e.preventDefault();
@@ -34,11 +35,10 @@ export default function CreateListing({ statuses, colors, sizes, brands, materia
         formData.append("description", data.description);
         formData.append("price", data.price);
         formData.append("user_id", data.user_id);
-        formData.append("status_id", data.status_id);
         formData.append("condition_id", data.condition_id);
-        formData.append("item_id", data.item_id);
         formData.append("size_id", data.size_id);
         formData.append("brand_id", data.brand_id);
+        formData.append("category_id", data.category_id);
 
         data.color_ids.forEach((colorId) => formData.append("color_ids[]", colorId));
         data.material_ids.forEach((materialId) => formData.append("material_ids[]", materialId));
@@ -47,11 +47,12 @@ export default function CreateListing({ statuses, colors, sizes, brands, materia
             formData.append(`images[${index}]`, image);
         });
 
+        console.log(data, "data")
         post(route("listings.store"), {
             data: formData,
-            onFinish: () => reset(),
             forceFormData: true,
         });
+
     };
 
     const handleFileChange = (e) => {
@@ -62,13 +63,16 @@ export default function CreateListing({ statuses, colors, sizes, brands, materia
         setImagePreviews(previews);
     };
 
-
+    const handleChildData = (data) => {
+        setData("category_id", data);
+    };
     return (
         <Layout>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <Head title="Dodaj nowe ogłoszenie" />
                     <form onSubmit={submit}>
+
                         {/* Title Field */}
                         <div>
                             <InputLabel htmlFor="title" value="Tytuł" />
@@ -106,23 +110,28 @@ export default function CreateListing({ statuses, colors, sizes, brands, materia
                                 name="price"
                                 value={data.price}
                                 className="mt-1 block w-full"
-                                onChange={(e) => setData("price", e.target.value)}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+
+                                    const regex = /^\d{1,8}(\.\d{0,2})?$/;
+
+                                    if (regex.test(value)) {
+                                        setData("price", value);
+                                    }
+                                }}
+                                max="99999999.99"
+                                step="0.01"
                                 required
                             />
                             <InputError message={errors.price} className="mt-2" />
                         </div>
 
 
-
-                        {/* Status Selection */}
-                        <SingleSelectDropdown
-                            label="Status"
-                            options={statuses}
-                            selectedOption={data.status_id}
-                            onChange={(selectedId) => setData("status_id", selectedId)}
-                            errorMessage={errors.status_id}
+                        {/* Category Field */}
+                        <CategorySelector
+                            categories_hierarchy={categories_hierarchy}
+                            setDataa={handleChildData}
                         />
-
 
                         {/* Condition Selection */}
                         <SingleSelectDropdown
@@ -133,14 +142,6 @@ export default function CreateListing({ statuses, colors, sizes, brands, materia
                             errorMessage={errors.condition_id}
                         />
 
-                        {/* Item Selection */}
-                        <SingleSelectDropdown
-                            label="Przedmiot"
-                            options={items}
-                            selectedOption={data.item_id}
-                            onChange={(selectedId) => setData("item_id", selectedId)}
-                            errorMessage={errors.item_id}
-                        />
 
                         {/* Color Selection */}
                         <MultiSelectDropdown

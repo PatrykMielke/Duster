@@ -87,13 +87,15 @@ class ListingController extends Controller
      */
     public function create()
     {
-        $users = User::all();
-        $statuses = Status::all();
-        $colors = Color::all();
-        $sizes = Size::all();
-        $brands = Brand::all();
-        $materials = Material::all();
-        $conditions = Condition::all();
+        $statuses = Status::orderBy('name')->get();
+        $colors = Color::orderBy('name')->get();
+        $sizes = Size::orderBy('name')->get();
+        $brands = Brand::orderBy('name')->get();
+        $materials = Material::orderBy('name')->get();
+        $conditions = Condition::orderBy('name')->get();
+
+        $cat = new CategoryController();
+        $categories_hierarchy = $cat->getCategories();
 
         return Inertia::render('Listing/Create', [
             'statuses' => $statuses,
@@ -102,24 +104,25 @@ class ListingController extends Controller
             'brands' => $brands,
             'materials' => $materials,
             'conditions' => $conditions,
+            'categories_hierarchy' => $categories_hierarchy,
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
-        // Debugowanie danych wejściowych
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'price' => 'required|numeric|max_digits:8,2',
+            'price' => [
+                'required',
+                'numeric',
+                'regex:/^\d{1,8}(\.\d{0,2})?$/',
+            ],
             'user_id' => 'required|exists:users,id',
-            'status_id' => 'required|exists:statuses,id',
             'condition_id' => 'required|exists:conditions,id',
-            'item_id' => 'required|exists:items,id',
             'color_ids' => 'required|array',
             'color_ids.*' => 'exists:colors,id',
             'size_id' => 'required|exists:sizes,id',
@@ -127,49 +130,53 @@ class ListingController extends Controller
             'material_ids' => 'required|array',
             'material_ids.*' => 'exists:materials,id',
             'images' => 'array',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'category_id' => 'required|exists:categories,id',
         ]);
 
-        $listing = Listing::create($request->only('title', 'description', 'price', 'user_id', 'status_id'));
+        $validated['status_id'] = 1;
+
+        $listing = Listing::create($validated);
 
         $detail = $listing->details()->create(array_merge(
-            $request->only('item_id', 'size_id', 'brand_id', 'condition_id'),
+            $validated,
             ['listing_id' => $listing->id]
         ));
 
-        foreach ($request->color_ids as $color_id) {
+
+        foreach ($validated['color_ids'] as $color_id) {
             $detail->detailColor()->create([
                 'color_id' => $color_id,
                 'detail_id' => $detail->id,
             ]);
         }
 
-        foreach ($request->material_ids as $material_id) {
+        foreach ($validated['material_ids'] as $material_id) {
             $detail->detailMaterial()->create([
                 'material_id' => $material_id,
                 'detail_id' => $detail->id,
             ]);
         }
 
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
+        if (isset($validated['images'])) {
+            foreach ($validated['images'] as $image) {
                 try {
                     $imagePath = $image->store('images', 'public');
 
-                    // Zapis ścieżki do obrazu w bazie danych
                     $listing->galleries()->create([
                         'image' => Storage::url($imagePath),
                         'listing_id' => $listing->id,
                     ]);
                 } catch (\Exception $e) {
-                    // Obsługa błędu zapisu
                     return redirect()->back()->withErrors(['error' => 'Wystąpił problem z zapisem obrazu: ' . $e->getMessage()]);
                 }
             }
         }
 
-        return redirect()->route('HomePage')->with('success', 'Ogłoszenie dodane pomyślnie.');
+        return redirect()->back();
     }
+
+
 
 
 
@@ -213,12 +220,6 @@ class ListingController extends Controller
         ]);
     }
 
-
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -231,7 +232,6 @@ class ListingController extends Controller
         //     abort(403, 'Unauthorized action.');
         // }
 
-        // Jeśli użytkownik jest uprawniony do edycji
         $listing = Listing::with(['details', 'details.category', 'details.size', 'details.brand', 'details.condition', 'details.detailColor', 'details.detailMaterial'])->findOrFail($id);
         $category_id = $listing->details->category_id;
 
@@ -311,18 +311,10 @@ class ListingController extends Controller
     }
 
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
     public function getCategories()
     {
         $topCategories = Category::whereNull('parent_id')->with('children.children')->get();
 
-        // Zwracamy wynik w nowej strukturze
         return $this->buildStructuredNavigation($topCategories);
     }
 
@@ -333,14 +325,12 @@ class ListingController extends Controller
         $przedmiot = [];
 
         foreach ($categories as $category) {
-            // Dodajemy kategorię najwyższego poziomu do "plec"
             $plec[] = [
                 'id' => $category->id,
                 'name' => $category->name,
             ];
 
             foreach ($category->children as $section) {
-                // Dodajemy sekcję do "kategoria"
                 $kategoria[] = [
                     'id' => $section->id,
                     'name' => $section->name,
@@ -348,7 +338,6 @@ class ListingController extends Controller
                 ];
 
                 foreach ($section->children as $item) {
-                    // Dodajemy przedmiot do "przedmiot"
                     $przedmiot[] = [
                         'id' => $item->id,
                         'name' => $item->name,
@@ -358,23 +347,12 @@ class ListingController extends Controller
                 }
             }
         }
-        // Zwracamy obiekt z trzema tablicami
         return (object) [
             'sexes' => $plec,
             'categories' => $kategoria,
             'items' => $przedmiot,
         ];
     }
-
-
-
-
-
-
-
-
-
-
 
 
     /**

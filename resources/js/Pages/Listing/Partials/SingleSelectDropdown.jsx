@@ -27,7 +27,7 @@ export default function SingleSelectDropdown({
                 {selectedOption ? (
                     <span className="text-gray-800">{options.find(option => option.id === selectedOption)?.name}</span>
                 ) : (
-                    <span className="text-gray-400">Select {label.toLowerCase()}...</span>
+                    <span className="text-gray-400">Wybierz {label.toLowerCase()}</span>
                 )}
             </div>
             {dropdownOpen && (

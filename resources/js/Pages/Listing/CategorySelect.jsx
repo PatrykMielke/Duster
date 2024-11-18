@@ -1,85 +1,67 @@
 import React, { useState } from "react";
+import SingleSelectDropdown from "@/Pages/Listing/Partials/SingleSelectDropdown";
 
-const CategorySelector = ({ categories_hierarchy }) => {
+const CategorySelector = ({ categories_hierarchy, setDataa }) => {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedSection, setSelectedSection] = useState(null);
     const [selectedItem, setSelectedItem] = useState(null);
 
-    const handleCategoryChange = (e) => {
-        const categoryId = e.target.value;
+    const handleCategoryChange = (categoryId) => {
         const category = categories_hierarchy.original.categories.find((cat) => cat.id === categoryId);
         setSelectedCategory(category);
         setSelectedSection(null);
         setSelectedItem(null);
+        setDataa(null);
     };
 
-    const handleSectionChange = (e) => {
-        const sectionId = e.target.value;
+    const handleSectionChange = (sectionId) => {
         const section = selectedCategory.sections.find((sec) => sec.id === sectionId);
         setSelectedSection(section);
         setSelectedItem(null);
+        setDataa(null);
     };
 
-    const handleItemChange = (e) => {
-        const itemId = e.target.value;
-        const item = selectedSection.items.find((item) => item.category_id.toString() === itemId);
+    const handleItemChange = (categoryId) => {
+        const item = selectedSection.items.find((item) => item.category_id === categoryId);
         setSelectedItem(item);
+        setDataa(null);
+        setDataa(item.category_id);
     };
 
     return (
-        <div>
-            {/* Select dla kategorii głównych */}
-            <div>
-                <label>Kategoria główna:</label>
-                <select onChange={handleCategoryChange} value={selectedCategory?.id || ""}>
-                    <option value="">-- Wybierz kategorię --</option>
-                    {categories_hierarchy.original.categories.map((category) => (
-                        <option key={category.id} value={category.id}>
-                            {category.name}
-                        </option>
-                    ))}
-                </select>
-            </div>
+        <div className="space-y-4">
+            <SingleSelectDropdown
+                label="Kategoria główna"
+                options={categories_hierarchy.original.categories}
+                selectedOption={selectedCategory?.id || ""}
+                onChange={handleCategoryChange}
+                errorMessage={null}
+            />
 
-            {/* Select dla sekcji (jeśli wybrano kategorię) */}
             {selectedCategory && (
-                <div>
-                    <label>Sekcja:</label>
-                    <select onChange={handleSectionChange} value={selectedSection?.id || ""}>
-                        <option value="">-- Wybierz sekcję --</option>
-                        {selectedCategory.sections.map((section) => (
-                            <option key={section.id} value={section.id}>
-                                {section.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                <SingleSelectDropdown
+                    label="Sekcja"
+                    options={selectedCategory.sections}
+                    selectedOption={selectedSection?.id || ""}
+                    onChange={handleSectionChange}
+                    errorMessage={null}
+                />
             )}
 
-            {/* Select dla elementów (jeśli wybrano sekcję) */}
             {selectedSection && (
-                <div>
-                    <label>Element:</label>
-                    <select onChange={handleItemChange} value={selectedItem?.category_id || ""}>
-                        <option value="">-- Wybierz element --</option>
-                        {selectedSection.items.map((item) => (
-                            <option key={item.category_id} value={item.category_id}>
-                                {item.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                <>
+                    <SingleSelectDropdown
+                        label="Element"
+                        options={selectedSection.items.map((item) => ({ id: item.category_id, name: item.name }))}
+                        selectedOption={selectedItem?.category_id || ""}
+                        onChange={handleItemChange}
+                        errorMessage={null}
+                    />
+                </>
             )}
 
-            {/* Wyświetlenie wyborów */}
-            <div>
-                <h3>Twój wybór:</h3>
-                <p>Kategoria: {selectedCategory?.name || "Brak"}</p>
-                <p>Sekcja: {selectedSection?.name || "Brak"}</p>
-                <p>Element: {selectedItem?.name || "Brak"}</p>
-            </div>
+
         </div>
     );
-};
-
+}
 export default CategorySelector;

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->decimal('price');
+            $table->decimal('price', 10, 2);
 
             $table->foreignIdFor(User::class)->constrained();
             $table->foreignIdFor(Status::class)->constrained();

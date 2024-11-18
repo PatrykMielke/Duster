@@ -50,7 +50,7 @@ export default function MultiSelectDropdown({
                             ))}
                     </div>
                 ) : (
-                    <span className="text-gray-400">Wybierz {label.toLowerCase()}...</span>
+                    <span className="text-gray-400">Wybierz {label.toLowerCase()}</span>
                 )}
             </div>
             {dropdownOpen && (
