@@ -8,6 +8,7 @@ import { useState } from "react";
 import MultiSelectDropdown from "@/Pages/Listing/Partials/MultiSelectDropdown";
 import SingleSelectDropdown from "@/Pages/Listing/Partials/SingleSelectDropdown";
 import CategorySelector from "@/Pages/Listing/CategorySelect";
+import SecondaryButton from "@/Components/SecondaryButton";
 
 
 export default function CreateListing({ colors, sizes, brands, materials, conditions, auth, categories_hierarchy }) {
@@ -65,6 +66,10 @@ export default function CreateListing({ colors, sizes, brands, materials, condit
 
     const handleChildData = (data) => {
         setData("category_id", data);
+    };
+
+    const cancelAction = () => {
+        window.history.back();
     };
     return (
         <Layout>
@@ -199,10 +204,19 @@ export default function CreateListing({ colors, sizes, brands, materials, condit
                         </div>
 
                         {/* Submit Button */}
-                        <div className="mt-4 flex items-center justify-end">
+                        <div className="mt-4 flex items-center justify-between">
+                            {/* Cancel Button */}
+                            <SecondaryButton
+                                onClick={cancelAction}
+                            >
+                                Anuluj
+                            </SecondaryButton>
+
                             <PrimaryButton className="ms-4" disabled={processing}>
                                 Dodaj ogłoszenie
                             </PrimaryButton>
+
+
                         </div>
                     </form>
                 </div>
