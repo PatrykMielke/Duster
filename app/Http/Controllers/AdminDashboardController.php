@@ -8,7 +8,12 @@ use Inertia\Inertia;
 use App\Models\Order;
 use App\Models\Status;
 use App\Models\Listing;
+use App\Jobs\SendMailJob;
+use App\Jobs\NotifyUserJob;
 use Illuminate\Http\Request;
+use function Pest\Laravel\get;
+use App\Notifications\UserBlocked;
+
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CalculateDatesController;
 
@@ -65,8 +70,13 @@ class AdminDashboardController extends Controller
             'is_active' => $validated['is_active'],
         ]);
 
-
         if ($validated['is_active'] == false) {
+
+            $user = User::where('id', $updated)->first();
+
+            NotifyUserJob::dispatch($user);
+
+
             Listing::where('user_id', $validated['id'])->update([
                 'status_id' => 3,
             ]);
