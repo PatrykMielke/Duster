@@ -77,6 +77,7 @@ class AdminDashboardController extends Controller
             NotifyUserJob::dispatch($user);
 
 
+
             Listing::where('user_id', $validated['id'])->update([
                 'status_id' => 3,
             ]);
