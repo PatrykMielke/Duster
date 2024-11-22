@@ -27,10 +27,12 @@ export default function Listing({ product }) {
                         </a>
                     </h3>
                     <p className="mt-1 text-sm text-gray-500">
-                        {product.follow_count} polubień
+                        {product.follow_count ? product.follow_count : 0}{" "}
+                        polubień
                     </p>
                     <p className="mt-1 text-sm text-gray-500">
-                        {product.visits_count} wyświetleń
+                        {product.visits_count ? product.visits_count : 0}{" "}
+                        wyświetleń
                     </p>
                 </div>
                 <div>

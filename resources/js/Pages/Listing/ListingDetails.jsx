@@ -182,7 +182,10 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                                     {/* Unique Visits and Date */}
                                     <div className="mt-3">
                                         <h3 className="text-sm font-medium text-gray-500">
-                                            Wyświetlenia: {listing.visits_count}
+                                            Wyświetlenia:{" "}
+                                            {listing.visits_count
+                                                ? listing.visits_count
+                                                : 0}
                                         </h3>
                                         <h3 className="text-sm font-medium text-gray-500">
                                             Data dodania:{" "}
