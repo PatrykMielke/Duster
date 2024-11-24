@@ -32,6 +32,6 @@ class OrderRequest extends FormRequest
             'listingId' => 'required|exists:listings,id', // Upewnij się, że ID ogłoszenia istnieje
 
         ];
-        dd("ddd");
+
     }
 }

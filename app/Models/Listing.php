@@ -16,8 +16,18 @@ class Listing extends Model
         'user_id',
         'status_id',
     ];
-    protected $appends = ['follow_count'];
+    protected $appends = ['follow_count','visits_count'];
 
+
+    /**
+     * Accessor for the unique_user_count attribute.
+     *
+     * @return int
+     */
+    public function getVisitsCountAttribute()
+    {
+        return $this->visits()->distinct('user_id')->count('user_id');
+    }
     public function getFollowCountAttribute(): int
     {
         return $this->follows()->count();
