@@ -19,7 +19,7 @@ import DashboardSegment from "./Partials/DashobardSegment";
 import ReportTable from "./Partials/ReportTable";
 import OrderTable from "./Partials/OrderTable";
 import InvoiceTable from "./Partials/InvoiceTable";
-
+import Charts from "./Partials/Charts";
 const NAVIGATION = [
     {
         segment: "panel",
@@ -76,7 +76,11 @@ const demoTheme = createTheme({
 function PageContent({ pathname, props }) {
     switch (pathname) {
         case "/panel":
-            return <DashboardSection component={<DashboardSegment />} />;
+            return (
+                <DashboardSection
+                    component={<Charts chartData={props.chartData} />}
+                />
+            );
         case "/uzytkownicy":
             return (
                 <DashboardSection
@@ -120,7 +124,7 @@ PageContent.propTypes = {
 
 function DashboardLayoutBranding(props) {
     const { window } = props;
-    const router = useDemoRouter("/uzytkownicy");
+    const router = useDemoRouter("/panel");
 
     // Remove this const when copying and pasting into your project.
     const demoWindow = window !== undefined ? window() : undefined;

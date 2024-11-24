@@ -33,13 +33,15 @@ class AdminDashboardController extends Controller
         });
         $orders = Order::with(['buyer', 'listing', 'listing.user', 'paymentMethod', 'deliveryMethod'])->get();
         $roles = Role::all();
-
+        $chartData = $this->getChartData();
+        //dd($chartData);
         return Inertia::render('Admin/Dashboard', [
             'products' => $listings,
             'users' => $users,
             'statuses' => $statuses,
             'orders' => $orders,
             'roles' => $roles,
+            'chartData' => $chartData,
 
         ]);
     }
@@ -83,5 +85,62 @@ class AdminDashboardController extends Controller
             ]);
         }
         return redirect()->route('admin');
+    }
+    public function getChartData() {
+        //users
+        $totalUsers = User::count();
+        $activeUsers = User::where('is_active', 1)->count();
+        $inactiveUsers = User::where('is_active', 0)->count();
+        $newUsersToday = User::whereDate('created_at', now())->count();
+        $newUsersInLastYear = User::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as total')
+            ->where('created_at', '>=', now()->subMonths(12))  // Filter for the last 12 months
+            ->groupBy('year', 'month')
+            ->orderBy('year', 'asc')
+            ->orderBy('month', 'asc')
+            ->get();
+
+        $totalListings = Listing::count();
+        $listingsToday = Listing::whereDate('created_at', now())->count();
+
+        $listingsByMonth = Listing::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as total')
+            ->groupBy('year', 'month')
+            ->orderBy('year', 'asc', 'month', 'asc')
+            ->limit(12)
+            ->get();
+        $listingsByYear = Listing::selectRaw('YEAR(created_at) as year, COUNT(*) as total')
+            ->groupBy('year')
+            ->orderBy('year', 'asc')
+            ->get();
+
+        $totalOrders = Order::count();
+        $ordersToday = Order::whereDate('created_at', now())->count('id');
+        $ordersThisMonth = Order::whereMonth('created_at', now()->month)->count('id');
+        $ordersThisYear = Order::whereYear('created_at', now()->year)->count('id');
+
+        $topCategories = Order::selectRaw('categories.name as category_name, COUNT(orders.id) as total_orders')
+            ->join('listings', 'orders.listing_id', '=', 'listings.id')
+            ->join('details', 'listings.id', '=', 'details.listing_id')
+            ->join('categories', 'details.category_id', '=', 'categories.id')
+            ->groupBy('categories.id', 'categories.name')
+            ->orderByDesc('total_orders')
+            ->limit(10)
+            ->get();
+
+        return response()->json([
+            'totalUsers' => $totalUsers,
+            'activeUsers' => $activeUsers,
+            'inactiveUsers' => $inactiveUsers,
+            'newUsersToday' => $newUsersToday,
+            'newUsersInLastYear' => $newUsersInLastYear,
+            'totalListings' => $totalListings,
+            'listingsToday' => $listingsToday,
+            'listingsByMonth' => $listingsByMonth,
+            'listingsByYear' => $listingsByYear,
+            'totalOrders' => $totalOrders,
+            'ordersToday' => $ordersToday,
+            'ordersThisMonth' => $ordersThisMonth,
+            'ordersThisYear' => $ordersThisYear,
+            'topCategories' => $topCategories,
+        ])->original;
     }
 }

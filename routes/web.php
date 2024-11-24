@@ -136,6 +136,7 @@ Route::middleware('auth')->group(function () {
 
 // API
 
+Route::get('/charts', [AdminDashboardController::class, 'getChartData']);
 Route::get('/categories', [CategoryController::class, 'getCategories'])->name('categories');
 
 Route::post('/comments', [CommentController::class, 'store'])->middleware('auth');
