@@ -13,6 +13,7 @@ use App\Http\Controllers\ListingFollow;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\VisitController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ListingController;
@@ -61,8 +62,12 @@ Route::middleware('auth')->group(function () {
 
 
 ///
+Route::middleware('auth')->group(function () {
 
 
+
+    Route::post('/reports', [ReportController::class, 'store'])->name('report.store');
+});
 
 
 // obserwowanie ogloszen

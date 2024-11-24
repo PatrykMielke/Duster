@@ -1,18 +1,11 @@
 import React, { useState } from "react";
-import {
-    Modal,
-    Box,
-    Typography,
-    Button,
-    TextField,
-    Select,
-    MenuItem,
-    InputLabel,
-    FormControl,
-    FormHelperText,
-} from "@mui/material";
+import { Modal, Box, Typography, TextField, Select, MenuItem, InputLabel, FormControl, FormHelperText } from "@mui/material";
+import { useForm } from "@inertiajs/react";
+import SecondaryButton from "@/Components/SecondaryButton";
+import PrimaryButton from "@/Components/PrimaryButton";
+import { useEffect } from "react";
+function ReportModal({ open, onClose, header, title, referenceId, reportType, auth }) {
 
-function ReportModal({ open, onClose, username, id }) {
     const reportReasons = [
         { name: "Nękanie", value: 1 },
         { name: "Groźby", value: 2 },
@@ -21,38 +14,47 @@ function ReportModal({ open, onClose, username, id }) {
         { name: "Sprzedaż podrobionych produktów", value: 5 },
         { name: "Niestosowne zdjęcia", value: 6 },
     ];
+    console.log(referenceId, "modal");
+    const { data, setData, post, processing, errors, reset } = useForm({
+        report_reason: "",
+        referenceId: "",
+        reportType: "",
+        additional_comments: "",
+    });
 
-    const [reportReason, setReportReason] = useState("");
-    const [additionalComments, setAdditionalComments] = useState("");
-    const [report_id, setId] = useState("");
-    // Handle changes in the Select field (Reason)
+    useEffect(() => {
+    }), [];
+
     const handleReasonChange = (event) => {
-        setReportReason(event.target.value);
+        setData("report_reason", event.target.value);
     };
 
-    // Handle changes in the TextField (Additional Comments)
     const handleCommentsChange = (event) => {
-        setAdditionalComments(event.target.value);
+        setData("additional_comments", event.target.value);
     };
 
-    // Handle confirm action
     const handleConfirm = () => {
-        // Add logic to handle the report (e.g., send data to an API)
-        console.log("Report Reason:", reportReason);
-        console.log("Additional Comments:", additionalComments);
-        console.log("ID:", id);
-        console.log("Nazwa:", username);
-        // Close the modal after submission
-        onClose();
+        data.referenceId = referenceId;
+        data.reportType = reportType;
+
+        post(route("report.store"), {
+            preserveState: true,
+            preserveScroll: true,
+            onFinish: () => {
+                onClose();
+                reset();
+
+            },
+            onSuccess: () => {
+                reset();
+                onClose();
+            },
+
+        });
     };
 
     return (
-        <Modal
-            open={open}
-            onClose={onClose}
-            aria-labelledby="report-modal-title"
-            aria-describedby="report-modal-description"
-        >
+        <Modal open={open} onClose={onClose} aria-labelledby="report-modal-title" aria-describedby="report-modal-description">
             <Box
                 sx={{
                     position: "absolute",
@@ -68,20 +70,14 @@ function ReportModal({ open, onClose, username, id }) {
                 }}
             >
                 <Typography variant="h6" id="report-modal-title">
-                    Zgłoś komentarz {username}
+                    {title} {header}
                 </Typography>
-                <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    sx={{ mb: 2 }}
-                ></Typography>
 
-                {/* Select Field for Report Reason */}
                 <FormControl fullWidth sx={{ mt: 2 }}>
                     <InputLabel id="select-label">Powód</InputLabel>
                     <Select
                         labelId="select-label"
-                        value={reportReason}
+                        value={data.report_reason}
                         onChange={handleReasonChange}
                         label="Powód"
                     >
@@ -91,16 +87,18 @@ function ReportModal({ open, onClose, username, id }) {
                             </MenuItem>
                         ))}
                     </Select>
+                    {errors.report_reason && (
+                        <FormHelperText error>{errors.report_reason}</FormHelperText>
+                    )}
                 </FormControl>
 
-                {/* TextField for Additional Comments */}
                 <TextField
                     label="Opis"
                     variant="outlined"
                     fullWidth
                     multiline
                     rows={4}
-                    value={additionalComments}
+                    value={data.additional_comments}
                     onChange={handleCommentsChange}
                     margin="normal"
                     sx={{
@@ -112,26 +110,22 @@ function ReportModal({ open, onClose, username, id }) {
                             },
                         },
                     }}
+                    error={!!errors.additional_comments}
+                    helperText={errors.additional_comments}
                 />
 
-                <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        gap: 2,
-                        mt: 2,
-                    }}
-                >
-                    <Button onClick={onClose} color="secondary">
-                        Cancel
-                    </Button>
-                    <Button
+                <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, mt: 2 }}>
+                    <SecondaryButton onClick={onClose} color="secondary">
+                        Anuluj
+                    </SecondaryButton>
+                    <PrimaryButton
                         onClick={handleConfirm}
                         color="primary"
                         variant="contained"
+                        disabled={processing}
                     >
-                        Confirm
-                    </Button>
+                        {processing ? "Wysyłanie..." : "Zgłoś"}
+                    </PrimaryButton>
                 </Box>
             </Box>
         </Modal>

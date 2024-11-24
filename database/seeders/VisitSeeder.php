@@ -21,7 +21,7 @@ class VisitSeeder extends Seeder
         // Przypisz losową liczbę wizyt do każdego ogłoszenia
         foreach ($listings as $listing) {
             // Losowa liczba wizyt dla danego ogłoszenia (np. od 1 do 10 wizyt)
-            $numberOfVisits = rand(0,60);
+            $numberOfVisits = rand(0, 60);
 
             // Przypisz wizyty do tego ogłoszenia
             for ($i = 0; $i < $numberOfVisits; $i++) {

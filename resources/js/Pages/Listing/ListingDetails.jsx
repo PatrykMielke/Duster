@@ -3,10 +3,11 @@ import ToggleFavoriteButton from "./Partials/FollowButton";
 import { useState } from "react";
 import Layout from "@/Layouts/Layout";
 import Carousel from "@/Components/Carousel";
-import ToggleButton from "./Partials/ReportButton";
+import ToggleButton from "@/Pages/Listing/Partials/ReportButton";
 import OutlinedFlagSharpIcon from "@mui/icons-material/OutlinedFlagSharp";
 import { Link } from "@inertiajs/react";
 import Rating from "@mui/material/Rating";
+import ReportCommentForm from "@/Pages/Misc/Forms/ReportCommentForm";
 
 export default function Example({ listing, uniqueUserCount, auth }) {
     const formatTimeDifference = (diffInHours) => {
@@ -20,6 +21,24 @@ export default function Example({ listing, uniqueUserCount, auth }) {
     const createdAt = new Date(listing.created_at);
     const diffInMilliseconds = now - createdAt;
     const diffInHours = Math.floor(diffInMilliseconds / (1000 * 60 * 60));
+
+
+
+    const [open, setOpen] = useState(false);
+    const [selectedHeader, setSelectedHeader] = useState("");
+    const [referenceId, setReferenceId] = useState(listing.id ?? 0);
+    let reportType = "listing";
+
+    const handleReportOpen = () => {
+        setSelectedHeader(listing.title);
+        setReferenceId(listing.id);
+        setOpen(true);
+    };
+
+    // Function to close the dialog
+    const handleReportClose = () => {
+        setOpen(false);
+    };
 
     return (
         <Layout>
@@ -84,7 +103,9 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                             color={{
                                 active: "error",
                                 inactive: "rgb(107 114 128)",
+
                             }}
+                            onClick={handleReportOpen}
                         />
 
                         <ToggleFavoriteButton listing={listing} auth={auth} />
@@ -208,7 +229,7 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                                         </h3>
 
                                         {listing.details?.detail_color?.length >
-                                        0 ? (
+                                            0 ? (
                                             listing.details.detail_color.map(
                                                 (detailColor) => (
                                                     <div
@@ -271,6 +292,16 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                     </div>
                 </div>
             </div>
+
+
+            <ReportCommentForm
+                title="Zgłoś ogłoszenie"
+                header={selectedHeader}
+                open={open}
+                onClose={handleReportClose}
+                referenceId={referenceId}
+                reportType={reportType}
+            />
         </Layout>
     );
 }

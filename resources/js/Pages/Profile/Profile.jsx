@@ -7,6 +7,8 @@ import ReportCommentForm from "@/Pages/Misc/Forms/ReportCommentForm";
 import CommentForm from "../Misc/Forms/CommentForm";
 import Listings from "@/Components/Listings";
 import FollowUserButton from "@/Pages/Profile/FollowUserButton";
+import ToggleButton from "@/Pages/Listing/Partials/ReportButton";
+import OutlinedFlagSharpIcon from "@mui/icons-material/OutlinedFlagSharp";
 
 export default function Profile({ user, auth, products, isFollowing }) {
     const [comments, setComments] = useState([]);
@@ -26,12 +28,20 @@ export default function Profile({ user, auth, products, isFollowing }) {
     }, [user.id]);
 
     const [open, setOpen] = useState(false);
-    const [selectedUsername, setSelectedUsername] = useState("");
-    const [selectedId, setSelectedId] = useState(0);
+    const [selectedHeader, setSelectedHeader] = useState("");
+    const [referenceId, setReferenceId] = useState(0);
+    const [reportType, setReportType] = useState("");
     // Function to open the dialog
-    const handleReportOpen = (username, id) => {
-        setSelectedUsername(username);
-        setSelectedId(id);
+    const handleCommentReportOpen = (username, id,) => {
+        setSelectedHeader(username);
+        setReportType("comment");
+        setReferenceId(id);
+        setOpen(true);
+    };
+    const handleProfileReportOpen = () => {
+        setSelectedHeader(user.name);
+        setReferenceId(user.id);
+        setReportType("user");
         setOpen(true);
     };
 
@@ -96,11 +106,25 @@ export default function Profile({ user, auth, products, isFollowing }) {
                         </div>
                         <div>
                             {auth.user.id !== user.id && (
-                                <FollowUserButton
-                                    user={user}
-                                    auth={auth}
-                                    isFollowing={isFollowing}
-                                />
+                                <>
+
+                                    <ToggleButton
+                                        label={{ active: "Zgłoś", inactive: "Zgłoś" }}
+                                        icon={<OutlinedFlagSharpIcon />}
+                                        color={{
+                                            active: "error",
+                                            inactive: "rgb(107 114 128)",
+
+                                        }}
+                                        onClick={handleProfileReportOpen}
+                                    />
+
+                                    <FollowUserButton
+                                        user={user}
+                                        auth={auth}
+                                        isFollowing={isFollowing}
+                                    />
+                                </>
                             )}
                         </div>
                     </div>
@@ -138,7 +162,7 @@ export default function Profile({ user, auth, products, isFollowing }) {
                         username={comment.user.name}
                         rating={comment.rating}
                         comment={comment.comment}
-                        onReport={handleReportOpen}
+                        onReport={handleCommentReportOpen}
                         onDelete={handleDeleteComment} // Przekazujemy obsługę usuwania
                         authorId={comment.user_id} // ID autora komentarza
                         currentUserId={auth.user.id} // ID aktualnie zalogowanego użytkownika
@@ -146,10 +170,12 @@ export default function Profile({ user, auth, products, isFollowing }) {
                 ))}
             </div>
             <ReportCommentForm
-                username={selectedUsername}
-                id={selectedId}
+                title="Zgłoś komentarz"
+                header={selectedHeader}
                 open={open}
                 onClose={handleReportClose}
+                referenceId={referenceId} // Fixed typo from 'referemceId' to 'referenceId'
+                reportType={reportType}
             />
         </Layout>
     );

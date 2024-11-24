@@ -26,6 +26,7 @@ use Database\Seeders\RoleSeeder;
 use Database\Seeders\DetailSeeder;
 use Database\Seeders\WalletSeeder;
 use Database\Seeders\ListingSeeder;
+use Egulias\EmailValidator\Result\Reason\Reason;
 use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
@@ -86,7 +87,8 @@ class DatabaseSeeder extends Seeder
                 User::factory(98)->create();
 
 
-
+                $this->call(ReasonSeeder::class);
+                $this->call(ReportSeeder::class);
                 $this->call(ListingSeeder::class);
                 $this->call(VisitSeeder::class);
                 $this->call(DetailSeeder::class);
@@ -98,6 +100,6 @@ class DatabaseSeeder extends Seeder
                 $this->call(OrderSeeder::class);
                 $this->call(CommentSeeder::class);
                 $this->call(WalletSeeder::class);
-                $this->call(SessionsTableSeeder::class);
+                $this->call(SessionSeeder::class);
         }
 }
