@@ -29,7 +29,7 @@ class OrderRequest extends FormRequest
             'state' => 'required|string|max:255',
             'postalCode' => 'required|string|max:20',
             'phone' => 'required|string|max:20',
-            'listingId' => 'required|exists:listings,id', // Upewnij się, że ID ogłoszenia istnieje
+            'listingId' => 'required|exists:listings,id',
 
         ];
 

@@ -21,7 +21,7 @@ class SessionSeeder extends Seeder
             // Create 1-3 sessions for each user
             Session::create([
                 'id' => Str::uuid()->toString(),
-                'user_id' => $user->id, // Assign the session to the user
+                'user_id' => $user->id,
                 'ip_address' => fake()->ipv4(),
                 'user_agent' => fake()->userAgent(),
                 'payload' => base64_encode(json_encode(['key' => Str::random(10)])),
