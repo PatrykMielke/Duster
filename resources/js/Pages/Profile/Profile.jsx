@@ -10,9 +10,15 @@ import FollowUserButton from "@/Pages/Profile/FollowUserButton";
 import ToggleButton from "@/Pages/Listing/Partials/ReportButton";
 import OutlinedFlagSharpIcon from "@mui/icons-material/OutlinedFlagSharp";
 
-export default function Profile({ user, auth, products, isFollowing }) {
+export default function Profile({
+    user,
+    auth,
+    products,
+    followedListings,
+    isFollowing,
+}) {
     const [comments, setComments] = useState([]);
-
+    console.log(followedListings.data);
     // Funkcja do załadowania komentarzy
     const loadComments = async () => {
         try {
@@ -32,7 +38,7 @@ export default function Profile({ user, auth, products, isFollowing }) {
     const [referenceId, setReferenceId] = useState(0);
     const [reportType, setReportType] = useState("");
     // Function to open the dialog
-    const handleCommentReportOpen = (username, id,) => {
+    const handleCommentReportOpen = (username, id) => {
         setSelectedHeader(username);
         setReportType("comment");
         setReferenceId(id);
@@ -107,14 +113,15 @@ export default function Profile({ user, auth, products, isFollowing }) {
                         <div>
                             {auth.user.id !== user.id && (
                                 <>
-
                                     <ToggleButton
-                                        label={{ active: "Zgłoś", inactive: "Zgłoś" }}
+                                        label={{
+                                            active: "Zgłoś",
+                                            inactive: "Zgłoś",
+                                        }}
                                         icon={<OutlinedFlagSharpIcon />}
                                         color={{
                                             active: "error",
                                             inactive: "rgb(107 114 128)",
-
                                         }}
                                         onClick={handleProfileReportOpen}
                                     />
@@ -130,7 +137,13 @@ export default function Profile({ user, auth, products, isFollowing }) {
                     </div>
                 </div>
             </div>
-            <Listings products={products} />
+            <Listings products={products} header="użytkownika" />
+            {auth.user.id === user.id && followedListings ? (
+                <Listings products={products} header="obserwowane" />
+            ) : (
+                ""
+            )}
+
             <div className="grid grid-cols-2 p-4 border-b border-gray-200">
                 <div>
                     <span className="text-3xl font-semibold">Komentarze</span>
