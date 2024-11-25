@@ -61,6 +61,7 @@ class ProfileController extends Controller
             $isFollowing = FollowedUser::where('user_id', auth()->id())
                 ->where('followed_user_id', (int) $id)
                 ->exists();
+
         }
         return Inertia::render('Profile/Profile', [
             'user' => $user,

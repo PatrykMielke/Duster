@@ -16,7 +16,7 @@ class CategorySeeder extends Seeder
     {
         $categories1 = [
             'Kobieta',
-            'Mężczyzna ',
+            'Mężczyzna',
         ];
 
         $categories2 = [
