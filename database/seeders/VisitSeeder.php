@@ -26,7 +26,7 @@ class VisitSeeder extends Seeder
             // Przypisz wizyty do tego ogłoszenia
             for ($i = 0; $i < $numberOfVisits; $i++) {
                 Visit::create([
-                    'user_id' => User::inRandomOrder()->first()->id,
+                    'user_id' => rand(1, 100),
                     'listing_id' => $listing->id,
                 ]);
             }
