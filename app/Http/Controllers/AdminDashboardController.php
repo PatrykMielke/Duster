@@ -130,14 +130,24 @@ class AdminDashboardController extends Controller
             ->get();
 
 
-        $topCategories = Order::selectRaw('categories.name as category_name, COUNT(orders.id) as total_orders')
+        $topCategories = Order::selectRaw('categories.name as category_name, COUNT(orders.id) as total_orders, categories.id as category_id')
             ->join('listings', 'orders.listing_id', '=', 'listings.id')
             ->join('details', 'listings.id', '=', 'details.listing_id')
             ->join('categories', 'details.category_id', '=', 'categories.id')
             ->groupBy('categories.id', 'categories.name')
             ->orderByDesc('total_orders')
             ->limit(10)
-            ->get();
+            ->get()
+            ->map(function ($category) {
+                $currentCategory = \App\Models\Category::find($category->category_id);
+                $topParent = $currentCategory;
+                while ($topParent->parent) {
+                    $topParent = $topParent->parent;
+                }
+                $category->top_parent_name = $topParent->name ?? $category->category_name; // Fallback to its own name
+                return $category;
+            });
+
 
         return response()->json([
             'totalUsers' => $totalUsers,

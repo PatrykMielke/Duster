@@ -9,7 +9,7 @@ export default function Charts(props) {
     const seriesData = data.topCategories.map((category, index) => ({
         id: index,
         value: category.total_orders,
-        label: category.category_name,
+        label: `${category.category_name} (${category.top_parent_name})`,
     }));
 
     const monthNames = [
