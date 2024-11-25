@@ -7,7 +7,6 @@ export default function DashboardItem(props) {
                 flexDirection: "column",
                 alignItems: "center",
                 textAlign: "center",
-                pb: 10,
             }}
         >
             {props.component}

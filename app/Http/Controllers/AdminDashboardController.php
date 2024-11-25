@@ -103,6 +103,7 @@ class AdminDashboardController extends Controller
         $listingsToday = Listing::whereDate('created_at', now())->count();
 
         $listingsByMonth = Listing::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as total')
+        ->where('created_at', '>=', now()->subMonths(12))
             ->groupBy('year', 'month')
             ->orderBy('year', 'asc', 'month', 'asc')
             ->limit(12)
@@ -118,6 +119,7 @@ class AdminDashboardController extends Controller
         $ordersThisYear = Order::whereYear('created_at', now()->year)->count('id');
 
         $ordersByMonth = Order::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as total')
+        ->where('created_at', '>=', now()->subMonths(12))
             ->groupBy('year', 'month')
             ->orderBy('year', 'asc', 'month', 'asc')
             ->limit(12)

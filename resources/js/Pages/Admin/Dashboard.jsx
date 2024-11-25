@@ -9,7 +9,6 @@ import { AppProvider } from "@toolpad/core/AppProvider";
 import { DashboardLayout } from "@toolpad/core/DashboardLayout";
 import { useDemoRouter } from "@toolpad/core/internal";
 import PersonIcon from "@mui/icons-material/Person";
-import ReceiptIcon from "@mui/icons-material/Receipt";
 import ReportIcon from "@mui/icons-material/Report";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import UserTable from "./Partials/UserTable";
@@ -18,7 +17,6 @@ import Table from "./Partials/Table";
 import DashboardSegment from "./Partials/DashobardSegment";
 import ReportTable from "./Partials/ReportTable";
 import OrderTable from "./Partials/OrderTable";
-import InvoiceTable from "./Partials/InvoiceTable";
 import Charts from "./Partials/Charts";
 const NAVIGATION = [
     {
@@ -140,8 +138,16 @@ function DashboardLayoutBranding(props) {
             router={router}
             theme={demoTheme}
             window={demoWindow}
+            sx={{
+                height: "100vh",
+            }}
         >
-            <DashboardLayout sx={{ width: "99%" }}>
+            <DashboardLayout
+                sx={{
+                    width: "100%",
+                    height: "100vh",
+                }}
+            >
                 <PageContent pathname={router.pathname} props={props} />
             </DashboardLayout>
         </AppProvider>
