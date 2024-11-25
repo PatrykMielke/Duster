@@ -4,12 +4,11 @@ import TextTicker from "@/Components/TextTicker";
 
 export default function Charts(props) {
     const data = props.chartData;
-    console.log(data);
 
     const seriesData = data.topCategories.map((category, index) => ({
         id: index,
         value: category.total_orders,
-        label: `${category.category_name} (${category.top_parent_name})`,
+        label: `${category.category_name} (${category.parent_hierarchy.join(" > ")})`,
     }));
 
     const monthNames = [
@@ -272,7 +271,7 @@ export default function Charts(props) {
                             data: seriesData,
                         },
                     ]}
-                    width={800}
+                    width={1000}
                     height={400}
                     sx={{ paddingTop: "2rem" }}
                 />
