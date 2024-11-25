@@ -117,6 +117,17 @@ class AdminDashboardController extends Controller
         $ordersThisMonth = Order::whereMonth('created_at', now()->month)->count('id');
         $ordersThisYear = Order::whereYear('created_at', now()->year)->count('id');
 
+        $ordersByMonth = Order::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as total')
+            ->groupBy('year', 'month')
+            ->orderBy('year', 'asc', 'month', 'asc')
+            ->limit(12)
+            ->get();
+        $ordersByYear = Order::selectRaw('YEAR(created_at) as year, COUNT(*) as total')
+            ->groupBy('year')
+            ->orderBy('year', 'asc')
+            ->get();
+
+
         $topCategories = Order::selectRaw('categories.name as category_name, COUNT(orders.id) as total_orders')
             ->join('listings', 'orders.listing_id', '=', 'listings.id')
             ->join('details', 'listings.id', '=', 'details.listing_id')
@@ -132,14 +143,19 @@ class AdminDashboardController extends Controller
             'inactiveUsers' => $inactiveUsers,
             'newUsersToday' => $newUsersToday,
             'newUsersInLastYear' => $newUsersInLastYear,
+
             'totalListings' => $totalListings,
             'listingsToday' => $listingsToday,
             'listingsByMonth' => $listingsByMonth,
             'listingsByYear' => $listingsByYear,
+
             'totalOrders' => $totalOrders,
             'ordersToday' => $ordersToday,
             'ordersThisMonth' => $ordersThisMonth,
             'ordersThisYear' => $ordersThisYear,
+            'ordersByMonth' => $ordersByMonth,
+            'ordersByYear' => $ordersByYear,
+
             'topCategories' => $topCategories,
         ])->original;
     }
