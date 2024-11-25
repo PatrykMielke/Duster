@@ -14,11 +14,11 @@ export default function Profile({
     user,
     auth,
     products,
-    followedListings,
+
     isFollowing,
 }) {
     const [comments, setComments] = useState([]);
-    console.log(followedListings.data);
+
     // Funkcja do załadowania komentarzy
     const loadComments = async () => {
         try {
@@ -138,11 +138,11 @@ export default function Profile({
                 </div>
             </div>
             <Listings products={products} header="użytkownika" />
-            {auth.user.id === user.id && followedListings ? (
+            {/* {auth.user.id === user.id && followedListings ? (
                 <Listings products={products} header="obserwowane" />
             ) : (
                 ""
-            )}
+            )} */}
 
             <div className="grid grid-cols-2 p-4 border-b border-gray-200">
                 <div>
