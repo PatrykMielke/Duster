@@ -93,4 +93,8 @@ class User extends Authenticatable
     {
         return $this->following()->count();
     }
+    public function followedListings()
+    {
+        return $this->hasMany(FollowedListing::class);
+    }
 }
