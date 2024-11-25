@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Report;
+use App\Models\Comment;
+use App\Models\Listing;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreReportRequest;
 use App\Http\Requests\UpdateReportRequest;
-use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
 {
@@ -61,10 +64,7 @@ class ReportController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Report $report)
-    {
-        //
-    }
+    public function edit(Report $report) {}
 
     /**
      * Update the specified resource in storage.
@@ -74,11 +74,105 @@ class ReportController extends Controller
         //
     }
 
+    //ADMIN reports > modal> block user 
+    public function block(Request $request)
+    {
+        $type = $request->selectedReport['type'];
+        $referenceId = $request->selectedReport['reference_id'];
+
+        $report = Report::find($request->selectedReport['id']);
+
+        switch ($type) {
+            case 'user':
+                $user = User::find($referenceId);
+                if ($user) {
+                    $user->is_active = false;
+                    $user->save();
+                    $report->is_resolved = true;
+                    $report->save();
+                }
+                break;
+
+            case 'comment':
+                $comment = Comment::find($referenceId);
+                if ($comment) {
+                    $report->is_resolved = true;
+                    $report->save();
+                }
+                break;
+
+            case 'listing':
+                $listing = Listing::find($referenceId);
+                if ($listing) {
+                    $author = User::find($listing->user_id);
+                    $author->is_active = false;
+                    $author->save();
+
+                    $listing->status_id = 3;
+                    $listing->save();
+
+                    $report->is_resolved = true;
+                    $report->save();
+                }
+                break;
+        }
+
+        return redirect()->back();
+    }
+
+    //ADMIN reports > modal> warn user 
+
+    public function warn(Request $request)
+    {
+        $type = $request->selectedReport['type'];
+        $referenceId = $request->selectedReport['reference_id'];
+
+        $report = Report::find($request->selectedReport['id']);
+
+        switch ($type) {
+            case 'user':
+                $user = User::find($referenceId);
+                if ($user) {
+
+                    $report->is_resolved = true;
+                    $report->save();
+                }
+                break;
+
+            case 'comment':
+                $comment = Comment::find($referenceId);
+                if ($comment) {
+                    $report->is_resolved = true;
+                    $report->save();
+                }
+                break;
+
+            case 'listing':
+                $listing = Listing::find($referenceId);
+                if ($listing) {
+
+                    $report->is_resolved = true;
+                    $report->save();
+                }
+                break;
+        }
+
+        return redirect()->back();
+    }
+
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Report $report)
+    //ADMIN reports > modal> delete user 
+
+    public function destroy(Request $request)
     {
-        //
+
+        $report = Report::find($request->selectedReport['id']);
+
+        $report->is_resolved = true;
+        $report->save();
+
+        return redirect()->back();
     }
 }

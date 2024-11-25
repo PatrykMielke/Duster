@@ -14,6 +14,8 @@ import {
     Switch,
     TextField,
 } from "@mui/material";
+import PrimaryButton from "@/Components/PrimaryButton";
+import SecondaryButton from "@/Components/SecondaryButton";
 
 export default function Modal({
     open,
@@ -22,6 +24,8 @@ export default function Modal({
     fields,
     onSave,
     title,
+    onClick,
+    className
 }) {
     const [editedData, setEditedData] = useState(data || {});
     useEffect(() => {
@@ -41,11 +45,12 @@ export default function Modal({
             <DialogTitle>{title}</DialogTitle>
             <DialogContent>
                 {fields.map((field) => {
-                    const { key, label, type, options, disabled } = field;
+                    const { key, label, type, options, disabled, className, onClick } = field;
                     switch (type) {
                         case "select":
                             return (
                                 <FormControl fullWidth key={key} margin="normal">
+                                    className={className}
                                     <InputLabel>{label}</InputLabel>
                                     <Select
                                         value={editedData[key] || ''}
@@ -64,6 +69,7 @@ export default function Modal({
                         case "switch":
                             return (
                                 <FormControlLabel
+                                    className={className}
                                     key={key}
                                     control={
                                         <Switch
@@ -80,6 +86,7 @@ export default function Modal({
                         case "text":
                             return (
                                 <TextField
+                                    className={className}
                                     key={key}
                                     fullWidth
                                     margin="normal"
@@ -94,6 +101,7 @@ export default function Modal({
                         case "textarea":
                             return (
                                 <TextField
+                                    className={className}
                                     key={key}
                                     fullWidth
                                     margin="normal"
@@ -106,10 +114,20 @@ export default function Modal({
 
                                 />
                             );
-                        case "static":
+                        case "button":
+                            return (
+                                <SecondaryButton
+                                    key={key}
+                                    className={className}
+                                    onClick={onClick}
+                                >
+                                    {label}
+                                </SecondaryButton>
+                            )
                         default:
                             return (
                                 <TextField
+                                    className={className}
                                     key={key}
                                     fullWidth
                                     margin="normal"
@@ -122,12 +140,12 @@ export default function Modal({
                 })}
             </DialogContent>
             <DialogActions>
-                <Button onClick={onClose} color="secondary">
+                <SecondaryButton onClick={onClose} color="secondary">
                     Zamknij
-                </Button>
-                <Button onClick={handleSave} color="primary">
+                </SecondaryButton>
+                <PrimaryButton onClick={handleSave} color="primary">
                     Zapisz
-                </Button>
+                </PrimaryButton>
             </DialogActions>
         </Dialog>
     );

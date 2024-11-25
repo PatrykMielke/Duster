@@ -13,6 +13,7 @@ class Report extends Model
         'type',
         'reported_by',
         'description',
+        'is_resolved',
     ];
 
     /**
@@ -33,9 +34,13 @@ class Report extends Model
             self::TYPE_ANNOUNCEMENT,
         ];
     }
-    public function Reporter()
+    public function reporter()
     {
         return $this->belongsTo(User::class, 'reported_by');
+    }
+    public function reason()
+    {
+        return $this->belongsTo(Reason::class, 'reason_id');
     }
 
     use HasFactory;

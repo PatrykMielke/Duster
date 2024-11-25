@@ -18,6 +18,7 @@ return new class extends Migration
             $table->enum('type', ['comment', 'user', 'listing']);
             $table->unsignedBigInteger('reported_by');
             $table->text('description');
+            $table->boolean('is_resolved')->default(false);
             $table->timestamps();
 
 

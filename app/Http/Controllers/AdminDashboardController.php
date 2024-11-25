@@ -6,14 +6,15 @@ use App\Models\Role;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Order;
+use App\Models\Report;
 use App\Models\Status;
 use App\Models\Listing;
 use App\Jobs\SendMailJob;
 use App\Jobs\NotifyUserJob;
 use Illuminate\Http\Request;
 use function Pest\Laravel\get;
-use App\Notifications\UserBlocked;
 
+use App\Notifications\UserBlocked;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CalculateDatesController;
 
@@ -23,6 +24,10 @@ class AdminDashboardController extends Controller
     {
         // WSZYSTKIE OGLOSZENIA
         $listings = Listing::with(['user', 'status'])->orderBy('created_at', 'desc')->get();
+        $reports = Report::with(['reporter', 'reason'])
+            ->where('is_resolved', false)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         $users = User::with(['role', 'session'])->get();
         $statuses = Status::all();
@@ -42,7 +47,7 @@ class AdminDashboardController extends Controller
             'orders' => $orders,
             'roles' => $roles,
             'chartData' => $chartData,
-
+            'reports' => $reports,
         ]);
     }
 
@@ -86,7 +91,8 @@ class AdminDashboardController extends Controller
         }
         return redirect()->route('admin');
     }
-    public function getChartData() {
+    public function getChartData()
+    {
         //users
         $totalUsers = User::count();
         $activeUsers = User::where('is_active', 1)->count();
@@ -103,7 +109,7 @@ class AdminDashboardController extends Controller
         $listingsToday = Listing::whereDate('created_at', now())->count();
 
         $listingsByMonth = Listing::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as total')
-        ->where('created_at', '>=', now()->subMonths(12))
+            ->where('created_at', '>=', now()->subMonths(12))
             ->groupBy('year', 'month')
             ->orderBy('year', 'asc', 'month', 'asc')
             ->limit(12)
@@ -119,7 +125,7 @@ class AdminDashboardController extends Controller
         $ordersThisYear = Order::whereYear('created_at', now()->year)->count('id');
 
         $ordersByMonth = Order::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as total')
-        ->where('created_at', '>=', now()->subMonths(12))
+            ->where('created_at', '>=', now()->subMonths(12))
             ->groupBy('year', 'month')
             ->orderBy('year', 'asc', 'month', 'asc')
             ->limit(12)

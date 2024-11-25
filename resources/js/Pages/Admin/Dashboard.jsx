@@ -72,6 +72,7 @@ const demoTheme = createTheme({
 });
 
 function PageContent({ pathname, props }) {
+
     switch (pathname) {
         case "/panel":
             return (
@@ -90,7 +91,7 @@ function PageContent({ pathname, props }) {
         case "/skargi":
             return (
                 <DashboardSection
-                    component={<ReportTable users={props.users} />}
+                    component={<ReportTable reports={props.reports} />}
                 />
             );
         case "/ogloszenia":
