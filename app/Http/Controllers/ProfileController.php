@@ -62,13 +62,11 @@ class ProfileController extends Controller
                 ->where('followed_user_id', (int) $id)
                 ->exists();
 
-
         }
         return Inertia::render('Profile/Profile', [
             'user' => $user,
             'products' => $listings,
             'isFollowing' => $isFollowing,
-
         ]);
     }
     /**
