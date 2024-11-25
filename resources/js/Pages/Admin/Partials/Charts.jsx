@@ -118,8 +118,8 @@ export default function Charts(props) {
                             color: "#59a14f",
                         },
                     ]}
-                    width={1000}
-                    height={500}
+                    width={800}
+                    height={400}
                 />
             </div>
 
@@ -159,8 +159,8 @@ export default function Charts(props) {
                             data: seriesDataListingsByMonth, // Total listings per month for the bars
                         },
                     ]}
-                    width={1000}
-                    height={500}
+                    width={800}
+                    height={400}
                 />
             </div>
 
@@ -179,8 +179,8 @@ export default function Charts(props) {
                             data: seriesDataNewListingsYear, // Total listings per month for the bars
                         },
                     ]}
-                    width={1000}
-                    height={500}
+                    width={800}
+                    height={400}
                 />
             </div>
             <hr />
@@ -238,8 +238,8 @@ export default function Charts(props) {
                             color: "#e15759",
                         },
                     ]}
-                    width={1000}
-                    height={500}
+                    width={800}
+                    height={400}
                 />
             </div>
 
@@ -259,21 +259,24 @@ export default function Charts(props) {
                             color: "#e15759",
                         },
                     ]}
-                    width={1000}
-                    height={500}
+                    width={800}
+                    height={400}
                 />
             </div>
 
-            <div>Najczęściej sprzedające się kategorie</div>
-            <PieChart
-                series={[
-                    {
-                        data: seriesData,
-                    },
-                ]}
-                width={800}
-                height={400}
-            />
+            <div>
+                Najczęściej sprzedające się kategorie
+                <PieChart
+                    series={[
+                        {
+                            data: seriesData,
+                        },
+                    ]}
+                    width={800}
+                    height={400}
+                    sx={{ paddingTop: "2rem" }}
+                />
+            </div>
         </>
     );
 }
