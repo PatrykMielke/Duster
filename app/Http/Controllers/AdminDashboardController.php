@@ -140,11 +140,15 @@ class AdminDashboardController extends Controller
             ->get()
             ->map(function ($category) {
                 $currentCategory = \App\Models\Category::find($category->category_id);
-                $topParent = $currentCategory;
-                while ($topParent->parent) {
-                    $topParent = $topParent->parent;
+
+                // Build the full hierarchy of parent categories
+                $parents = [];
+                while ($currentCategory->parent) {
+                    $currentCategory = $currentCategory->parent;
+                    array_unshift($parents, $currentCategory->name);
                 }
-                $category->top_parent_name = $topParent->name ?? $category->category_name; // Fallback to its own name
+
+                $category->parent_hierarchy = $parents; // Add hierarchy to the result
                 return $category;
             });
 
