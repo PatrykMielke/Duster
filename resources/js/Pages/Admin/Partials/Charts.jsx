@@ -1,6 +1,7 @@
 import { BarChart } from "@mui/x-charts/BarChart";
 import { PieChart } from "@mui/x-charts/PieChart";
 import TextTicker from "@/Components/TextTicker";
+
 export default function Charts(props) {
     const data = props.chartData;
     console.log(data);
@@ -68,22 +69,30 @@ export default function Charts(props) {
 
     return (
         <>
-            <div>
-                <div>
-                    Wszyscy <TextTicker value={data.totalUsers} />
-                </div>
-                <div>
-                    Aktywni <TextTicker value={data.activeUsers} />
-                </div>
-                <div>
-                    Nieaktywni <TextTicker value={data.inactiveUsers} />
-                </div>
-                <div>
-                    Dzisiaj nowych
-                    <TextTicker value={data.newUsersToday} />
+
+        <div className="py-12 sm:py-16">
+                <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                    <dl className="grid grid-cols-1 gap-x-8 gap-y-16 text-center lg:grid-cols-4">
+                    <div className="mx-auto flex max-w-xs flex-col gap-y-4">
+                        <dt className="text-base/7 ">Użytkowników</dt>
+                        <dd className="order-first text-6xl font-semibold tracking-tight  sm:text-5xl"><TextTicker value={data.totalUsers} /></dd>
+                    </div>
+                    <div className="mx-auto flex max-w-xs flex-col gap-y-4">
+                        <dt className="text-base/7 ">Aktywnych użytkowników</dt>
+                        <dd className="order-first text-6xl font-semibold tracking-tight  sm:text-5xl"><TextTicker value={data.activeUsers} /></dd>
+                    </div>
+                    <div className="mx-auto flex max-w-xs flex-col gap-y-4">
+                        <dt className="text-base/7 ">Nieaktywnych użytkowników</dt>
+                        <dd className="order-first text-6xl font-semibold tracking-tight  sm:text-5xl"><TextTicker value={data.inactiveUsers} /></dd>
+                    </div>
+
+                    <div className="mx-auto flex max-w-xs flex-col gap-y-4">
+                        <dt className="text-base/7 ">Nowych użytkowników dzisiaj</dt>
+                        <dd className="order-first text-6xl font-semibold tracking-tight  sm:text-5xl"><TextTicker value={data.newUsersToday} /></dd>
+                    </div>
+                    </dl>
                 </div>
             </div>
-
             <div>
                 Nowi użytkownicy w ostatnich 12 miesiącach
                 <BarChart
@@ -104,14 +113,25 @@ export default function Charts(props) {
                 />
             </div>
 
-            <div>
-                Wszystkie ogłoszenia
-                <TextTicker value={data.totalListings} />
+
+
+            <div className="py-12 sm:py-16">
+                <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                    <dl className="grid grid-cols-1 gap-x-8 gap-y-16 text-center lg:grid-cols-2">
+                    <div className="mx-auto flex max-w-xs flex-col gap-y-4">
+                        <dt className="text-base/7 ">Wszystkie ogłoszenia</dt>
+                        <dd className="order-first text-6xl font-semibold tracking-tight  sm:text-5xl"><TextTicker value={data.totalListings} /></dd>
+                    </div>
+                    <div className="mx-auto flex max-w-xs flex-col gap-y-4">
+                        <dt className="text-base/7 ">Ogłoszenia dzisiaj</dt>
+                        <dd className="order-first text-6xl font-semibold tracking-tight  sm:text-5xl"><TextTicker value={data.listingsToday} /></dd>
+                    </div>
+
+                    </dl>
+                </div>
             </div>
-            <div>
-                Ogłoszenia dzisiaj
-                <TextTicker value={data.listingsToday} />
-            </div>
+
+
             <div>Nowe ogłoszenia w ciągu ostatnich 12 miesięcy
             <BarChart
                     xAxis={[
@@ -149,20 +169,32 @@ export default function Charts(props) {
                     height={500}
                 />
             </div>
+                    <hr />
+            <div className="py-16 sm:py-16">
+                <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                    <dl className="grid grid-cols-1 gap-x-8 gap-y-16 text-center lg:grid-cols-4">
+                    <div className="mx-auto flex max-w-xs flex-col gap-y-4">
+                        <dt className="text-base/7 ">Wszystkie zamówienia</dt>
+                        <dd className="order-first text-6xl font-semibold tracking-tight  sm:text-5xl"><TextTicker value={data.totalOrders} /></dd>
+                    </div>
+                    <div className="mx-auto flex max-w-xs flex-col gap-y-4">
+                        <dt className="text-base/7 ">Zamówienia dzisiaj</dt>
+                        <dd className="order-first text-6xl font-semibold tracking-tight  sm:text-5xl"><TextTicker value={data.ordersToday} /></dd>
+                    </div>
+                    <div className="mx-auto flex max-w-xs flex-col gap-y-4">
+                        <dt className="text-base/7 ">Zamówienia w tym miesiącu</dt>
+                        <dd className="order-first text-6xl font-semibold tracking-tight  sm:text-5xl"><TextTicker value={data.ordersThisMonth} /></dd>
+                    </div>
 
-            <div>
-                Wszystkie zamówienia <TextTicker value={data.totalOrders} />
-            </div>
-            <div>
-                Zamówienia dzisiaj <TextTicker value={data.ordersToday} />
+                    <div className="mx-auto flex max-w-xs flex-col gap-y-4">
+                        <dt className="text-base/7 ">Zamówienia w tym roku</dt>
+                        <dd className="order-first text-6xl font-semibold tracking-tight  sm:text-5xl"><TextTicker value={data.ordersThisYear} /></dd>
+                    </div>
+                    </dl>
+                </div>
             </div>
 
-            <div>
-                Zamówienia w tym miesiącu <TextTicker value={data.ordersThisMonth} />
-            </div>
-            <div>
-                Zamówienia w tym roku <TextTicker value={data.ordersThisYear} />
-            </div>
+
             <div>
                 Nowe zamówienia w ostatnich 12 miesiącach
                 <BarChart

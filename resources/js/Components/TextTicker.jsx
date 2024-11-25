@@ -32,7 +32,7 @@ export default function Counter({ value, direction = "up" }) {
 
     // Return the <span> element with a default content of 0, making sure it's always visible
     return (
-        <span ref={ref} style={{ fontSize: "2rem" }}>
+        <span ref={ref} style={{ fontSize: "4rem" }}>
             0
         </span>
     ); // Default text of "0"
