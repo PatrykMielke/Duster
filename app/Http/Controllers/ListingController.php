@@ -200,14 +200,16 @@ class ListingController extends Controller
             'details.detailColor.color',
             'details.detailMaterial.material',
         ])->findOrFail($id);
+        if (Auth::user()) {
+            $was_visited = $listing->visits()->where('user_id', Auth::user()->id)->exists();
 
-        $was_visited = $listing->visits()->where('user_id', Auth::user()->id)->exists();
-
-        if (!$was_visited) {
-            $listing->visits()->create([
-                'user_id' => Auth::user()->id
-            ]);
+            if (!$was_visited) {
+                $listing->visits()->create([
+                    'user_id' => Auth::user()->id
+                ]);
+            }
         }
+
         $category = new Category();
         $breadcrumbs = $category->getBreadcrumbs($listing->details->category_id);
         $listing->breadcrumbs = $breadcrumbs;
