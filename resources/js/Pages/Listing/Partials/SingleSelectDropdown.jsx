@@ -1,5 +1,4 @@
-// SingleSelectDropdown.jsx
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
 
@@ -11,21 +10,38 @@ export default function SingleSelectDropdown({
     errorMessage,
 }) {
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const dropdownRef = useRef(null);
 
     const handleOptionSelect = (optionId) => {
+        setDropdownOpen(false);
         onChange(optionId);
-        setDropdownOpen(false); // Close the dropdown after selection
     };
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setDropdownOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     return (
-        <div className="mt-4 relative">
+        <div className="mt-4 relative" ref={dropdownRef}>
             <InputLabel value={label} />
             <div
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 cursor-pointer focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-white"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
             >
                 {selectedOption ? (
-                    <span className="text-gray-800">{options.find(option => option.id === selectedOption)?.name}</span>
+                    <span className="text-gray-800">
+                        {options.find(option => option.id === selectedOption)?.name}
+                    </span>
                 ) : (
                     <span className="text-gray-400">Wybierz {label.toLowerCase()}</span>
                 )}
