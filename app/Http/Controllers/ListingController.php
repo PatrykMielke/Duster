@@ -176,7 +176,7 @@ class ListingController extends Controller
                 }
             }
         }
-        return Redirect::route('index');
+        return Redirect::route('listing', ['id' => $listing->id]);
     }
 
     /**
@@ -315,7 +315,7 @@ class ListingController extends Controller
             ]);
         }
 
-        return redirect()->route('index');
+        return Redirect::route('listing', ['id' => $listing->id]);
     }
 
 
