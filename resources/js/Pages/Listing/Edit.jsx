@@ -30,25 +30,6 @@ const Edit = ({ listing, users = [], statuses = [], conditions = [], colors = []
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Walidacja pól wymaganych
-        const requiredFields = [
-            'title', 'description', 'price', 'user_id', 'status_id', 'condition_id', 'item_id',
-            'color_ids', 'size_id', 'brand_id', 'material_ids', 'category_id'
-        ];
-
-        let formErrors = {};
-        requiredFields.forEach(field => {
-            if (!data[field] || (Array.isArray(data[field]) && data[field].length === 0)) {
-                formErrors[field] = 'To pole jest wymagane.';
-            }
-        });
-
-        // Jeśli są błędy, przypisz je do formularza
-        if (Object.keys(formErrors).length > 0) {
-            setData((prevData) => ({ ...prevData, errors: formErrors }));
-            return;
-        }
-
         const formData = new FormData();
         Object.entries(data).forEach(([key, value]) => {
             if (Array.isArray(value)) {

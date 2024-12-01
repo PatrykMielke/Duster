@@ -176,7 +176,6 @@ class ListingController extends Controller
                 }
             }
         }
-
         return redirect()->back();
     }
 
@@ -283,6 +282,7 @@ class ListingController extends Controller
     // Method to handle the update request
     public function update(Request $request, $id)
     {
+
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -290,7 +290,6 @@ class ListingController extends Controller
             'user_id' => 'required|exists:users,id',
             'status_id' => 'required|exists:statuses,id',
             'condition_id' => 'required|exists:conditions,id',
-            'item_id' => 'required|exists:items,id',
             'color_ids' => 'required|array',
             'color_ids.*' => 'exists:colors,id',
             'size_id' => 'required|exists:sizes,id',
@@ -298,7 +297,6 @@ class ListingController extends Controller
             'material_ids' => 'required|array',
             'material_ids.*' => 'exists:materials,id',
         ]);
-
         $listing = Listing::findOrFail($id);
         $listing->update($request->only('title', 'description', 'price', 'user_id', 'status_id'));
 
@@ -321,7 +319,7 @@ class ListingController extends Controller
             ]);
         }
 
-        return redirect()->route('HomePage')->with('success', 'Ogłoszenie zaktualizowane pomyślnie.');
+        return redirect()->route('index');
     }
 
 

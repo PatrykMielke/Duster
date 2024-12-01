@@ -65,6 +65,7 @@ export default function CreateListing({ colors, sizes, brands, materials, condit
     };
 
     const handleChildData = (data) => {
+        console.log(data)
         setData("category_id", data);
     };
 
