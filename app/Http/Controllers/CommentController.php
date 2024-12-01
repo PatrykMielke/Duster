@@ -9,7 +9,7 @@ class CommentController extends Controller
 {
     public function store(Request $request)
     {
-        if(!$id = auth()->id()) return redirect()->route('index');
+        // if(!$id = auth()->id()) return redirect()->route('index');
         // Walidacja danych
         $validated = $request->validate([
             'profile_user_id' => 'required|exists:users,id',

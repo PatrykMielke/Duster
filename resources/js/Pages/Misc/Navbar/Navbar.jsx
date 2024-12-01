@@ -12,6 +12,7 @@ import { Link, usePage } from "@inertiajs/react";
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import PrimaryButton from "@/Components/PrimaryButton";
 
 export default function Navbar() {
     const [open, setOpen] = useState(false);
@@ -67,6 +68,13 @@ export default function Navbar() {
                                 <Logo />
                                 <CategoryItems navigation={navigationData} />
                                 <div className="ml-auto flex items-center">
+                                    <a href=""></a>
+                                    <Link
+                                        href={route("listings.create")}
+                                        className="bg-pink-500 text-white py-2 px-4 border-slate-800 rounded-lg text-md font-semibold"
+                                    >
+                                        Sprzedaj
+                                    </Link>
                                     <Searchbar />
                                     {user ? ( // Logged In view
                                         <></>
@@ -76,7 +84,6 @@ export default function Navbar() {
                                             <Login />
                                         </>
                                     )}
-
                                     <ProfileDropdown />
                                 </div>
                             </div>

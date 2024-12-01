@@ -57,6 +57,7 @@ class ProfileController extends Controller
             ->get();
 
         $isFollowing = false;
+
         if (auth()->check()) {
             $isFollowing = FollowedUser::where('user_id', auth()->id())
                 ->where('followed_user_id', (int) $id)

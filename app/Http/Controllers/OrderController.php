@@ -106,7 +106,7 @@ class OrderController extends Controller
         $sellerWallet->increment('balance', $listing->price);
         Order::create($orderData);
         Listing::where('id', $validatedData['listing_id'])->update(['status_id' => 2]);
-        return Redirect::route('index');
+        return Inertia::render(route('index'));
     }
 
     /**
