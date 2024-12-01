@@ -84,17 +84,6 @@ export default function HomePage({ message, listings }) {
         <>
             <Layout>
                 <HeroSection />
-                {/* <Search
-                    searchQuery={searchQuery}
-                    handleSearchChange={handleSearchChange}
-                    handleSearchSubmit={handleSearchSubmit}
-                />
-
-                <SnackbarNotification
-                    open={snackbarOpen}
-                    message={snackbarMessage} // Wyświetlamy przekazany komunikat
-                    handleClose={handleSnackbarClose} // Funkcja do zamknięcia Snackbara
-                /> */}
 
                 <Listings products={listings} />
             </Layout>

@@ -111,7 +111,7 @@ export default function Profile({
                             </div>
                         </div>
                         <div>
-                            {auth.user.id !== user.id && (
+                            {auth?.user?.id !== user.id && (
                                 <>
                                     <ToggleButton
                                         label={{
@@ -151,7 +151,7 @@ export default function Profile({
 
                 <div className="flex justify-end items-end">
                     <span className="text-blue-500 cursor-pointer">
-                        {auth.user.id !== user.id ? (
+                        {auth?.user?.id !== user.id ? (
                             <CommentForm
                                 profileUserId={user.id}
                                 onCommentAdded={loadComments}
@@ -178,7 +178,7 @@ export default function Profile({
                         onReport={handleCommentReportOpen}
                         onDelete={handleDeleteComment} // Przekazujemy obsługę usuwania
                         authorId={comment.user_id} // ID autora komentarza
-                        currentUserId={auth.user.id} // ID aktualnie zalogowanego użytkownika
+                        currentUserId={auth?.user?.id} // ID aktualnie zalogowanego użytkownika
                     />
                 ))}
             </div>
