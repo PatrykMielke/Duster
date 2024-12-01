@@ -278,7 +278,6 @@ class ListingController extends Controller
     // Method to handle the update request
     public function update(Request $request, $id)
     {
-
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -287,17 +286,19 @@ class ListingController extends Controller
             'status_id' => 'required|exists:statuses,id',
             'condition_id' => 'required|exists:conditions,id',
             'color_ids' => 'required|array',
+            'category_id' => 'required|exists:categories,id',
             'color_ids.*' => 'exists:colors,id',
             'size_id' => 'required|exists:sizes,id',
             'brand_id' => 'required|exists:brands,id',
             'material_ids' => 'required|array',
             'material_ids.*' => 'exists:materials,id',
         ]);
+
         $listing = Listing::findOrFail($id);
         $listing->update($request->only('title', 'description', 'price', 'user_id', 'status_id'));
 
         $detail = $listing->details()->first();
-        $detail->update($request->only('item_id', 'size_id', 'brand_id', 'condition_id'));
+        $detail->update($request->only('item_id', 'size_id', 'brand_id', 'condition_id', 'category_id'));
 
         $detail->detailColor()->delete();
         foreach ($request->color_ids as $color_id) {
