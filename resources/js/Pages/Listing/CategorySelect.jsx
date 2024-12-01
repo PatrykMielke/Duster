@@ -17,21 +17,21 @@ const CategorySelector = ({ categories_hierarchy, setDataa, breadcrumbs }) => {
         setSelectedCategory(category);
         setSelectedSection(null);
         setSelectedItem(null);
-        setDataa(null);
+        setDataa("category_id", null);
+
     };
 
     const handleSectionChange = (sectionId) => {
         const section = selectedCategory.sections.find((sec) => sec.id === sectionId);
         setSelectedSection(section);
         setSelectedItem(null);
-        setDataa(null);
+        setDataa("category_id", null);
     };
 
     const handleItemChange = (categoryId) => {
         const item = selectedSection.items.find((item) => item.category_id === categoryId);
         setSelectedItem(item);
-        setDataa(null);
-        setDataa(item.category_id);
+        setDataa("category_id", categoryId);  // Update the form's category_id field
     };
 
     useEffect(() => {
