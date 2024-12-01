@@ -176,12 +176,8 @@ class ListingController extends Controller
                 }
             }
         }
-        return redirect()->back();
+        return Redirect::route('index');
     }
-
-
-
-
 
     /**
      * Display specified
