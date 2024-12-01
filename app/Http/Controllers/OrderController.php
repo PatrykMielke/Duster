@@ -17,6 +17,7 @@ use App\Models\DeliveryMethods;
 use App\Http\Requests\OrderRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 
 class OrderController extends Controller
 {
@@ -105,12 +106,7 @@ class OrderController extends Controller
 
         Order::create($orderData);
         Listing::where('id', $validatedData['listing_id'])->update(['status_id' => 2]);
-        return Inertia::render(
-            'HomePage',
-            [
-                'message' => 'Płatność przebiegła pomyślnie.',
-            ]
-        );
+        return Redirect::route('index');
     }
 
     /**
