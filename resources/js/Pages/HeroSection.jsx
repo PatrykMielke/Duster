@@ -3,7 +3,7 @@ import { Link } from "@inertiajs/react";
 export default function HeroSection() {
     return (
         <section
-            className="relative w-[99.5vw] h-[80vh] bg-[url('49104_1.13.jpg')] bg-cover bg-center"
+            className="relative w-[99.5vw] h-[80vh] bg-[url('baner.jpg')] bg-cover bg-center"
             style={{ left: "calc(-50vw + 50%)", top: -30 }}
         >
             <div className="mx-auto max-w-7xl">
