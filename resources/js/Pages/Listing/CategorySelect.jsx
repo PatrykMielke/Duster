@@ -17,7 +17,6 @@ const CategorySelector = ({ categories_hierarchy, setDataa, breadcrumbs }) => {
         setSelectedCategory(category);
         setSelectedSection(null);
         setSelectedItem(null);
-        setDataa(null)
 
     };
 
@@ -25,7 +24,6 @@ const CategorySelector = ({ categories_hierarchy, setDataa, breadcrumbs }) => {
         const section = selectedCategory.sections.find((sec) => sec.id === sectionId);
         setSelectedSection(section);
         setSelectedItem(null);
-        setDataa(null)
     };
 
     const handleItemChange = (categoryId) => {

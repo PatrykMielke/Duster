@@ -26,7 +26,6 @@ const Edit = ({ listing, users = [], statuses = [], conditions = [], colors = []
     });
     const [existingImages, setExistingImages] = useState(listing.galleries || []);
     const [imagesToDelete, setImagesToDelete] = useState([]);
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -50,7 +49,10 @@ const Edit = ({ listing, users = [], statuses = [], conditions = [], colors = []
         setExistingImages(existingImages.filter(image => image.id !== imageId));
         setImagesToDelete([...imagesToDelete, imageId]);
     };
-
+    const handleChildData = (data) => {
+        console.log(data)
+        setData("category_id", data);
+    };
     return (
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -156,7 +158,7 @@ const Edit = ({ listing, users = [], statuses = [], conditions = [], colors = []
                     <CategorySelector
                         listing={listing}
                         categories_hierarchy={categories_hierarchy} // Pass the categories_hierarchy prop
-                        setDataa={setData} // Use setData to update the category, section, and item in form state
+                        setDataa={handleChildData} // Use setData to update the category, section, and item in form state
                         breadcrumbs={breadcrumbs}
                     />
 
