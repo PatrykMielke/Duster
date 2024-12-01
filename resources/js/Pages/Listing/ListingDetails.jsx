@@ -95,22 +95,24 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                     <Carousel gallery={listing.galleries} />
 
                     {/* Follow button */}
+                    <div className="flex justify-between items-end w-full lg:col-span-2 lg:border-gray-200 pt-2">
+                        {auth.user && auth.user.id !== listing.user_id && (
+                            <>
+                                <ToggleButton
+                                    label={{ active: "Zgłoś", inactive: "Zgłoś" }}
+                                    icon={<OutlinedFlagSharpIcon />}
+                                    color={{
+                                        active: "error",
+                                        inactive: "rgb(107 114 128)",
+                                    }}
+                                    onClick={handleReportOpen}
+                                />
 
-                    <div className="flex justify-between items-end  w-full lg:col-span-2 lg:border-gray-200  pt-2">
-                        <ToggleButton
-                            label={{ active: "Zgłoś", inactive: "Zgłoś" }}
-                            icon={<OutlinedFlagSharpIcon />}
-                            color={{
-                                active: "error",
-                                inactive: "rgb(107 114 128)",
+                                <ToggleFavoriteButton listing={listing} auth={auth} />
+                            </>
+                        )}
 
-                            }}
-                            onClick={handleReportOpen}
-                        />
-
-                        <ToggleFavoriteButton listing={listing} auth={auth} />
                     </div>
-
                     {/* Product info */}
                     <div className="mx-auto max-w-2xl px-4 pb-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 ">
                         <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
@@ -261,19 +263,29 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                                     </div>
                                 </div>
 
-                                <Link
-                                    href={route(
-                                        "order.showCheckout",
-                                        listing.id,
-                                    )}
-                                >
-                                    <button
-                                        type="button"
-                                        className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                    >
-                                        Kup teraz
-                                    </button>
-                                </Link>
+
+
+                                {auth.user && auth.user.id === listing.user_id ? (
+                                    <Link href={route("listings.edit", listing.id)}>
+                                        <button
+                                            type="button"
+                                            className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                        >
+                                            Edytuj ogłoszenie
+                                        </button>
+                                    </Link>
+                                ) : (
+                                    <Link href={route("order.showCheckout", listing.id)}>
+                                        <button
+                                            type="button"
+                                            className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                        >
+                                            Kup Teraz
+                                        </button>
+                                    </Link>
+                                )}
+
+
                             </form>
                         </div>
 
@@ -302,7 +314,7 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                 referenceId={referenceId}
                 reportType={reportType}
             />
-        </Layout>
+        </Layout >
     );
 }
 
