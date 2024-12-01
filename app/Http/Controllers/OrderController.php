@@ -88,9 +88,9 @@ class OrderController extends Controller
             'country' => $validatedData['country'],
             'apartment' => $validatedData['apartment'] ?? null,
         ];
-
         $buyerWallet = Wallet::where('user_id', $validatedData['buyer_id'])->first();
         $listing = Listing::where('id', $validatedData['listing_id'])->first();
+        $sellerWallet = Wallet::where('user_id', $listing->user_id)->first();
 
 
         if ($buyerWallet->balance < $listing->price) {
@@ -103,7 +103,7 @@ class OrderController extends Controller
             );
         }
         $buyerWallet->decrement('balance', $listing->price);
-
+        $sellerWallet->increment('balance', $listing->price);
         Order::create($orderData);
         Listing::where('id', $validatedData['listing_id'])->update(['status_id' => 2]);
         return Redirect::route('index');
