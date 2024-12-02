@@ -271,7 +271,7 @@ export default function Charts(props) {
                             data: seriesData,
                         },
                     ]}
-                    width={1000}
+                    width={1100}
                     height={400}
                     sx={{ paddingTop: "2rem" }}
                 />

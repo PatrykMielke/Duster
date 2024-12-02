@@ -22,8 +22,6 @@ export default function Example({ listing, uniqueUserCount, auth }) {
     const diffInMilliseconds = now - createdAt;
     const diffInHours = Math.floor(diffInMilliseconds / (1000 * 60 * 60));
 
-
-
     const [open, setOpen] = useState(false);
     const [selectedHeader, setSelectedHeader] = useState("");
     const [referenceId, setReferenceId] = useState(listing.id ?? 0);
@@ -99,7 +97,10 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                         {auth.user && auth.user.id !== listing.user_id && (
                             <>
                                 <ToggleButton
-                                    label={{ active: "Zgłoś", inactive: "Zgłoś" }}
+                                    label={{
+                                        active: "Zgłoś",
+                                        inactive: "Zgłoś",
+                                    }}
                                     icon={<OutlinedFlagSharpIcon />}
                                     color={{
                                         active: "error",
@@ -108,10 +109,12 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                                     onClick={handleReportOpen}
                                 />
 
-                                <ToggleFavoriteButton listing={listing} auth={auth} />
+                                <ToggleFavoriteButton
+                                    listing={listing}
+                                    auth={auth}
+                                />
                             </>
                         )}
-
                     </div>
                     {/* Product info */}
                     <div className="mx-auto max-w-2xl px-4 pb-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 ">
@@ -231,7 +234,7 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                                         </h3>
 
                                         {listing.details?.detail_color?.length >
-                                            0 ? (
+                                        0 ? (
                                             listing.details.detail_color.map(
                                                 (detailColor) => (
                                                     <div
@@ -263,10 +266,14 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                                     </div>
                                 </div>
 
-
-
-                                {auth.user && auth.user.id === listing.user_id ? (
-                                    <Link href={route("listings.edit", listing.id)}>
+                                {auth.user &&
+                                auth.user.id === listing.user_id ? (
+                                    <Link
+                                        href={route(
+                                            "listings.edit",
+                                            listing.id,
+                                        )}
+                                    >
                                         <button
                                             type="button"
                                             className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -275,7 +282,12 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                                         </button>
                                     </Link>
                                 ) : (
-                                    <Link href={route("order.showCheckout", listing.id)}>
+                                    <Link
+                                        href={route(
+                                            "order.showCheckout",
+                                            listing.id,
+                                        )}
+                                    >
                                         <button
                                             type="button"
                                             className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -284,8 +296,6 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                                         </button>
                                     </Link>
                                 )}
-
-
                             </form>
                         </div>
 
@@ -296,7 +306,7 @@ export default function Example({ listing, uniqueUserCount, auth }) {
 
                                 <div className="space-y-6">
                                     <p className="text-base text-gray-900">
-                                        {listing.description} {listing.id}
+                                        {listing.description}
                                     </p>
                                 </div>
                             </div>
@@ -304,7 +314,6 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                     </div>
                 </div>
             </div>
-
 
             <ReportCommentForm
                 title="Zgłoś ogłoszenie"
@@ -314,7 +323,7 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                 referenceId={referenceId}
                 reportType={reportType}
             />
-        </Layout >
+        </Layout>
     );
 }
 

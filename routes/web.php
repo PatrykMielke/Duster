@@ -41,8 +41,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
 
 /// Wszystkie ogloszenia
-Route::get('/listings', [ListingController::class, 'index'])->name('listings');
-Route::get('/listing/{id}', [ListingController::class, 'show'])->name('listing');
+Route::get('/ogloszenia', [ListingController::class, 'index'])->name('listings');
+Route::get('/ogloszenia/{id}', [ListingController::class, 'show'])->name('listing');
 
 
 Route::middleware('auth')->group(function () {

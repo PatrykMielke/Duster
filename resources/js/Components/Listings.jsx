@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import FilterBar from "@/Components/FilterBar";
 import Listing from "@/Pages/Listing/Partials/Listing";
 
-export default function Listings({ products, breadcrumbs = [] }) {
+export default function Listings({ header = "", products, breadcrumbs = [] }) {
     // State to hold the sorted products
     const [sortedProducts, setSortedProducts] = useState(products);
     const [sortCriteria, setSortCriteria] = useState("created_at");
@@ -38,7 +38,9 @@ export default function Listings({ products, breadcrumbs = [] }) {
         <>
             <div className="grid grid-cols-2 p-4 border-b border-gray-200">
                 <div>
-                    <span className="text-3xl font-semibold">Ogłoszenia</span>
+                    <span className="text-3xl font-semibold">
+                        Ogłoszenia {header}
+                    </span>
                 </div>
 
                 <div className="flex justify-end items-end">

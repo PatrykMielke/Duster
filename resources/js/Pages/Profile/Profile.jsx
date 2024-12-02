@@ -14,7 +14,7 @@ export default function Profile({
     user,
     auth,
     products,
-
+    followedListings,
     isFollowing,
 }) {
     const [comments, setComments] = useState([]);
@@ -137,12 +137,15 @@ export default function Profile({
                     </div>
                 </div>
             </div>
-            <Listings products={products} header="użytkownika" />
-            {/* {auth.user.id === user.id && followedListings ? (
-                <Listings products={products} header="obserwowane" />
+            <Listings products={products} header={"użytkownika " + user.name} />
+            {auth.user.id === user.id && followedListings ? (
+                <Listings
+                    products={followedListings}
+                    header="obserwowane przez ciebie"
+                />
             ) : (
                 ""
-            )} */}
+            )}
 
             <div className="grid grid-cols-2 p-4 border-b border-gray-200">
                 <div>

@@ -14,7 +14,7 @@ export default function Searchbar() {
     const handleSearchSubmit = (e) => {
         e.preventDefault();
         console.log("Search query:", searchQuery);
-        router.get("/listings", searchQuery);
+        router.get("/ogloszenia", searchQuery);
     };
 
     return (

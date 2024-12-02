@@ -64,10 +64,15 @@ class ProfileController extends Controller
                 ->exists();
 
         }
+        $followedListings = Auth::user()->followedListings()
+        ->with('listing.galleries') // Include the related listings
+        ->get()
+        ->pluck('listing');
         return Inertia::render('Profile/Profile', [
             'user' => $user,
             'products' => $listings,
             'isFollowing' => $isFollowing,
+            'followedListings' => $followedListings,
         ]);
     }
     /**
