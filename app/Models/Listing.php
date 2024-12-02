@@ -16,7 +16,7 @@ class Listing extends Model
         'user_id',
         'status_id',
     ];
-    protected $appends = ['follow_count','visits_count'];
+    protected $appends = ['follow_count', 'visits_count'];
 
 
     /**
@@ -85,6 +85,10 @@ class Listing extends Model
     public function followedBy()
     {
         return $this->hasMany(FollowedListing::class);
+    }
+    public function orders()
+    {
+        return $this->belongsTo(Order::class);
     }
 
     use HasFactory;

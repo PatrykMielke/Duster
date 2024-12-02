@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
-use Illuminate\Support\Facades\Auth;
-
 use App\Models\Size;
+
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Brand;
 use App\Models\Color;
+use App\Models\Order;
 use Inertia\Response;
 use App\Models\Detail;
 use App\Models\Status;
@@ -22,9 +22,10 @@ use Illuminate\Http\Request;
 use App\Models\PaymentMethods;
 use calculateLastActivityDate;
 use App\Models\DeliveryMethods;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Redirect;
 
 class ListingController extends Controller
 {
@@ -186,6 +187,8 @@ class ListingController extends Controller
     {
 
 
+
+
         $listing = Listing::with([
             'user',
             'galleries',
@@ -194,7 +197,9 @@ class ListingController extends Controller
             'details.condition',
             'details.detailColor.color',
             'details.detailMaterial.material',
-        ])->findOrFail($id);
+        ])->findOrFail(29);
+
+
         if (Auth::user()) {
             $was_visited = $listing->visits()->where('user_id', Auth::user()->id)->exists();
 
