@@ -25,7 +25,7 @@ export default function Modal({
     onSave,
     title,
     onClick,
-    className
+    className,
 }) {
     const [editedData, setEditedData] = useState(data || {});
     useEffect(() => {
@@ -45,20 +45,40 @@ export default function Modal({
             <DialogTitle>{title}</DialogTitle>
             <DialogContent>
                 {fields.map((field) => {
-                    const { key, label, type, options, disabled, className, onClick } = field;
+                    const {
+                        key,
+                        label,
+                        type,
+                        options,
+                        disabled,
+                        className,
+                        onClick,
+                    } = field;
                     switch (type) {
                         case "select":
                             return (
-                                <FormControl fullWidth key={key} margin="normal">
+                                <FormControl
+                                    fullWidth
+                                    key={key}
+                                    margin="normal"
                                     className={className}
+                                >
                                     <InputLabel>{label}</InputLabel>
                                     <Select
-                                        value={editedData[key] || ''}
-                                        onChange={(e) => handleFieldChange(key, e.target.value)}
+                                        value={editedData[key] || ""}
+                                        onChange={(e) =>
+                                            handleFieldChange(
+                                                key,
+                                                e.target.value,
+                                            )
+                                        }
                                         label={label}
                                     >
                                         {options.map((option) => (
-                                            <MenuItem key={option.id} value={option.id}>
+                                            <MenuItem
+                                                key={option.id}
+                                                value={option.id}
+                                            >
                                                 {option.name}
                                             </MenuItem>
                                         ))}
@@ -75,7 +95,10 @@ export default function Modal({
                                         <Switch
                                             checked={editedData[key] || false}
                                             onChange={(e) =>
-                                                handleFieldChange(key, e.target.checked)
+                                                handleFieldChange(
+                                                    key,
+                                                    e.target.checked,
+                                                )
                                             }
                                         />
                                     }
@@ -107,11 +130,12 @@ export default function Modal({
                                     margin="normal"
                                     label={label}
                                     value={editedData[key] || ""}
-                                    onChange={(e) => handleFieldChange(key, e.target.value)}
+                                    onChange={(e) =>
+                                        handleFieldChange(key, e.target.value)
+                                    }
                                     multiline
                                     rows={10}
                                     disabled={disabled}
-
                                 />
                             );
                         case "button":
@@ -123,7 +147,7 @@ export default function Modal({
                                 >
                                     {label}
                                 </SecondaryButton>
-                            )
+                            );
                         default:
                             return (
                                 <TextField
