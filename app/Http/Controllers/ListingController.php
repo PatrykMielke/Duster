@@ -49,6 +49,7 @@ class ListingController extends Controller
             'filters' => [
                 'query' => $query,
             ],
+            'header' =>"zawierające ".$query,
         ]);
     }
 
@@ -77,6 +78,7 @@ class ListingController extends Controller
             'products' => $listings,
             'category' => $category->name,
             'breadcrumbs' => $breadcrumbs,  // Przekaż breadcrumbs do widoku
+            'header' => "w kategorii ".$category->name,
         ]);
     }
 
