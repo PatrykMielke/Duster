@@ -139,7 +139,10 @@ export default function Profile({
             </div>
             <Listings products={products} header={"użytkownika " + user.name} />
             {auth.user.id === user.id && followedListings ? (
-                <Listings products={followedListings} header="obserwowane" />
+                <Listings
+                    products={followedListings}
+                    header="obserwowane przez ciebie"
+                />
             ) : (
                 ""
             )}

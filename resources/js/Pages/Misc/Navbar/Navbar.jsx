@@ -68,7 +68,12 @@ export default function Navbar() {
                                 <Logo />
                                 <CategoryItems navigation={navigationData} />
                                 <div className="ml-auto flex items-center">
-                                    <a href=""></a>
+                                    <Link
+                                        href={route("admin")}
+                                        className="bg-purple-500 text-white mx-4 py-2 px-4 border-slate-800 rounded-lg text-md font-semibold"
+                                    >
+                                        Admin
+                                    </Link>
                                     <Link
                                         href={route("listings.create")}
                                         className="bg-pink-500 text-white py-2 px-4 border-slate-800 rounded-lg text-md font-semibold"
