@@ -3,6 +3,7 @@ import { Box, Avatar, Typography, Rating, IconButton } from "@mui/material";
 import FlagIcon from "@mui/icons-material/Flag";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
+import { Link } from "@inertiajs/react";
 
 function Comment({
     id,
@@ -78,19 +79,22 @@ function Comment({
             )}
 
             {/* Awatar użytkownika */}
-            <Avatar
-                src={avatar}
-                alt={username}
-                sx={{ width: 56, height: 56 }}
-            />
+            <Link href={route("profile.show", authorId)}>
+                <Avatar
+                    src={avatar}
+                    alt={username}
+                    sx={{ width: 56, height: 56 }}
+                />
+            </Link>
 
             {/* Treść komentarza */}
             <Box sx={{ flexGrow: 1 }}>
                 {/* Nazwa użytkownika */}
-                <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
-                    {username}
-                </Typography>
-
+                <Link href={route("profile.show", authorId)}>
+                    <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+                        {username}
+                    </Typography>
+                </Link>
                 {/* Ocena */}
                 <Rating
                     name="user-rating"
