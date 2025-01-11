@@ -26,7 +26,7 @@ use App\Http\Controllers\AdminDashboardController;
 
 Route::get('/', [MainPageController::class, 'index'])->name('index');
 
-Route::get('/kategoria/{id}', [ListingController::class, 'showByCategory'])->name('showByCategory');
+Route::get('/kategoria/{id}', [ListingController::class, 'showByCategory'])->where('id', '[0-9]+')->name('showByCategory');
 
 
 //ADMIN
@@ -41,7 +41,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
 /// Wszystkie ogloszenia
 Route::get('/ogloszenia', [ListingController::class, 'index'])->name('listings');
-Route::get('/ogloszenia/{id}', [ListingController::class, 'show'])->name('listing');
+Route::get('/ogloszenia/{id}', [ListingController::class, 'show'])->where('id', '[0-9]+')->name('listing');
 
 
 Route::middleware('auth')->group(function () {
@@ -51,13 +51,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/stworz', [ListingController::class, 'create'])->name('listings.create');
         Route::post('/', [ListingController::class, 'store'])->name('listings.store');
         //// edycja i zapis ogloszenia
-        Route::get('/{id}/edycja', [ListingController::class, 'edit'])->name('listings.edit');
-        Route::put('/{id}', [ListingController::class, 'update'])->name('listings.update');
+        Route::get('/{id}/edycja', [ListingController::class, 'edit'])->where('id', '[0-9]+')->name('listings.edit');
+        Route::put('/{id}', [ListingController::class, 'update'])->where('id', '[0-9]+')->name('listings.update');
     });
 
 
     //Zakup ogkoszenia
-    Route::get('/checkout/{id}', [OrderController::class, 'index'])->name('order.showCheckout');
+    Route::get('/checkout/{id}', [OrderController::class, 'index'])->where('id', '[0-9]+')->name('order.showCheckout');
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 });
 
@@ -75,7 +75,7 @@ Route::prefix('report')->middleware('auth')->group(function () {
 // obserwowanie ogloszen
 Route::prefix('followed_listings')->group(function () {
     Route::get('/check', [ListingFollowController::class, 'check']);
-    Route::get('/{userId}', [ListingFollowController::class, 'index']);
+    Route::get('/{userId}', [ListingFollowController::class, 'index'])->where('userId', '[0-9]+');
     Route::post('/', [ListingFollowController::class, 'store']);
     Route::delete('/', [ListingFollowController::class, 'destroy']);
 });
@@ -83,7 +83,7 @@ Route::prefix('followed_listings')->group(function () {
 ////
 Route::prefix('followed_users')->group(function () {
     Route::get('/check', [UserFollowController::class, 'check'])->name('followed_users.check');     //nie uzywane
-    Route::get('uid/{userId}', [UserFollowController::class, 'index'])->name('followed_users.index');
+    Route::get('uid/{userId}', [UserFollowController::class, 'index'])->where('userId', '[0-9]+')->name('followed_users.index');
     Route::post('/', [UserFollowController::class, 'store'])->name('followed_users.store');
     Route::delete('/', [UserFollowController::class, 'destroy'])->name('followed_users.destroy');
 });
@@ -124,8 +124,8 @@ Route::get('/charts', [AdminDashboardController::class, 'getChartData']);
 Route::get('/categories', [CategoryController::class, 'getCategories'])->name('categories');
 
 Route::post('/comments', [CommentController::class, 'store'])->middleware('auth');
-Route::get('/comments/{id}', [CommentController::class, 'getComments']);
-Route::delete('/comments/{id}', [CommentController::class, 'destroy']);
+Route::get('/comments/{id}', [CommentController::class, 'getComments'])->where('id', '[0-9]+');
+Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->where('id', '[0-9]+');
 
 
 Route::fallback(function () {
