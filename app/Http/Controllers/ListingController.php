@@ -58,7 +58,7 @@ class ListingController extends Controller
     {
         // Jeśli nie ma produktów o takiej kategorii
         $listings = Listing::whereHas('details', function ($query) use ($categoryId) {
-            $query->where('category_id', $categoryId);
+            $query->where('category_id', $categoryId)->where('status_id', 1);
         })
             ->with(['user', 'galleries', 'details.category', 'details'])  // Eager load the relationships
             ->get();
