@@ -121,7 +121,6 @@ Route::middleware('auth')->group(function () {
 });
 
 // API
-
 Route::get('/charts', [AdminDashboardController::class, 'getChartData']);
 Route::get('/categories', [CategoryController::class, 'getCategories'])->name('categories');
 
