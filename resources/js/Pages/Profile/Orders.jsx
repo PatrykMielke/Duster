@@ -45,7 +45,7 @@ export default function Orders({ orders }) {
                                 </time>
                             </p>
                             <a
-                                href={`/ogloszenia/${order.listing.id}`}
+                                href={route("profile.userOrderDetails", order.id)}
                                 className="mt-2 text-sm font-medium text-indigo-600 hover:text-indigo-500"
                             >
                                 Szczegóły →

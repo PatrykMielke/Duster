@@ -116,6 +116,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
     });
     Route::get('/zamowienia', [ProfileController::class, 'userOrders'])->name('profile.userOrders');
+    Route::get('/szczegoly-zamowienia/{id}', [ProfileController::class, 'userOrderDetails'])->name('profile.userOrderDetails');
 });
 
 // API

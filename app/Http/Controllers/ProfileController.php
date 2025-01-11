@@ -85,6 +85,15 @@ class ProfileController extends Controller
         $orders = Order::with(['listing', 'listing.user', 'paymentMethod', 'deliveryMethod'])->where('buyer_id', auth()->user()->id)->orderBy('created_at', 'desc')->get();
         return Inertia::render('Profile/Orders', ['orders' => $orders]);
     }
+
+    public function userOrderDetails($id)
+    {
+
+        $order = Order::with(['listing', 'listing.user', 'listing.galleries', 'paymentMethod', 'deliveryMethod'])->where('id', $id)->orderBy('created_at', 'desc')->first();
+        $buyer = User::where('id', $order->buyer_id)->first();
+        return Inertia::render('Profile/Order', ['order' => $order, 'buyer' => $buyer]);
+    }
+
     public function updateName(NameUpdateRequest $request): RedirectResponse
     {
 
