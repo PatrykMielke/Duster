@@ -50,7 +50,7 @@ class ListingController extends Controller
             'filters' => [
                 'query' => $query,
             ],
-            'header' =>"zawierające ".$query,
+            'header' => "zawierające " . $query,
         ]);
     }
 
@@ -79,7 +79,7 @@ class ListingController extends Controller
             'products' => $listings,
             'category' => $category->name,
             'breadcrumbs' => $breadcrumbs,  // Przekaż breadcrumbs do widoku
-            'header' => "w kategorii ".$category->name,
+            'header' => "w kategorii " . $category->name,
         ]);
     }
 
@@ -197,7 +197,7 @@ class ListingController extends Controller
             'details.condition',
             'details.detailColor.color',
             'details.detailMaterial.material',
-        ])->findOrFail(29);
+        ])->findOrFail($id);
 
 
         if (Auth::user()) {

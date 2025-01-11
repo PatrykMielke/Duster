@@ -32,7 +32,6 @@ Route::get('/kategoria/{id}', [ListingController::class, 'showByCategory'])->nam
 //ADMIN
 Route::prefix('admin')->middleware('auth')->group(function () {
 
-
     Route::get('/', [AdminDashboardController::class, 'index'])->name('admin');
     Route::post('/listing', [AdminDashboardController::class, 'edit_listing'])->name('admin.listingedit');
     Route::post('/user', [AdminDashboardController::class, 'edit_user'])->name('admin.useredit');
@@ -47,12 +46,14 @@ Route::get('/ogloszenia/{id}', [ListingController::class, 'show'])->name('listin
 
 Route::middleware('auth')->group(function () {
 
-    // dodawanie i zapis nowego ogloszenia
-    Route::get('/ogloszenia/stworz', [ListingController::class, 'create'])->name('listings.create');
-    Route::post('/ogloszenia', [ListingController::class, 'store'])->name('listings.store');
-    //// edycja i zapis ogloszenia
-    Route::get('/ogloszenia/{id}/edycja', [ListingController::class, 'edit'])->name('listings.edit');
-    Route::put('/ogloszenia/{id}', [ListingController::class, 'update'])->name('listings.update');
+    Route::prefix('ogloszenie')->group(function () {
+        // dodawanie i zapis nowego ogloszenia
+        Route::get('/stworz', [ListingController::class, 'create'])->name('listings.create');
+        Route::post('/', [ListingController::class, 'store'])->name('listings.store');
+        //// edycja i zapis ogloszenia
+        Route::get('/{id}/edycja', [ListingController::class, 'edit'])->name('listings.edit');
+        Route::put('/{id}', [ListingController::class, 'update'])->name('listings.update');
+    });
 
 
     //Zakup ogkoszenia
@@ -90,26 +91,6 @@ Route::prefix('followed_users')->group(function () {
 Route::get('/portfel', [WalletController::class, 'index'])->name('wallet');
 Route::post('/portfel', [WalletController::class, 'store']);
 //// robocze
-
-//Route::get('/checkout/{id}', [ListingController::class, 'checkout'])->name('listing.showCheckout');
-
-
-Route::get('/twarde', function () {
-    return Inertia::render('twarde');
-})->name('twarde');
-
-Route::get('/tesa', function () {
-    return Inertia::render('tes');
-})->name('tes');
-
-Route::get('/t', function () {
-    return Inertia::render('t');
-})->name('t');
-Route::get('/listingsss', function () {
-    $listings = Listing::where('status_id', 1)->get();
-    dd($listings);
-    return Inertia::render('t');
-})->name('t');
 
 
 Route::get('/views', function () {
