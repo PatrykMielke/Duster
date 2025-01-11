@@ -94,7 +94,7 @@ export default function Example({ listing, uniqueUserCount, auth }) {
 
                     {/* Follow button */}
                     <div className="flex justify-between items-end w-full lg:col-span-2 lg:border-gray-200 pt-2">
-                        {auth.user && auth.user.id !== listing.user_id && (
+                        {auth.user && auth.user.id !== listing.user_id && listing.status_id === 1 && (
                             <>
                                 <ToggleButton
                                     label={{
@@ -120,7 +120,7 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                     <div className="mx-auto max-w-2xl px-4 pb-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 ">
                         <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
                             <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-                                {listing.title}
+                                {listing.title} , {listing.status_id}
                             </h1>
                         </div>
 
@@ -234,7 +234,7 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                                         </h3>
 
                                         {listing.details?.detail_color?.length >
-                                        0 ? (
+                                            0 ? (
                                             listing.details.detail_color.map(
                                                 (detailColor) => (
                                                     <div
@@ -267,7 +267,7 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                                 </div>
 
                                 {auth.user &&
-                                auth.user.id === listing.user_id ? (
+                                    auth.user.id === listing.user_id ? (
                                     <Link
                                         href={route(
                                             "listings.edit",
@@ -281,6 +281,14 @@ export default function Example({ listing, uniqueUserCount, auth }) {
                                             Edytuj ogłoszenie
                                         </button>
                                     </Link>
+                                ) : listing.status_id !== 1 ? (
+                                    <div
+
+                                        className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-600 px-8 py-3 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+
+                                    >
+                                        Nie dostępne
+                                    </div>
                                 ) : (
                                     <Link
                                         href={route(
