@@ -117,6 +117,7 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('/zamowienia', [ProfileController::class, 'userOrders'])->name('profile.userOrders');
     Route::get('/szczegoly-zamowienia/{id}', [ProfileController::class, 'userOrderDetails'])->where('id', '[0-9]+')->name('profile.userOrderDetails');
+    Route::get('/obserwowani', [ProfileController::class, 'followedUsers'])->name('profile.followedUsers');
 });
 
 // API

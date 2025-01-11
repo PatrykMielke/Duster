@@ -94,6 +94,14 @@ class ProfileController extends Controller
         return Inertia::render('Profile/Order', ['order' => $order, 'buyer' => $buyer]);
     }
 
+    public function followedUsers()
+    {
+        $followedUsers = FollowedUser::where('user_id', auth()->id())
+            ->with('followedUser') // Eager load the followed user relationship
+            ->get();
+        return Inertia::render('Profile/FollowedUsersList', ['followedUsers' => $followedUsers]);
+    }
+
     public function updateName(NameUpdateRequest $request): RedirectResponse
     {
 

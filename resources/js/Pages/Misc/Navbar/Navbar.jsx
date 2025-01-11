@@ -17,7 +17,6 @@ import PrimaryButton from "@/Components/PrimaryButton";
 export default function Navbar() {
     const [open, setOpen] = useState(false);
     const user = usePage().props.auth.user;
-    console.log(user);
     const [navigationData, setNavigationData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);

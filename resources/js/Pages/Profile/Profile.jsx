@@ -112,8 +112,10 @@ export default function Profile({
                         </div>
                         <div>
                             {auth?.user?.id !== user.id && (
-                                <>
+                                <div className="flex space-x-4" >
                                     <ToggleButton
+                                        className="h-10"
+
                                         label={{
                                             active: "Zgłoś",
                                             inactive: "Zgłoś",
@@ -130,8 +132,10 @@ export default function Profile({
                                         user={user}
                                         auth={auth}
                                         isFollowing={isFollowing}
+                                        className="h-10"
+
                                     />
-                                </>
+                                </div>
                             )}
                         </div>
                     </div>
