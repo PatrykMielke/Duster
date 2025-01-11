@@ -62,12 +62,14 @@ class ProfileController extends Controller
             $isFollowing = FollowedUser::where('user_id', auth()->id())
                 ->where('followed_user_id', (int) $id)
                 ->exists();
-
         }
         $followedListings = Auth::user()->followedListings()
-        ->with('listing.galleries') // Include the related listings
-        ->get()
-        ->pluck('listing');
+            ->whereHas('listing', function ($query) {
+                $query->where('status_id', 1);
+            })
+            ->with('listing.galleries') // Include the related listings
+            ->get()
+            ->pluck('listing');
         return Inertia::render('Profile/Profile', [
             'user' => $user,
             'products' => $listings,
@@ -78,8 +80,9 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function userOrders(){
-        $orders = Order::with(['listing','listing.user', 'paymentMethod', 'deliveryMethod'])->where('buyer_id', auth()->user()->id)->orderBy('created_at', 'desc')->get();
+    public function userOrders()
+    {
+        $orders = Order::with(['listing', 'listing.user', 'paymentMethod', 'deliveryMethod'])->where('buyer_id', auth()->user()->id)->orderBy('created_at', 'desc')->get();
         return Inertia::render('Profile/Orders', ['orders' => $orders]);
     }
     public function updateName(NameUpdateRequest $request): RedirectResponse

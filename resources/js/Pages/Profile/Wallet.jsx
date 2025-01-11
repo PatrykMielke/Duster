@@ -72,7 +72,7 @@ export default function Wallet({ auth, wallet, message, severity }) {
                             key={amount}
                             onClick={() => addBalance(amount)}
                             disabled={isLoading}
-                            className="flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="flex items-center justify-center px-4 py-2 border border-transparent bg-indigo-500 text-white mx-4 py-2 px-4 border-slate-800 rounded-lg text-md font-semibold"
                         >
                             <PlusIcon className="h-5 w-5 mr-2" aria-hidden="true" />
                             Doładuj {amount} zł
