@@ -52,7 +52,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/', [ListingController::class, 'store'])->name('listings.store');
         //// edycja i zapis ogloszenia
         Route::get('/{id}/edycja', [ListingController::class, 'edit'])->where('id', '[0-9]+')->name('listings.edit');
-        Route::put('/{id}', [ListingController::class, 'update'])->where('id', '[0-9]+')->name('listings.update');
+        Route::post('/{id}', [ListingController::class, 'update'])->where('id', '[0-9]+')->name('listings.update');
     });
 
 
