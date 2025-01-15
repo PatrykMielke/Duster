@@ -9,6 +9,7 @@ use App\Models\Listing;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\StoreReportRequest;
 use App\Http\Requests\UpdateReportRequest;
 
@@ -86,6 +87,8 @@ class ReportController extends Controller
             case 'user':
                 $user = User::find($referenceId);
                 if ($user) {
+                    Mail::to($user->email)->send(new \App\Mail\UserBlocked());
+
                     $user->is_active = false;
                     $user->save();
                     $report->is_resolved = true;
@@ -96,6 +99,10 @@ class ReportController extends Controller
             case 'comment':
                 $comment = Comment::find($referenceId);
                 if ($comment) {
+                    $user = User::where('id', $comment->user_id)->first();
+                    Mail::to($user->email)->send(new \App\Mail\UserBlocked());
+
+
                     $report->is_resolved = true;
                     $report->save();
                 }
@@ -104,6 +111,9 @@ class ReportController extends Controller
             case 'listing':
                 $listing = Listing::find($referenceId);
                 if ($listing) {
+                    $user = User::where('id', $listing->user_id)->first();
+                    Mail::to($user->email)->send(new \App\Mail\UserBlocked());
+
                     $author = User::find($listing->user_id);
                     $author->is_active = false;
                     $author->save();
@@ -133,6 +143,8 @@ class ReportController extends Controller
             case 'user':
                 $user = User::find($referenceId);
                 if ($user) {
+                    Mail::to($user->email)->send(new \App\Mail\UserWarn());
+
 
                     $report->is_resolved = true;
                     $report->save();
@@ -142,6 +154,11 @@ class ReportController extends Controller
             case 'comment':
                 $comment = Comment::find($referenceId);
                 if ($comment) {
+
+                    $user = User::where('id', $comment->user_id)->first();
+                    Mail::to($user->email)->send(new \App\Mail\UserWarn());
+
+
                     $report->is_resolved = true;
                     $report->save();
                 }
@@ -150,6 +167,10 @@ class ReportController extends Controller
             case 'listing':
                 $listing = Listing::find($referenceId);
                 if ($listing) {
+
+                    $user = User::where('id', $listing->user_id)->first();
+                    Mail::to($user->email)->send(new \App\Mail\UserWarn());
+
 
                     $report->is_resolved = true;
                     $report->save();
@@ -167,7 +188,6 @@ class ReportController extends Controller
 
     public function destroy(Request $request)
     {
-
         $report = Report::find($request->selectedReport['id']);
 
         $report->is_resolved = true;

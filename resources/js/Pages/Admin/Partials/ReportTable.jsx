@@ -81,6 +81,8 @@ export default function DataTable({ reports }) {
         }, {
             preserveState: true,
             preserveScroll: true,
+            onSuccess: () => handleCloseModal(),
+
         });
     };
     const handleWarn = (selectedReport) => {
@@ -93,11 +95,12 @@ export default function DataTable({ reports }) {
     };
 
     const handleDelete = (selectedReport) => {
-        router.delete(route("report.delete"), {
+        router.post(route("report.delete"), {
             selectedReport: selectedReport
         }, {
             preserveState: true,
             preserveScroll: true,
+
         });
     };
 
@@ -114,11 +117,11 @@ export default function DataTable({ reports }) {
             key: "block", label: "Zablokuj autora", type: "button", className: " mr-5 text-red-500 hover:bg-red-500 hover:text-white",
             onClick: () => handleBlock(selectedReport)
         },
-        {
-            key: "warn", label: "Wyślij ostrzeżenie", type: "button", className: "mr-5",
-            onClick: () => handleWarn(selectedReport)
+        // {
+        //     key: "warn", label: "Wyślij ostrzeżenie", type: "button", className: "mr-5",
+        //     onClick: () => handleWarn(selectedReport)
 
-        },
+        // },
         {
             key: "nofin", label: "Usun zgłoszenie", type: "button", className: "",
             onClick: () => handleDelete(selectedReport)

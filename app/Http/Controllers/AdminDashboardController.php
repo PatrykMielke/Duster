@@ -16,6 +16,7 @@ use function Pest\Laravel\get;
 
 use App\Notifications\UserBlocked;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\CalculateDatesController;
 
 class AdminDashboardController extends Controller
@@ -81,7 +82,8 @@ class AdminDashboardController extends Controller
 
             $user = User::where('id', $updated)->first();
 
-            NotifyUserJob::dispatch($user);
+            // NotifyUserJob::dispatch($user);
+            Mail::to($user->email)->send(new \App\Mail\UserWarn());
 
 
 

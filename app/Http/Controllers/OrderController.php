@@ -16,6 +16,7 @@ use App\Models\PaymentMethods;
 use App\Models\DeliveryMethods;
 use App\Http\Requests\OrderRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 
@@ -105,6 +106,10 @@ class OrderController extends Controller
         $buyerWallet->decrement('balance', $listing->price);
         $sellerWallet->increment('balance', $listing->price);
         Order::create($orderData);
+
+        $user = User::where('id', $listing->user_id)->first();
+
+        Mail::to($user->email)->send(new \App\Mail\ListingSold());
         Listing::where('id', $validatedData['listing_id'])->update(['status_id' => 2]);
 
         return Redirect::route('index');

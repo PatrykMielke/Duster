@@ -68,7 +68,7 @@ Route::prefix('report')->middleware('auth')->group(function () {
     Route::post('/add', [ReportController::class, 'store'])->name('report.store');
     Route::post('/block', [ReportController::class, 'block'])->name('report.block');
     Route::post('/warn', [ReportController::class, 'warn'])->name('report.warn');
-    Route::delete('/delete', [ReportController::class, 'destroy'])->name('report.delete');
+    Route::post('/delete', [ReportController::class, 'destroy'])->name('report.delete');
 });
 
 
