@@ -16,7 +16,6 @@ use App\Models\PaymentMethods;
 use App\Models\DeliveryMethods;
 use App\Http\Requests\OrderRequest;
 use App\Http\Controllers\Controller;
-use App\Jobs\ListingSoldJob;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -110,7 +109,7 @@ class OrderController extends Controller
 
         $user = User::where('id', $listing->user_id)->first();
 
-        ListingSoldJob::dispatch($user);
+        Mail::to($user->email)->send(new \App\Mail\ListingSold());
         Listing::where('id', $validatedData['listing_id'])->update(['status_id' => 2]);
 
         return Redirect::route('index');

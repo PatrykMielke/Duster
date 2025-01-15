@@ -88,7 +88,7 @@ class ReportController extends Controller
             case 'user':
                 $user = User::find($referenceId);
                 if ($user) {
-                    UserBlockedJob::dispatch($user);
+                    Mail::to($user->email)->send(new \App\Mail\UserBlocked());
 
                     $user->is_active = false;
                     $user->save();
@@ -101,7 +101,7 @@ class ReportController extends Controller
                 $comment = Comment::find($referenceId);
                 if ($comment) {
                     $user = User::where('id', $comment->user_id)->first();
-                    UserBlockedJob::dispatch($user);
+                    Mail::to($user->email)->send(new \App\Mail\UserBlocked());
 
 
                     $report->is_resolved = true;
@@ -113,7 +113,7 @@ class ReportController extends Controller
                 $listing = Listing::find($referenceId);
                 if ($listing) {
                     $user = User::where('id', $listing->user_id)->first();
-                    UserBlockedJob::dispatch($user);
+                    Mail::to($user->email)->send(new \App\Mail\UserBlocked());
 
                     $author = User::find($listing->user_id);
                     $author->is_active = false;
