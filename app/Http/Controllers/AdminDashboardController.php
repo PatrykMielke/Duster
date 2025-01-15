@@ -82,8 +82,8 @@ class AdminDashboardController extends Controller
 
             $user = User::where('id', $updated)->first();
 
-            // NotifyUserJob::dispatch($user);
-            Mail::to($user->email)->send(new \App\Mail\UserWarn());
+            // UserBlockedJob::dispatch($user);
+            Mail::to($user->email)->send(new \App\Mail\UserBlocked());
 
 
 

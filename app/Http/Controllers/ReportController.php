@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Report;
 use App\Models\Comment;
 use App\Models\Listing;
+use App\Jobs\UserBlockedJob;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -87,7 +88,7 @@ class ReportController extends Controller
             case 'user':
                 $user = User::find($referenceId);
                 if ($user) {
-                    Mail::to($user->email)->send(new \App\Mail\UserBlocked());
+                    UserBlockedJob::dispatch($user);
 
                     $user->is_active = false;
                     $user->save();
@@ -100,7 +101,7 @@ class ReportController extends Controller
                 $comment = Comment::find($referenceId);
                 if ($comment) {
                     $user = User::where('id', $comment->user_id)->first();
-                    Mail::to($user->email)->send(new \App\Mail\UserBlocked());
+                    UserBlockedJob::dispatch($user);
 
 
                     $report->is_resolved = true;
@@ -112,7 +113,7 @@ class ReportController extends Controller
                 $listing = Listing::find($referenceId);
                 if ($listing) {
                     $user = User::where('id', $listing->user_id)->first();
-                    Mail::to($user->email)->send(new \App\Mail\UserBlocked());
+                    UserBlockedJob::dispatch($user);
 
                     $author = User::find($listing->user_id);
                     $author->is_active = false;
