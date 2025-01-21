@@ -43,6 +43,7 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'is_active' => true,
+            'avatar' => '/avatars/'.rand(1, 20).'.avif',
         ]);
 
         Wallet::create([

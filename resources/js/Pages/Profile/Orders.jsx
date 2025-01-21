@@ -5,6 +5,13 @@ export default function Orders({ orders }) {
     return (
         <Layout>
             <ul role="list" className="divide-y divide-gray-100">
+                {orders.length === 0 && (
+                    <li className="py-5">
+                        <p className="text-lg text-gray-500">
+                            Nie masz jeszcze żadnych zamówień.
+                        </p>
+                    </li>
+                )}
                 {orders.map((order) => (
                     <li
                         key={order.id}
@@ -45,7 +52,10 @@ export default function Orders({ orders }) {
                                 </time>
                             </p>
                             <a
-                                href={route("profile.userOrderDetails", order.id)}
+                                href={route(
+                                    "profile.userOrderDetails",
+                                    order.id,
+                                )}
                                 className="mt-2 text-sm font-medium text-indigo-600 hover:text-indigo-500"
                             >
                                 Szczegóły →

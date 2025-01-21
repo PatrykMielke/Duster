@@ -168,7 +168,7 @@ class ListingController extends Controller
             foreach ($validated['images'] as $image) {
                 try {
                     $imagePath = $image->store('gallery', 'public');
-
+                    dump($imagePath);
                     $listing->galleries()->create([
                         'image' => Storage::url($imagePath),
                         'listing_id' => $listing->id,
