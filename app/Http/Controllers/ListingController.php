@@ -167,10 +167,18 @@ class ListingController extends Controller
         if (isset($validated['images'])) {
             foreach ($validated['images'] as $image) {
                 try {
-                    $imagePath = $image->store('gallery', 'public');
-                    dump($imagePath);
+                    $originalName = $image->getClientOriginalName();
+                    $fileName = time() . '_' . $originalName;
+
+                    // Zapisz do katalogu public/storage/gallery
+                    $imagePath = $image->move(public_path('storage/gallery'), $fileName);
+
+                    // Zamień backslashe na slashe (na wypadek Windowsa)
+                    $relativePath = 'gallery/' . $fileName;
+                    $relativePath = str_replace('\\', '/', $relativePath);
+
                     $listing->galleries()->create([
-                        'image' => Storage::url($imagePath),
+                        'image' => Storage::url($relativePath),
                         'listing_id' => $listing->id,
                     ]);
                 } catch (\Exception $e) {
@@ -186,10 +194,6 @@ class ListingController extends Controller
      */
     public function show($id)
     {
-
-
-
-
         $listing = Listing::with([
             'user',
             'galleries',

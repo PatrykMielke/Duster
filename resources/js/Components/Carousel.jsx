@@ -26,7 +26,6 @@ export default function Carousel({ gallery }) {
                             index === activeIndex ? "active" : ""
                         }
                     >
-                        {image.image}
                         <img
                             src={`${image.image}`}
                             className="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 "
